@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>{% block title %}Joe Hand Blog{% endblock title %}</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/normalize.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+        {%- block additional_css %}{% endblock -%}
+        {%- block header_js %}{% endblock -%}
+    </head>
+    <body class="{% block body_class %}{% endblock %}">
+
+    {%- block navbar %}
+    {%- endblock -%}
+
+    {%- block container %}
+        <div class="container"> 
+            {% with messages = get_flashed_messages() %}
+                  {% if messages %}
+                    <ul class=flashes>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                  {% endif %}
+            {% endwith %}
+            {% block content %}
+            {% endblock content %} 
+            {% block footer %}
+            <hr>
+            <footer>
+                <p>&copy; Hand 2013</p>
+            </footer>
+            {% endblock footer %}
+        </div> <!-- /container -->
+    {% endblock -%}
+
+    {%- block user_js %}
+        <script>
+            {%- if current_user.is_authenticated() -%}
+                var currentUser = '{{current_user.id}}';
+            {%- else -%}
+                var currentUser = false;
+            {%- endif -%}
+        </script>
+    {% endblock -%}
+    
+    {%- block footer_js %}{% endblock -%}
+    </body>
+</html>
+

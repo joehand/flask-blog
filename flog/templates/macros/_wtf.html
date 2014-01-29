@@ -1,0 +1,22 @@
+{%- macro errors(field, description=None) %}
+    {%- if field.errors %}
+      {%- for error in field.errors %}
+        <p class="help-block">{{error|safe}}</p>
+      {%- endfor %}
+    {%- elif field.description -%}
+      <p class="help-block">{{field.description|safe}}</p>
+    {%- elif description -%}
+      <p class="help-block">{{description|safe}}</p>
+    {%- endif %}
+{%- endmacro %}
+
+
+{%- macro regular_field(field, description=None) %}
+<div class="form-group {% if field.errors %}has-error{% endif %}">
+  {{field.label(class="control-label col-lg-2 col-md-2")}}
+    <div class="col-lg-4 col-md-4">
+    {{field(class="form-control", **kwargs)|safe}}
+    {{errors(field, description)}}
+  </div>
+</div>
+{% endmacro %}

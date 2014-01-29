@@ -1,0 +1,11 @@
+{% extends "_base.html" %}
+
+{% block title %}Joe Hand{% endblock title %}
+
+{% block content %}
+        {% for post in posts %}
+        <article>
+            <span><a href="{{url_for('.post', slug=post.slug)}}"><b>{{post.title}}</b></a></span>
+        </article>
+        {% endfor %}
+{% endblock %}
