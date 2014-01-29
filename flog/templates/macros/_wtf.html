@@ -11,12 +11,10 @@
 {%- endmacro %}
 
 
-{%- macro regular_field(field, description=None) %}
-<div class="form-group {% if field.errors %}has-error{% endif %}">
-  {{field.label(class="control-label col-lg-2 col-md-2")}}
-    <div class="col-lg-4 col-md-4">
-    {{field(class="form-control", **kwargs)|safe}}
-    {{errors(field, description)}}
-  </div>
-</div>
+{% macro regular_field(field, description=None) %}
+              <div class="{% if field.errors %}has-error{% endif %}">
+                  {{field.label()}}
+                  {{field(class="", **kwargs)|safe}}
+                  {{errors(field, description)}}
+              </div>
 {% endmacro %}

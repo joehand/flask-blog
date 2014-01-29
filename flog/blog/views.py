@@ -29,31 +29,7 @@ class PostView(FlaskView):
     def get(self, slug):
         """ View for a single post"""
         post = Post.objects(slug=slug).first_or_404()
-        return render_template('blog.html', post=post)
-
-    @login_required
-    @route('/new')
-    def get_new(self):
-        """ Create a post"""
-        form = PostForm(request.form)
-        return render_template('create.html', form=form)
-
-    @login_required
-    @route('/new', methods=['POST'])
-    def post_new(self):
-        """ Create a post"""
-        form = PostForm(request.form)
-        if form.validate_on_submit():
-            print 'posting'
-            slug = form.slug.data
-            title = form.title.data
-            post = Post(title=title, slug=slug)
-            post.save()
-            return redirect(url_for('.post', slug=slug))
-        else:
-            print form.errors
-            flash('some error')
-            return render_template('create.html', form=form)
+        return render_template('post.html', post=post)
 
     @login_required
     @route('/edit/<id>', methods=['PUT'])

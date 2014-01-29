@@ -10,7 +10,6 @@ define([
     'model',
     'backbone_dual',
 ], function (Backbone, _, $, WritrView, WritrCol) {
-    // This file is getting a bit complex ;)
     var $mainEl = $('.writr'),
         userId = $mainEl.attr('data-userid'),
         mainId = $mainEl.attr('data-postid'),

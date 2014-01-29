@@ -3,13 +3,15 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>{% block title %}Joe Hand Blog{% endblock title %}</title>
-        <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>{% block title %}Joe Hand Blog{% endblock title %}</title>
+        <meta name="description" content="{% block description %}{% endblock description %}">
+        
         <link rel="stylesheet" href="{{url_for('static', filename='css/normalize.css')}}">
         <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
         {%- block additional_css %}{% endblock -%}
-        {%- block header_js %}{% endblock -%}
+        {%- block header_js %}{% endblock %}
     </head>
     <body class="{% block body_class %}{% endblock %}">
 
@@ -18,7 +20,7 @@
 
     {%- block container %}
         <div class="container"> 
-            {% with messages = get_flashed_messages() %}
+            {%- with messages = get_flashed_messages() %}
                   {% if messages %}
                     <ul class=flashes>
                     {% for message in messages %}
@@ -26,19 +28,18 @@
                     {% endfor %}
                     </ul>
                   {% endif %}
-            {% endwith %}
-            {% block content %}
+            {%- endwith %}
+
+            {%- block content %}
             {% endblock content %} 
-            {% block footer %}
-            <hr>
-            <footer>
-                <p>&copy; Hand 2013</p>
-            </footer>
+
+            {%- block footer %}
             {% endblock footer %}
         </div> <!-- /container -->
     {% endblock -%}
 
-    {%- block user_js %}
+    {%- block footer_js %}
+        {% if current_user.has_role('admin') -%}
         <script>
             {%- if current_user.is_authenticated() -%}
                 var currentUser = '{{current_user.id}}';
@@ -46,9 +47,9 @@
                 var currentUser = false;
             {%- endif -%}
         </script>
+        <script data-main="{{ url_for('static', filename='js/app')}}" src="{{ url_for('static', filename='js/libs/require.js')}}"></script>
+        {%- endif -%}
     {% endblock -%}
-    
-    {%- block footer_js %}{% endblock -%}
     </body>
 </html>
 

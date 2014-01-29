@@ -12,8 +12,12 @@ class User(db.DynamicDocument, UserMixin):
     email = db.StringField(max_length=255)
     password = db.StringField(max_length=255)
     active = db.BooleanField(default=True)
-    confirmed_at = db.DateTimeField()
     roles = db.ListField(db.ReferenceField(Role), default=[])
+    last_login_at = db.DateTimeField()
+    current_login_at = db.DateTimeField()
+    last_login_ip = db.StringField()
+    current_login_ip = db.StringField()
+    login_count = db.IntField()
 
     def to_dict(self):
         return mongo_to_dict(self)

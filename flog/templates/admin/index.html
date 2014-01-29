@@ -1,9 +1,24 @@
 {% extends "_base.html" %}
+{% import "macros/_wtf.html" as wtf %}
 
 {% block title %}Admin Area Place{% endblock title %}
 
 {% block content %}
-        {% if current_user %}
+            {%- if current_user %}
             <p>{{current_user.email}}</p>
-        {% endif %}
+            <p><b>ROLES:</b> {% for role in current_user.roles %}{{role.name}} {% endfor %}</p>
+            {% endif -%}
+
+            {%- for post in posts %}
+            <article>
+                <span><a href="{{url_for('blog.post', slug=post.slug)}}"><b>{{post.title}}</b></a> {{post.kind}} <a href="{{url_for('.PostAdminView:delete', id=post.id)}}">delete me!</a></span>
+                <br/>
+            </article>
+            {% endfor -%}
+
+            <form class="form" method="post" action="{{request.url}}">
+                  {{ form.hidden_tag() }}
+                  {{ wtf.regular_field(form.title, autofocus=autofocus) }}
+                  {{ form.kind }}
+            </form>
 {% endblock %}

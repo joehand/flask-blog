@@ -1,6 +1,14 @@
-from flask.ext.mongoengine.wtf import model_form
+from flask.ext.wtf import Form
+from wtforms import TextField, SelectField
+from wtforms.validators import required, optional
 
-from ..user import User
+from .models import POST_TYPES
 
-from models import Post
-
+class PostForm(Form):
+    """ Form to submit a Post
+    """
+    title = TextField('Title', description='',
+                       validators=[required()])
+    slug = TextField('Slug', description='',
+                       validators=[optional()])
+    kind = SelectField('Kind', choices=POST_TYPES)

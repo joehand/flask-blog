@@ -12,8 +12,14 @@ manager = Manager(app)
 @manager.command
 def initdb():
     """Init/reset database."""
+    db.connection.drop_database(app.config['MONGODB_DB'])
+
     user_datastore = MongoEngineUserDatastore(db, User, Role)
-    user_datastore.create_user(email='joe.a.hand@gmail.com', password='password')
+
+    admin = user_datastore.create_role(name='admin', description='Admin User')
+    user = user_datastore.create_user(email='joe.a.hand@gmail.com', password='password')
+
+    user_datastore.add_role_to_user(user, admin)
 
 def shell_context():
     return dict(app=app)

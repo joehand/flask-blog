@@ -12,10 +12,15 @@ class Config(object):
 
     SECRET_KEY = 'this_is_so_secret' #used for development, reset in prod
 
+    # Flask Security Config
+    SECURITY_TRACKABLE = True
+
     # MongoDB Config
-    MONGODB_DB = 'blogging_db'
+    MONGODB_DB = 'flogger_db'
     MONGODB_HOST = 'localhost'
     MONGODB_PORT = 27017
+
+    DEBUG_TB_ENABLED = False
 
 class ProductionConfig(Config):
 

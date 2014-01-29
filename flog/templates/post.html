@@ -2,23 +2,21 @@
 
 
 {% block additional_css %}
+{% if current_user.has_role('admin') -%}
         <!-- CSS -->
         <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
         <link href="{{url_for('static', filename='css/zenpen/style.css')}}" rel="stylesheet">
         <link href="{{url_for('static', filename='css/zenpen/fonts.css')}}" rel="stylesheet">
+{% endif %}
 {% endblock %}
 
-{% block title %}Writer{% endblock title %}
-
-{%- block navbar %}{%- endblock -%}
-
 {% block content %}      
-        <section class="writr" data-postid="{{post.id}}" data-userid="{{post.user_ref.id}}">
-            <header {% if current_user.is_authenticated() %}contenteditable="true"{% endif %}class="header">
+        <section class="writr" data-postid="{{post.id}}">
+            <header {% if current_user.has_role('admin') -%}contenteditable="true"{% endif %} class="header">
                 {{post.title}}
             </header>
-
-            <article {% if current_user.is_authenticated() %}contenteditable="true"{% endif %} class="content">
+            
+            <article {% if current_user.has_role('admin') -%}contenteditable="true"{% endif %} class="content">
                 {% if post.content %}{{post.content|safe}}{% endif %}
             </article>
 
@@ -28,7 +26,6 @@
                         <button class="fullscreen useicons" title="Toggle fullscreen">
                             &#xe000;
                         </button>
-
                         <button class="save useicons" title="Save Text">
                             &#xe003;
                         </button>
@@ -36,11 +33,4 @@
                 </div>
             </div>
         </section>
-{% endblock %}
-
-
-{%- block footer %}{%- endblock -%}
-
-{% block footer_js %}
-    <script data-main="{{ url_for('static', filename='js/app')}}" src="{{ url_for('static', filename='js/libs/require.js')}}"></script>
 {% endblock %}
