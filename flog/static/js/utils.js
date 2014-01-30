@@ -34,12 +34,12 @@ define([
                     tag = this.tagName;
 
                     if (_.contains(['P', 'BR', 'DIV'], tag)) {
-                        temp = this.innerHTML.replace(/\r?\n/g, "");
+                        temp = this.innerHTML;
                         temp = $('<div/>').html(temp).text();
                         temp = marked(temp);
                     } else {
                         if ($(this).text().length > 0) {
-                            temp = $(this).wrap('<div>').parent().html().replace(/\r?\n/g, "");
+                            temp = $(this).wrap('<div>').parent().html();
                         } else {
                             temp = ''
                         }
@@ -48,6 +48,9 @@ define([
                     outText += temp;
                 }); 
             }
+
+
+            outText += '<br/>'; // better functionality with br at end
 
             return(outText.replace(/\r?\n/g, ""));
         },

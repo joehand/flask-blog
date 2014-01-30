@@ -27,19 +27,10 @@ define([
         },
 
         events: {
-            'keyup .content'     : '_checkSyntax',
             'click .settings'    : '_toggleOverlay',   
             'click .overlay'     : '_toggleOverlay',
             'click .delete'      : '_deletePost',
             'change .select'     : '_saveSelect',
-        },
-
-        _checkSyntax: function(e) {
-            console.log(e)
-
-            if (e.which === 13) {
-                console.log('enter?');
-            }
         },
 
         _toggleOverlay: function(e) {
@@ -93,8 +84,6 @@ define([
         },
 
         processContent: function(content) {
-            console.log('process content');
-            console.log(content);
             content = Utils.extractEditableText(content)
             return content.trim();
         },

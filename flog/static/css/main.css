@@ -95,6 +95,10 @@ textarea {
     position:relative;
 }
 
+.editable {
+    white-space: pre-wrap;
+}
+
 
 article.published {
     border: 1px solid blue;
