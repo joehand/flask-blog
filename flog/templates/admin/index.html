@@ -1,6 +1,16 @@
 {% extends "_base.html" %}
 {% import "macros/_wtf.html" as wtf %}
 
+
+{% block additional_css %}
+{% if current_user.has_role('admin') -%}
+        <!-- CSS -->
+        <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+        <link href="{{url_for('static', filename='css/zenpen/style.css')}}" rel="stylesheet">
+        <link href="{{url_for('static', filename='css/zenpen/fonts.css')}}" rel="stylesheet">
+{% endif %}
+{% endblock %}
+
 {% block title %}Admin Area Place{% endblock title %}
 
 {% block content %}
@@ -14,13 +24,12 @@
                 {{ form.kind }}
             </form>
 
-            {%- for post in posts %}
-            <article class="post-partial" data-id="{{post.id}}" data-published="{{post.published|lower}}" data-kind="{{post.kind}}">
-                <div class="editable" contenteditable="true" data-field="title"><b>{{post.title}}</b></div>
+            {%- for post in g.posts %}
+            <article class="post-partial {% if post.published %}published{% endif %}" data-id="{{post.id}}" data-published="{{post.published|lower}}" data-kind="{{post.kind}}">
+                <h3 class="editable title" contenteditable="true" data-field="title">{{post.title}}</h3>
                 <div><a href="{{url_for('blog.post', slug=post.slug)}}">open</a></div>
                 <div><a href="#" class="settings">settings</a></div>
                 {% include "partials/_post_settings.html" %}
-                <br/>
             </article>
             {% endfor -%}
 

@@ -9,6 +9,7 @@ define([
     'views/AppView',
     'models/AppModel',
     'models/PostModel',
+    'backboneStick',
 ], function (Backbone, $, AppView, AppModel, Posts) {
 
     var appView, appModel, postsCol;

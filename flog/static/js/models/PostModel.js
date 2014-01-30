@@ -17,7 +17,7 @@ define([
 
     var Posts = Backbone.Collection.extend({
         model : Post,
-        url : '/archive/',
+        url : postURL,
     });
 
     return Posts;

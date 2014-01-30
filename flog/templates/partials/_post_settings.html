@@ -1,8 +1,12 @@
 <div class="overlay hidden">
     <div class="inner">
-        <div>Published: {{post.published}}</div>
-        <div>Kind: {{post.kind}}</div>
-        <div class="editable" contenteditable="true" data-field="slug">{{post.slug}}</div>
+        <div>Kind:
+            <select id="kind" class="select" name="kind" data-select="kind"><option value="static" {% if post.kind == 'static' %}selected="selected"{% endif %}>Static</option><option value="article" {% if post.kind == 'article' %}selected="selected"{% endif %}>Article</option><option value="link" {% if post.kind == 'link' %}selected="selected"{% endif %}>Link</option></select></div>
+        <div>Slug: <span class="editable" contenteditable="true" data-field="slug">{{post.slug}}</span></div>
+        <div>Published: <select id="published" class="select" name="published" data-select="published"><option value="False">False</option><option value="True" {% if post.published %}selected="selected"{% endif %}>True</option></select></div>
+        {%- if post.pub_date %}
+        <div>Pub Date: <span class="editable" contenteditable="true" data-field="pub_date">{{post.pub_date.strftime('%d %b %Y')}}</span></div>
+        {% endif %}
         <div><a href="#" class="delete">delete me!</a></div>
     </div>
 </div>

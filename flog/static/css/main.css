@@ -95,8 +95,9 @@ textarea {
     position:relative;
 }
 
-article {
-    margin:10px 0;
+
+article.published {
+    border: 1px solid blue;
 }
 
 .overlay{

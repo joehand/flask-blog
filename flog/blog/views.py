@@ -1,73 +1,46 @@
-from flask import (Blueprint, render_template, flash, abort,
-                    request, redirect, url_for, jsonify)
+from flask import (Blueprint, render_template, flash, g,
+                    request, redirect, url_for)
 
-from flask.ext.security import current_user, roles_required
 from flask.ext.classy import FlaskView, route
-from flask.ext.mongoengine.wtf import model_form
+from flask.ext.security import current_user
 
 from models import Post
 
-import json
-import sys
-
 blog = Blueprint('blog', __name__, url_prefix='')
-
-PostForm = model_form(Post)
 
 class PostView(FlaskView):
     """ Our base ViewClass for any Post related endpoints 
     """
-    route_base = '/archive'
+    route_base = '/'
+
+    def before_request(self, name, *args, **kwargs):
+        if current_user.has_role('admin'):
+            g.pages = Post.objects(kind__in=['static'])
+            g.posts = Post.objects(kind__in=['link', 'article'])
+        else:
+            g.pages = Post.objects(kind__in=['static'], published=True)
+            g.posts = Post.objects(kind__in=['link', 'article'], published=True)
 
     def index(self):
         """ Our main index view """
-        posts = Post.objects()
-        return render_template('index.html', posts=posts)
+        post = Post.objects(kind__in=['link', 'article']).first()
+        return render_template('index.html', post=post)
+    
+    @route('/archive/', endpoint='archive')
+    def archive(self):
+        """ Archive View """
+        return render_template('index.html')
 
-    @route('/<slug>', endpoint='post')
+    @route('/<slug>', endpoint='page')
+    @route('/archive/<slug>', endpoint='post')
     def get(self, slug):
         """ View for a single post"""
-        posts = Post.objects()
         post = Post.objects(slug=slug).first_or_404()
-        return render_template('post.html', posts=posts, post=post)
+        if not 'archive' in request.url and post.kind != 'static':
+            return redirect(url_for('.post', slug=slug))
 
-    @roles_required('admin')
-    def put(self, id):
-        try:
-            post = Post.objects(id=id).first()
-
-            postJSON = json.loads(request.data)
-
-            #TODO: Put this validation elsewhere
-            for key, val in postJSON.items():
-                if key == 'content':
-                    val = val.encode('utf-8')
-                if key == 'title':
-                    val = val.strip()
-                if key == 'slug':
-                    val = val.strip().replace(' ', '-')
-                if key in ['title', 'slug', 'content', 'published', 'kind']:
-                    post[key] = val
-
-            post.save()
-            return jsonify( post.to_dict() )
-        except:
-            print "Unexpected error:", sys.exc_info()[0]
-            # TODO Make these more helpful
-            return jsonify(status='error', error=''), 400
-
-    @roles_required('admin')
-    def delete(self, id):
-        try:
-            post = Post.objects(id=id).first_or_404()
-            post.delete()
-        except:
-            print "Unexpected error:", sys.exc_info()[0]
-            # TODO Make these more helpful
-            jsonify()
-        return jsonify( { 'result': True } )
-
+        posts = Post.objects()
+        return render_template('post.html', post=post)
 
 #Register our View Classes
 PostView.register(blog)
-

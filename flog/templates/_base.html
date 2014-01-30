@@ -16,6 +16,11 @@
     <body class="{% block body_class %}{% endblock %}">
 
     {%- block navbar %}
+        {% for page in g.pages %}
+        <ul>
+            <li><a href="{{url_for('blog.page', slug=page.slug)}}"><b>{{page.title}}</b></a></li>
+        </ul>
+        {% endfor %}
     {%- endblock -%}
 
     {%- block container %}
@@ -42,10 +47,11 @@
         <script>
             {% if current_user.is_authenticated() -%}
             {%- block post_js %}
-            var postsBootstrap = [{% for post in posts %}{{post.to_dict()|safe}},{% endfor %}];
+            var postsBootstrap = [{% for post in g.posts %}{{post.to_dict()|safe}},{% endfor %}];
             {%- endblock post_js %}
             var childView = {%- block js_view %}null{%- endblock js_view -%};
             {%- endif %}
+            var postURL = '{{url_for('admin.PostAdmin:index')}}';
         </script>
     {%- block footer_js %}
         <script>

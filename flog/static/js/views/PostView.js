@@ -8,7 +8,7 @@ define([
     'backbone',
     'underscore',
     'jquery',
-    'utils'
+    'utils',
 ], function (Backbone, _, $, Utils) {
 
     var SAVE_DELAY = 2000;  //delay after typing is over until we try to save
@@ -17,16 +17,45 @@ define([
 
     var PostView = Backbone.View.extend({
 
+        bindings: {
+            '.title'   : 'title',
+            '.content' : {
+                observe: 'content',
+                updateMethod: 'html',
+                onSet: 'processContent',
+            }
+        },
+
         events: {
-            'keyup .editable'    : '_saveChange',
-            'click .delete'      : '_deletePost',
+            'keyup .content'     : '_checkSyntax',
             'click .settings'    : '_toggleOverlay',   
             'click .overlay'     : '_toggleOverlay',
+            'click .delete'      : '_deletePost',
+            'change .select'     : '_saveSelect',
         },
+
+        _checkSyntax: function(e) {
+            console.log(e)
+
+            if (e.which === 13) {
+                console.log('enter?');
+            }
+        },
+
+        _toggleOverlay: function(e) {
+            e.preventDefault();
+
+            var $targ = $(e.currentTarget);
+            if ($targ.hasClass('settings')) {
+                this.$el.find('.overlay').toggleClass('hidden');
+            } else if ($targ.hasClass('overlay') && e.target == e.currentTarget)  {
+                this.$el.find('.overlay').toggleClass('hidden');
+            }
+        },
+
 
         _deletePost: function(e) {
             /* TODO: give a warning first */
-
             this.model.destroy({
                 error:  function(model, resp) {
                     console.log(resp);
@@ -35,39 +64,46 @@ define([
 
             this.remove();
         },
+        _saveSelect: function(e) {
+            var val = $(e.currentTarget).val(),
+                field = $(e.currentTarget).data('select');
 
-        _saveChange: function(e) {
-            var $targ = $(e.currentTarget),
-                field = $targ.data('field');
-
-            this.model.set(field, $targ.text())
+            this.model.set(field, val);
         },
 
-        _toggleOverlay: function(e) {
-            var $targ = $(e.currentTarget);
-            if ($targ.hasClass('settings')) {
-                this.$el.find('.overlay').toggleClass('hidden');
-            } else if ($targ.hasClass('overlay') && e.target == e.currentTarget)  {
-                this.$el.find('.overlay').toggleClass('hidden');
-            }
-            
-        },
 
         initialize: function(opt) {
-            this.model.on('change:title change:content change:slug', this.checkSave, this);
+            this.model.on('change:title change:slug change:published change:kind', this.checkSave, this);
+
+            if (this.$el.hasClass('post-full')) {
+                this.model.on('change:content', this.checkSave, this);
+            }
+
+            this.stickit();
         },
 
         render: function() {
-            /* update the text after changes */
+            /* update the text after changes 
+            TODO: This is too general. Do I want to send html over wire?
             _.each(this.model.attributes, function(val, attr) {
                 this.$el.find('*[data-field="' + attr + '"]').text(this.model.get(attr));
-            }, this);
+            }, this);*/
 
             return this;
         },
 
-        checkSave: function(modelAttr) {
+        processContent: function(content) {
+            console.log('process content');
+            console.log(content);
+            content = Utils.extractEditableText(content)
+            return content.trim();
+        },
+
+        checkSave: function() {
             var self = this;
+
+            console.log('checking save');
+            console.log(this.model.changed);
 
             if(saveTimeout) {
                 clearTimeout(saveTimeout);
@@ -79,7 +115,8 @@ define([
                     self.model.save(null, {
                         wait:true,
                         success: function(model, rsp) {
-                            self.render();
+                            /* TODO: This is too general. Do I want to send html over wire?
+                            self.render();*/
                         }
                     });
             }, SAVE_DELAY)                

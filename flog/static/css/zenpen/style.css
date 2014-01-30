@@ -151,16 +151,6 @@ a:hover {
 	text-decoration: underline;
 }
 
-.overlay {
-	position: fixed;
-	display: none;
-	height: 100%;
-	width: 100%;
-	z-index: 3;
-	left: 0px;
-	top: 0px;
-}
-
 .quote {
 	line-height: 60px !important;
 	font-size: 49px !important;

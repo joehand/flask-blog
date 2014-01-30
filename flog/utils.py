@@ -27,9 +27,17 @@ def mongo_to_dict(obj):
             if data:
                 return_data.append((field_name, str(data.isoformat())))
         elif isinstance(obj._fields[field_name], db.StringField):
-            return_data.append((field_name, str(data)))
+            try:
+                data = str(data)
+            except:
+                data = data
+                print 'fucking error'
+                pass
+            return_data.append((field_name, data))
         elif isinstance(obj._fields[field_name], db.FloatField):
             return_data.append((field_name, float(data)))
+        elif isinstance(obj._fields[field_name], db.BooleanField):
+            return_data.append((field_name, str(data)))
         elif isinstance(obj._fields[field_name], db.IntField):
             return_data.append((field_name, int(data)))
         elif isinstance(obj._fields[field_name], db.ListField):
