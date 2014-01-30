@@ -1,20 +1,23 @@
 /* ========================================================================
- * Models JS File for Writr
+ * Post Model and Collection
  * Author: JoeHand
  * ========================================================================
  */
-define(['backbone', 'underscore'], function(Backbone, _) {
+
+define([
+    'backbone',
+    'underscore'
+], function (Backbone, _) {
 
     var Post = Backbone.Model.extend({
-        initialize: function(options) {
-            this.user_id = options.user_id;
+        initialize: function(opt) {
             this.url = this.collection.url + this.id;
         }
     });
 
     var Posts = Backbone.Collection.extend({
         model : Post,
-        url : '/edit/',
+        url : '/archive/',
     });
 
     return Posts;

@@ -11,12 +11,12 @@
 {% endblock %}
 
 {% block content %}      
-        <section class="writr" data-postid="{{post.id}}">
-            <header {% if current_user.has_role('admin') -%}contenteditable="true"{% endif %} class="header">
+        <section class="post-full" data-id="{{post.id}}">
+            <header {% if current_user.has_role('admin') -%}contenteditable="true"{% endif %} class="editable header" data-field="title">
                 {{post.title}}
             </header>
             
-            <article {% if current_user.has_role('admin') -%}contenteditable="true"{% endif %} class="content">
+            <article {% if current_user.has_role('admin') -%}contenteditable="true"{% endif %} class="editable content" data-field="content">
                 {% if post.content %}{{post.content|safe}}{% endif %}
             </article>
 
@@ -34,3 +34,5 @@
             </div>
         </section>
 {% endblock %}
+
+{%- block js_view %}'PageView'{%- endblock js_view -%}

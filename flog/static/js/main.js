@@ -1,33 +1,29 @@
 /*! =======================================================================
- * Main JS File for Writr
+ * Main JS
  * Author: JoeHand
  * ======================================================================== */
+
 define([
     'backbone',
-    'underscore',
     'jquery',
-    'view',
-    'model',
-    'backbone_dual',
-], function (Backbone, _, $, WritrView, WritrCol) {
-    var $mainEl = $('.writr'),
-        userId = $mainEl.attr('data-userid'),
-        mainId = $mainEl.attr('data-postid'),
-        writrCol, writrView, writrModel;
+    'views/AppView',
+    'models/AppModel',
+    'models/PostModel',
+], function (Backbone, $, AppView, AppModel, Posts) {
 
-    var AppModel = Backbone.Model.extend({});
+    var appView, appModel, postsCol;
 
-    writrModel = new AppModel({'app_offline':false, 'content_dirty':false});
+    appModel = new AppModel({ 
+        'user': currentUser 
+    });
 
-    writrCol = new WritrCol([{
-                                     user_id : userId,
-                                     id: mainId
-                                    }]);
+    postsCol = new Posts(postsBootstrap);
 
-    writrView = new WritrView({ 
-                                    el : $mainEl.get(0),
-                                    collection : writrCol,
-                                    model : writrModel,
-                                    post_id: mainId
-                                  });
+    appView = new AppView({
+        model      : appModel,
+        collection : postsCol,
+        el         : $('#main').get(0),
+        childView  : childView
+    });
+    
 });

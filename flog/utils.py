@@ -13,6 +13,8 @@ def mongo_to_dict(obj):
 
     if isinstance(obj, db.DynamicDocument):
         return_data.append(("id",str(obj.id)))
+    if isinstance(obj, db.Document):
+        return_data.append(("id",str(obj.id)))
 
     for field_name in obj._fields:
 

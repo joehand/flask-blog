@@ -13,7 +13,6 @@
 
 {% macro regular_field(field, description=None) %}
               <div class="{% if field.errors %}has-error{% endif %}">
-                  {{field.label()}}
                   {{field(class="", **kwargs)|safe}}
                   {{errors(field, description)}}
               </div>

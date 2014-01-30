@@ -4,7 +4,7 @@ from flask import (Blueprint, render_template, jsonify, request,
 from flask.ext.security import current_user, login_required, roles_required
 from flask.ext.classy import FlaskView, route
 
-from ..blog import Post, PostForm
+from ..blog import Post, Article, Link, PostForm
 
 admin = Blueprint('admin', __name__, url_prefix='/admin')
 
@@ -25,9 +25,14 @@ class PostAdminView(FlaskView):
         form = PostForm(request.form)
         if form.validate_on_submit():
             print 'posting'
-            title = form.title.data
+            title = form.title.data.strip()
             kind = form.kind.data
-            post = Post(title=title, user_ref=current_user.id, kind=kind)
+            if kind == 'article':
+                post = Article(title=title, user_ref=current_user.id, kind=kind)
+            elif kind == 'link':
+                post = Link(title=title, user_ref=current_user.id, kind=kind)
+            else:
+                post = Post(title=title, user_ref=current_user.id, kind=kind)
             post.save()
             slug = post.slug
             return redirect(url_for('blog.post', slug=slug))
@@ -35,15 +40,6 @@ class PostAdminView(FlaskView):
             print form.errors
             flash('some error')
             return render_template('admin/index.html', form=form)
-
-    def delete(self, id):
-        print 'delete a post!'
-        post = Post.objects(id=id)
-        print post.title
-        flash('Deleted post: %s' % post.title)
-        #what do you return on this?
-        return ''
-
 
 
 #Register our View Class
