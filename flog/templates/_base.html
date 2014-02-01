@@ -1,73 +1,102 @@
 <!DOCTYPE html>
-<html>
+<!--[if lt IE 9]> <html class="no-js lt_ie9"> <![endif]-->
+<!--[if IE 9]> <html class="no-js lt_ie10 ie9"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js"> <!--<![endif]-->
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="ClearType" content="true">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{% block title %}Joe Hand Blog{% endblock title %}</title>
+        <!-- DNS prefetch -->
+        <link rel="dns-prefetch" href="//ajax.googleapis.com">
+        <link rel="dns-prefetch" href="//www.google-analytics.com">
+
+        <title>{% block title %}Joe Hand{% endblock title %}</title>
         <meta name="description" content="{% block description %}{% endblock description %}">
-        
-        <link rel="stylesheet" href="{{url_for('static', filename='css/normalize.css')}}">
-        <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
-        {%- block additional_css %}{% endblock -%}
-        {%- block header_js %}{% endblock %}
+
+        <!-- Styles -->
+        {%- assets filter="less", output="main.min.css",
+          "css/main.less" %}
+        <link rel="stylesheet" href="{{ ASSET_URL }}">
+        {% endassets -%}
+
+        <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+        <script>
+          WebFont.load({
+            google: {
+              families:  [ 'EB+Garamond::latin', 'Open+Sans:400italic,400,700,300:latin' ]
+            }
+          });
+        </script>
+
+        {%- block additional_css %}{% endblock %}
+
+        <!-- Modernizr -->
+        <script src="{{url_for('static', filename='js/libs/modernizr-2.7.1.min.js')}}"></script>
     </head>
     <body class="{% block body_class %}{% endblock %}">
+        <!--[if lt IE 8]>
+            <p class="browsehappy">It looks like you are using an outdated browser. Please <a href="http://whatbrowser.org">consider upgrading</a> for a faster, better, and safer web experience.</p>
+        <![endif]-->
 
-    {%- block navbar %}
-        {% for page in g.pages %}
-        <ul>
-            <li><a href="{{url_for('blog.page', slug=page.slug)}}"><b>{{page.title}}</b></a></li>
-        </ul>
-        {% endfor %}
-    {%- endblock -%}
+        <div role="document" class="document">
+        {%- block siteheader %}
+            <div class="site-head wrapper cf">
+                    <header role="banner" class="banner medium-float-left">
+                        <h1 class="name small-caps"><a class="" href="{{url_for('blog.PostView:index')}}">Joe Hand</a></h1>
+                    </header>
+                {%- block navbar %}
+                    <nav role="navigation" class="site-nav medium-float-right ">
+                        <ul class="small-caps">
+                        {%- for page in g.pages -%}
+                        {%- if page.published %}
+                            <li class="nav-item"><a href="{{url_for('blog.page', slug=page.slug)}}">{{page.title}}</a></li>
+                        {%- endif -%}
+                        {%- endfor %}
+                            <li class="nav-item"><a href="{{url_for('blog.archive')}}">Archive</a></li>
+                            <li class="nav-item"><a href="{{url_for('blog.notes')}}">Notes</a></li>
+                        </ul>
+                    </nav>
+                {%- endblock navbar %}
+            </div>
+            <div class="site-head-border strip"></div>
+        {%- endblock siteheader -%}
 
-    {%- block container %}
-        <div id="main" class="container"> 
-            {%- with messages = get_flashed_messages() %}
-                  {% if messages %}
-                    <ul class=flashes>
-                    {% for message in messages %}
-                        <li>{{ message }}</li>
-                    {% endfor %}
-                    </ul>
-                  {% endif %}
-            {%- endwith %}
-
-            {%- block content %}
-            {% endblock content %} 
+        {%- block main %}
+            <main role="main" class="main wrapper"> 
+                {%- with messages = get_flashed_messages() %}
+                      {% if messages %}
+                        <ul class=flashes>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                        </ul>
+                      {% endif %}
+                {%- endwith %}
+                <div class="page-content">
+                {%- block content %}
+                {% endblock content %}
+                </div>
+            </main> <!-- main .container -->
 
             {%- block footer %}
+            <footer role="contentinfo" class="footer">
+                <div class="bottom cf">
+                    {% include "partials/_social.html" %}
+                    <div class="wrapper">
+                    <span class="copyright medium-float-left"><a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Copyright © 2014</a> &nbsp;·&nbsp; Joe Hand</span>
+                    <span class="made medium-float-right"><a href="{{url_for('blog.page', slug='about')}}#site">Made by Hand</a></span>
+                    </div>
+                </div>
+            </footer>
             {% endblock footer %}
-        </div> <!-- /container -->
-    {%- endblock %}
 
-    {%- if current_user.has_role('admin') %}
-        <script>
-            {% if current_user.is_authenticated() -%}
-            {%- block post_js %}
-            var postsBootstrap = [{% for post in g.posts %}{{post.to_dict()|safe}},{% endfor %}];
-            {%- endblock post_js %}
-            var childView = {%- block js_view %}null{%- endblock js_view -%};
-            {%- endif %}
-            var postURL = '{{url_for('admin.PostAdmin:index')}}';
-        </script>
+        {%- endblock main %}
+        </div> <!-- document -->
+
     {%- block footer_js %}
-        <script>
-            {% if current_user.is_authenticated() -%}
-            var currentUser = {
-                                'id'     : '{{current_user.id}}',
-                                'roles'  : [{% for role in current_user.roles %}'{{role.name}}'{% endfor %}],
-                                'email'  : '{{current_user.email}}'
-                              };
-            {%- else %}
-            var currentUser = false;
-            {%- endif %}
-        </script>
-        <script data-main="{{ url_for('static', filename='js/app')}}" src="{{ url_for('static', filename='js/libs/require.js')}}"></script>
     {% endblock footer_js -%}
-    {%- endif -%}
     </body>
 </html>
 

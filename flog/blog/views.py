@@ -16,20 +16,24 @@ class PostView(FlaskView):
     def before_request(self, name, *args, **kwargs):
         if current_user.has_role('admin'):
             g.pages = Post.objects(kind__in=['static'])
-            g.posts = Post.objects(kind__in=['link', 'article'])
+            g.posts = Post.objects(kind__in=['note', 'article'])
         else:
             g.pages = Post.objects(kind__in=['static'], published=True)
-            g.posts = Post.objects(kind__in=['link', 'article'], published=True)
+            g.posts = Post.objects(kind__in=['note', 'article'], published=True)
 
     def index(self):
         """ Our main index view """
-        post = Post.objects(kind__in=['link', 'article']).first()
-        return render_template('index.html', post=post)
+        return render_template('blog/index.html')
     
     @route('/archive/', endpoint='archive')
     def archive(self):
         """ Archive View """
-        return render_template('index.html')
+        return render_template('blog/archive.html')
+
+    @route('/notes/', endpoint='notes')
+    def notes(self):
+        """ Notes View """
+        return render_template('blog/notes.html')
 
     @route('/<slug>', endpoint='page')
     @route('/archive/<slug>', endpoint='post')
@@ -40,7 +44,7 @@ class PostView(FlaskView):
             return redirect(url_for('.post', slug=slug))
 
         posts = Post.objects()
-        return render_template('post.html', post=post)
+        return render_template('blog/post.html', post=post)
 
 #Register our View Classes
 PostView.register(blog)

@@ -1,0 +1,8 @@
+            <section class="post-full" data-id="{{post.id}}">
+                <h2 class="title" data-field="title">
+                    {{post.title}}
+                </h2>
+                <article class="content" data-field="content">
+                    {% if post.content %}{{post.content|safe}}{% endif %}
+                </article>
+            </section>

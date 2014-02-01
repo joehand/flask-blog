@@ -1,0 +1,222 @@
+@import 'framework.less';         // Get all the framework stuff
+
+/* ================================================================== *\
+   Styles ($styles)
+\* ================================================================== */
+
+.browsehappy {
+    padding: 10px;
+    border-bottom: 2px solid #ececa3;
+    background-color: #ffc;
+    text-align: center;
+}
+
+/* Make buttons and navigation links feel faster on `touchstart` */
+.page .button,
+.nav a {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+/* ================================================================== *\
+   Site Header
+\* ================================================================== */
+
+.site-head {
+    padding:1rem 0;
+
+    a {
+        color: @gray-darkest;
+        text-decoration: none;
+        line-height:1.75;
+
+        &:hover {
+            color:@base-link-color;
+        }
+    }
+
+    font-family: @nav-font-family;
+}
+
+.site-head-border {
+    border-bottom:1px solid @gray-lighter;
+
+}
+
+/*
+ *  Banner & Name
+ */
+
+.name {
+    margin:0;
+}
+
+
+/*
+ *  Site Navigation
+ */
+
+.site-nav {
+
+
+}
+
+.nav-item {
+    display:inline-block;
+}
+
+
+/* Medium-sized breakpoint 600px */
+@media only screen and (min-width: @grid-breakpoint-medium) {
+
+    .name {
+        line-height:1;
+        margin:0;
+    }
+
+    .site-head {
+        padding:2rem 0;
+    }
+
+    .nav-item {
+        a {
+            padding:0 0 0 1rem;
+        }
+    }
+
+}
+/* Large-sized breakpoint 960px */
+@media only screen and (min-width: @grid-breakpoint-large) {
+
+
+}
+
+
+/* ================================================================== *\
+   Main Area
+\* ================================================================== */
+
+.main {
+    margin-top:2rem;
+    margin-bottom:2rem;
+}
+
+.page-content {
+    margin:0 auto;
+    max-width:620px;
+}
+
+
+
+/* Medium-sized breakpoint */
+@media only screen and (min-width: @grid-breakpoint-medium) {
+
+    .main {
+        margin-top:5rem;
+        margin-bottom:5rem;
+    }
+
+    .page-content {
+        width:90%;
+    }
+}
+/* Large-sized breakpoint */
+@media only screen and (min-width: @grid-breakpoint-large) {
+    .page-content {
+        
+
+    }    
+}
+
+
+/* ================================================================== *\
+   Posts
+\* ================================================================== */
+
+
+
+/* ================================================================== *\
+   Footer
+\* ================================================================== */
+
+.footer {
+    font-size:0.75rem;
+
+    .social {
+        font-size:1.75rem;
+        text-align: center;
+
+        a {
+            color:@gray-darkest;
+        }
+    }
+
+    a {
+        color:@gray-darkest;
+        text-decoration: none;
+
+        &:hover {
+            color:@base-link-color;
+        }
+    }
+
+    .bottom {
+        border-top:2px solid @gray-darkest;
+        border-bottom:2px solid @gray-darkest;
+        padding:1rem 0;
+        color:@gray-dark;
+        letter-spacing: 1px;
+        text-align: center;
+        font-weight:300;
+
+        span {
+            display:block;
+        }
+    }
+}
+
+/* Medium-sized breakpoint */
+@media only screen and (min-width: @grid-breakpoint-medium) {
+
+    .footer {
+
+        .social {
+            width:100%;
+            line-height:100%;
+            height:50%;
+            position: absolute;
+            z-index:-1;
+
+            a {
+                color:@gray-darkest;
+            }
+        }
+
+
+        .bottom {
+            position: relative;
+            text-align: left;
+            z-index:2;
+
+            span {
+                display:inline-block;
+            }
+        }
+
+
+        
+    }
+}
+
+
+/* Medium-sized breakpoint 600px */
+@media only screen and (min-width: @grid-breakpoint-medium) {
+
+}
+/* Large-sized breakpoint 960px */
+@media only screen and (min-width: @grid-breakpoint-large) {
+
+}
+
+
+@import 'libs/ss-social.less';                 // SS Social Icons
+@import 'libs/cardinal/print.less';            // Inlined, barebones print stylesf

@@ -9,7 +9,7 @@ from .user import user, User, Role
 from .admin import admin
 from .blog import blog
 
-from .extensions import db, mail, security
+from .extensions import db, mail, security, assets
 
 # For import *
 __all__ = ['create_app']
@@ -62,6 +62,9 @@ def configure_extensions(app):
     # Setup Flask-Security
     user_datastore = MongoEngineUserDatastore(db, User, Role)
     security.init_app(app, user_datastore)
+
+    # Flask assets
+    assets.init_app(app)
 
     if app.debug:
         from flask.ext.debugtoolbar import DebugToolbarExtension

@@ -6,11 +6,11 @@ from datetime import datetime
 import json
 
 
-ILLEGAL_SLUGS = ['admin']
+ILLEGAL_SLUGS = ['admin', 'notes', 'archives']
 
 POST_TYPES = (('static','Static'),
               ('article','Article'), 
-              ('link','Link'))
+              ('note','Note'))
 
 class Post(db.Document):
     user_ref = db.ReferenceField(User)
@@ -34,12 +34,13 @@ class Post(db.Document):
         data['id'] = str(self.id)
         data['user_ref'] = str(self.user_ref.id)
         data['last_update'] = str(self.last_update)
+        data['pub_date'] = str(self.pub_date)
         return json.dumps(data)
 
     def clean(self):
         """Clean Data!"""
         if not self.slug:
-            self.slug = self.title.replace(' ', '-')
+            self.slug = self.title.replace(' ', '-').lower()
 
         if self.slug in ILLEGAL_SLUGS:
             self.slug = self.slug + '1' #todo: make this more robust
@@ -54,6 +55,5 @@ class Post(db.Document):
 class Article(Post):
     category = db.StringField()
 
-class Link(Post):
+class Note(Post):
     link_url = db.StringField()
-    pub_date = db.DateTimeField()

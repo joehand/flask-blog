@@ -4,7 +4,7 @@ from flask import (Blueprint, render_template, jsonify, request,
 from flask.ext.security import current_user, login_required, roles_required
 from flask.ext.classy import FlaskView, route
 
-from ..blog import Post, Article, Link, PostForm
+from ..blog import Post, Article, Note, PostForm
 
 import json
 import sys
@@ -20,7 +20,7 @@ class PostAdmin(FlaskView):
 
     def before_request(self, name, *args , **kwargs):
         g.pages = Post.objects(kind__in=['static'])
-        g.posts = Post.objects(kind__in=['link', 'article'])
+        g.posts = Post.objects(kind__in=['note', 'article'])
 
     @route('/')
     def index(self):
@@ -32,7 +32,27 @@ class PostAdmin(FlaskView):
     def get(self, slug):
         """ View for a single post"""
         post = Post.objects(slug=slug).first_or_404()
-        return render_template('post.html', post=post)
+        return render_template('admin/post_edit.html', post=post)
+
+    def post(self):
+        form = PostForm(request.form)
+        if form.validate_on_submit():
+            print 'posting'
+            title = form.title.data.strip()
+            kind = form.kind.data
+            if kind == 'article':
+                post = Article(title=title, user_ref=current_user.id, kind=kind)
+            elif kind == 'note':
+                post = Note(title=title, user_ref=current_user.id, kind=kind)
+            else:
+                post = Post(title=title, user_ref=current_user.id, kind=kind)
+            post.save()
+            slug = post.slug
+            return redirect(url_for('admin.post', slug=slug))
+        else:
+            print form.errors
+            flash('some error')
+            return render_template('admin/index.html', form=form)
 
     def put(self, id):
         try:
@@ -71,26 +91,6 @@ class PostAdmin(FlaskView):
             # TODO Make these more helpful
             return jsonify(), 400
         return jsonify( { 'result': True } )
-
-    def post(self):
-        form = PostForm(request.form)
-        if form.validate_on_submit():
-            print 'posting'
-            title = form.title.data.strip()
-            kind = form.kind.data
-            if kind == 'article':
-                post = Article(title=title, user_ref=current_user.id, kind=kind)
-            elif kind == 'link':
-                post = Link(title=title, user_ref=current_user.id, kind=kind)
-            else:
-                post = Post(title=title, user_ref=current_user.id, kind=kind)
-            post.save()
-            slug = post.slug
-            return redirect(url_for('blog.post', slug=slug))
-        else:
-            print form.errors
-            flash('some error')
-            return render_template('admin/index.html', form=form)
 
 
 #Register our View Class

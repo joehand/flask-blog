@@ -22,6 +22,9 @@ class Config(object):
 
     DEBUG_TB_ENABLED = False
 
+    #ASSETS_AUTO_BUILD = True
+    ASSETS_DEBUG = True
+
 class ProductionConfig(Config):
 
     DEBUG = False
@@ -29,6 +32,8 @@ class ProductionConfig(Config):
     #MongoDB Info
     MONGODB_DB = 'app17531201'
     MONGODB_HOST = os.environ.get('MONGOHQ_URL')
+
+    ASSETS_DEBUG = False
 
 class DevelopmentConfig(Config):
 

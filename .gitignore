@@ -57,4 +57,4 @@ nosetests.xml
 *.sublime-workspace
 sftp-config*.json
 
-
+.webassets-cache

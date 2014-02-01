@@ -1,0 +1,10 @@
+{% extends "_base.html" %}
+
+{%- block content %}
+        <header>
+            <h1>Archive</h1>
+        </header>
+        {%- for post in g.posts %}
+        {% include "partials/_post_full.html" %}
+        {% endfor -%}
+{%- endblock -%}

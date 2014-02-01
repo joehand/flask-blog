@@ -6,19 +6,22 @@
 define([
     'backbone',
     'jquery',
+    'underscore',
     'views/AppView',
     'models/AppModel',
     'models/PostModel',
     'backboneStick',
-], function (Backbone, $, AppView, AppModel, Posts) {
+], function (Backbone, $, _, AppView, AppModel, Posts) {
 
-    var appView, appModel, postsCol;
+    var appView, appModel, postsCol, collection;
 
     appModel = new AppModel({ 
         'user': currentUser 
     });
 
-    postsCol = new Posts(postsBootstrap);
+    collection = _.union(postsBootstrap, pagesBootstrap);
+
+    postsCol = new Posts(collection);
 
     appView = new AppView({
         model      : appModel,

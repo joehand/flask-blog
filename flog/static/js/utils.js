@@ -49,7 +49,6 @@ define([
                 }); 
             }
 
-
             outText += '<br/>'; // better functionality with br at end
 
             return(outText.replace(/\r?\n/g, ""));

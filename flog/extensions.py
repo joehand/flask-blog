@@ -7,3 +7,5 @@ security = Security()
 from flask.ext.mail import Mail
 mail = Mail()
 
+from flask.ext.assets import Environment
+assets = Environment()

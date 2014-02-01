@@ -1,0 +1,38 @@
+{% extends "_base.html" %}
+
+    {% block additional_css %}
+    {% if current_user.has_role('admin') -%}
+            <!-- CSS -->
+            <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+            <link href="{{url_for('static', filename='css/zenpen/style.css')}}" rel="stylesheet">
+            <link href="{{url_for('static', filename='css/zenpen/fonts.css')}}" rel="stylesheet">
+            <link href="{{url_for('static', filename='css/admin.css')}}" rel="stylesheet">
+    {% endif %}
+    {% endblock %}
+
+    {%- block footer_js %}
+    {%- if current_user.has_role('admin') %}
+        <script>
+            {% if current_user.is_authenticated() -%}
+            {%- block post_js %}
+            var postsBootstrap = [{% for post in g.posts %}{{post.to_dict()|safe}},{% endfor %}];
+            var pagesBootstrap = [{% for post in g.pages %}{{post.to_dict()|safe}},{% endfor %}];
+            {%- endblock post_js %}
+            var childView = {%- block js_view %}null{%- endblock js_view -%};
+            {%- endif %}
+            var postURL = '{{url_for('admin.PostAdmin:index')}}';
+        </script>
+        <script>
+            {% if current_user.is_authenticated() -%}
+            var currentUser = {
+                                'id'     : '{{current_user.id}}',
+                                'roles'  : [{% for role in current_user.roles %}'{{role.name}}'{% endfor %}],
+                                'email'  : '{{current_user.email}}'
+                              };
+            {%- else %}
+            var currentUser = false;
+            {%- endif %}
+        </script>
+        <script data-main="{{ url_for('static', filename='js/app')}}" src="{{ url_for('static', filename='js/libs/require.js')}}"></script>
+    {%- endif -%}
+    {% endblock footer_js -%}
