@@ -17,10 +17,17 @@ define([
         'published' : [false]
     }
 
+    var formactive;
+
     var AdminView = Backbone.View.extend({
 
         events: {
-            'click .post-filter' : '_filterPosts'
+            'click .post-filter'            : '_filterPosts',
+            'focusin .title-input input'    : '_showPostSettings',
+        },
+
+        _showPostSettings: function(e) {
+            this.$el.find('.new-post-settings').slideDown().removeClass('hidden');
         },
 
         _filterPosts: function(e) {

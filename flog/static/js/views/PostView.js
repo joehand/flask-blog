@@ -40,14 +40,14 @@ define([
 
         events: {
             'click .settings-toggle'    : '_toggleOverlay', 
-            'click .delete'      : '_deletePost',
-            'change .select'     : '_saveSelect',
+            'click .delete'             : '_deletePost',
+            'change .select'            : '_saveSelect',
         },
 
         _toggleOverlay: function(e) {
             if(!$(e.target).closest('a').length){
                 e.preventDefault();
-                this.$el.find('.settings').slideToggle( '1500', "linear", function() {
+                this.$el.find('.settings').slideToggle( '1500', 'linear', function() {
                     $(this).toggleClass('hidden');
                 });
             }
