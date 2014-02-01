@@ -14,7 +14,3 @@ class PostForm(Form):
     category = TextField('Category', validators=[optional()])
     pub_date = DateField('Published Date', validators=[optional()])
     link_url = URLField('Link URL', validators=[url(), optional()])
-
-    def reset(self):
-        blankData = MultiDict([ ('csrf', self.reset_csrf() ) ])
-        self.process(blankData)

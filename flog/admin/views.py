@@ -30,15 +30,15 @@ class PostAdmin(FlaskView):
     @route('/')
     def index(self):
         """ Main admin dashboard view """
-        form = PostForm(request.form, prefix="new")
+        form = PostForm(request.form)
         return render_template('admin/index.html', newForm=form)
 
     @route('/<slug>', endpoint='post')
     def get(self, slug):
         """ View for a single post"""
         post = Post.objects(slug=slug).first_or_404()
-        form = PostForm(request.form)
-        return render_template('admin/post_edit.html', post=post, form=form)
+        post.form = PostForm(request.form)
+        return render_template('admin/post_edit.html', post=post)
 
     def post(self):
         form = PostForm(request.form)
@@ -62,6 +62,7 @@ class PostAdmin(FlaskView):
             slug = post.slug
             return redirect(url_for('admin.post', slug=slug))
         else:
+            print form.errors
             flash('Error with form')
             return render_template('admin/index.html', newForm=form)
 

@@ -1,12 +1,9 @@
 {% extends "admin/_admin_base.html" %}
 
-{% block navbar %} 
-{% endblock %} 
-
 {% block content %}      
         <section class="post-full" data-id="{{post.id}}">
-            <header {% if current_user.has_role('admin') -%}contenteditable="true"{% endif %} class="editable title" data-field="title">
-                {{post.title}}
+            <header>
+                <h2 {% if current_user.has_role('admin') -%}contenteditable="true"{% endif %} class="editable title" data-field="title">{{post.title}}</h2>
             </header>
             
             <article {% if current_user.has_role('admin') -%}contenteditable="true"{% endif %} class="editable content" data-field="content">
@@ -14,22 +11,6 @@
             </article>
             
             {% include "partials/_post_settings.html" %}
-
-            <div class="ui">
-                <div class="wrapper">
-                    <div class="top editing">
-                        <button class="fullscreen useicons" title="Toggle fullscreen">
-                            &#xe615;
-                        </button>
-                        <button class="save useicons" title="Save Text">
-                            &#xe60c;
-                        </button>
-                        <button class="settings useicons" title="Settings">
-                            &#xe617;
-                        </button>
-                    </div>
-                </div>
-            </div>
         </section>
 {% endblock %}
 

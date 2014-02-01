@@ -13,7 +13,7 @@
 \* ================================================================== */
 
 .post-partial {
-    border-left: @blockquote-border-width/2 solid @gray-lighter;
+    border-left: @blockquote-border-width/2 solid @gray-dark;
     margin:0 -(@base-rem-unit + @blockquote-border-width/2);
     margin-bottom: @base-rem-unit * 1.5;
     position: relative;
@@ -38,7 +38,7 @@
             margin:0;
             font-size:0.8rem;
             line-height: 2.25rem;
-            font-weight:300;
+            font-weight:400;
             color:@gray;
         }
 
@@ -109,8 +109,17 @@
         outline:none;
 
         &.active {
-            background-color:@gray-dark;
+            background-color:@gray-darker;
+            color:@white;
+
+            &.published {
+                background-color:@green;
+            }
+            &.draft {
+            }
         }
+
+
 
     }
 

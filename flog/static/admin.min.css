@@ -2262,7 +2262,7 @@ a.ss-icon.instagram:hover {
    Main Post Dashboard
 \* ================================================================== */
 .post-partial {
-  border-left: 0.1875rem solid #ecf0f1;
+  border-left: 0.1875rem solid #7f8c8d;
   margin: 0 -1.3375rem;
   margin-bottom: 1.7249999999999999rem;
   position: relative;
@@ -2287,7 +2287,7 @@ a.ss-icon.instagram:hover {
   margin: 0;
   font-size: 0.8rem;
   line-height: 2.25rem;
-  font-weight: 300;
+  font-weight: 400;
   color: #95a5a6;
 }
 .post-partial .settings-toggle .pub-date {
@@ -2335,7 +2335,11 @@ a.ss-icon.instagram:hover {
   outline: none;
 }
 .post-filter .button.active {
-  background-color: #7f8c8d;
+  background-color: #34495e;
+  color: #ffffff;
+}
+.post-filter .button.active.published {
+  background-color: #16a085;
 }
 .post-filter .button:last-child {
   border-right: none;
