@@ -42,7 +42,7 @@ define([
             if (opt.childView != null) {
                 /* Require our child views for specific page */
                 require(['views/' + opt.childView], function (View) {
-                    self.childView = new View({ collection:self.collection, model:self.model });
+                    self.childView = new View({ el:$('.main').get(0), collection:self.collection, model:self.model });
                     self.render();
                 });
             } else {

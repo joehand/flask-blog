@@ -2281,18 +2281,22 @@ a.ss-icon.instagram:hover {
 }
 .post-partial .title {
   text-decoration: none;
-  line-height: 2rem;
+  line-height: 2.25rem;
   margin: 0;
+  padding-right: 2rem;
 }
 .post-partial .kind {
   margin: 0;
   font-size: 0.8rem;
-  line-height: 2rem;
+  line-height: 2.25rem;
   font-weight: 300;
   color: #cccccc;
 }
 .post-partial:hover {
   background-color: #f8f8f8;
+}
+.post-partial.hidden {
+  display: none;
 }
 /*
  *  Post Settings
@@ -2324,11 +2328,15 @@ a.ss-icon.instagram:hover {
 }
 .post-filter .button {
   border-right: 1px solid #aaaaaa;
+  outline: none;
+}
+.post-filter .button.active {
+  background-color: #aaaaaa;
 }
 .post-filter .button:last-child {
   border-right: none;
 }
-.post-filter .count {
+.post-filter .post-count {
   position: absolute;
   width: 100%;
   line-height: 26px;

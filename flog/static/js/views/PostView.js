@@ -59,8 +59,7 @@ define([
             this.model.set(field, val);
         },
 
-
-        initialize: function(opt) {
+        initialize: function(opts) {
             this.model.on('change:title change:slug change:published change:kind', this.checkSave, this);
 
             if (this.$el.hasClass('post-full')) {
@@ -71,13 +70,19 @@ define([
         },
 
         render: function() {
-            /* update the text after changes 
-            TODO: This is too general. Do I want to send html over wire?
-            _.each(this.model.attributes, function(val, attr) {
-                this.$el.find('*[data-field="' + attr + '"]').text(this.model.get(attr));
-            }, this);*/
-
             return this;
+        },
+
+        checkFilter: function(filter) {
+            if (this.model.isInFilter(filter)) {
+                this.shown = true;
+                this.$el.slideDown().removeClass('hidden');
+                return true;
+            } else {
+                this.shown = false;
+                this.$el.slideUp().addClass('hidden');
+                return false;
+            }
         },
 
         processContent: function(content) {
