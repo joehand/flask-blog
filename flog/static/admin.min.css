@@ -412,7 +412,7 @@ ul {
   /* 2 */
 }
 ::selection:window-inactive {
-  background: #dedede;
+  background: #bdc3c7;
 }
 img::selection {
   background: transparent;
@@ -443,7 +443,7 @@ html {
  * 2. Unitless `line-height`, which acts as multiple of base `font-size`
  */
 body {
-  color: #444444;
+  color: #2c3e50;
   font-size: 1.15rem;
   /* 1 */
   font-family: 'Open Sans', sans-serif;
@@ -454,10 +454,10 @@ body {
  * Links ($links)
  */
 a {
-  color: #1fa3ec;
+  color: #2980b9;
 }
 a:hover {
-  color: #1fa3ec;
+  color: #2980b9;
   text-decoration: none;
 }
 a:focus {
@@ -479,7 +479,7 @@ acronym {
 }
 blockquote {
   padding-left: 1.15rem;
-  border-left: 0.375rem solid #efefef;
+  border-left: 0.375rem solid #ecf0f1;
   font-style: italic;
   font-size: 1.333rem;
   font-family: "Times New Roman", serif;
@@ -491,7 +491,7 @@ blockquote p + p {
   margin-top: 1.15rem;
 }
 blockquote cite {
-  color: #777777;
+  color: #34495e;
   font-style: italic;
   font-size: 0.75rem;
   font-family: 'Open Sans', sans-serif;
@@ -505,7 +505,7 @@ blockquote cite:before {
   /* 1 */
 }
 blockquote cite a {
-  color: #777777;
+  color: #34495e;
 }
 /**
  * Add word wrapping and hyphenation to common elements
@@ -544,7 +544,7 @@ th {
   margin-top: -0.5rem;
   width: 9999%;
   height: 1.15rem;
-  background: #dedede;
+  background: #bdc3c7;
   content: " ";
 }
 .crossbars:before {
@@ -561,7 +561,7 @@ dl dd {
   margin: 0;
 }
 del {
-  color: #777777;
+  color: #34495e;
   text-decoration: line-through;
 }
 details {
@@ -652,7 +652,7 @@ h6,
 hr {
   margin: 1.15rem 0;
   border: 0;
-  border-bottom: 1px solid #cccccc;
+  border-bottom: 1px solid #95a5a6;
 }
 hr.symbol {
   margin: 0 0 1.15rem;
@@ -821,16 +821,16 @@ sub {
 }
 .island {
   padding: 1.15rem;
-  background: #efefef;
+  background: #ecf0f1;
 }
 .well {
   padding: 1.15rem;
-  background: #efefef;
+  background: #ecf0f1;
   box-shadow: inset 0 0 0.5rem rgba(0, 0, 0, 0.15);
 }
 .island .island,
 .well .well {
-  background: #dedede;
+  background: #bdc3c7;
 }
 /**
  * Grids ($grids)
@@ -1249,14 +1249,14 @@ code,
 kbd,
 pre,
 samp {
-  color: #444444;
+  color: #2c3e50;
   font-size: 0.875rem;
   font-family: Monaco, "Lucida Sans Typewriter", Consolas, "Courier New", monospace;
 }
 code {
   margin: 0;
   padding: 0.064rem 0.317rem;
-  border: 1px solid #dedede;
+  border: 1px solid #bdc3c7;
   border-radius: 0.178rem;
   background: #f8f8f8;
   white-space: nowrap;
@@ -1266,10 +1266,10 @@ kbd {
   top: -1px;
   margin-bottom: 1px;
   padding: 0.064rem 0.317rem;
-  border: 1pxrem solid #dedede;
+  border: 1pxrem solid #bdc3c7;
   border-radius: 0.238rem;
   background: #f8f8f8;
-  box-shadow: 0 1px 0 #dedede, inset 0 0 0 1px #ffffff;
+  box-shadow: 0 1px 0 #bdc3c7, inset 0 0 0 1px #ffffff;
   white-space: nowrap;
 }
 pre {
@@ -1278,7 +1278,7 @@ pre {
   padding: 1.15rem;
   background: #222222;
   box-shadow: inset 0 0 0.356rem rgba(0, 0, 0, 0.6);
-  color: #cccccc;
+  color: #95a5a6;
   white-space: pre;
   word-wrap: normal;
   word-break: normal;
@@ -1320,7 +1320,7 @@ table tfoot td {
 }
 table thead th,
 table tfoot td {
-  background-color: #efefef;
+  background-color: #ecf0f1;
 }
 table th,
 table td {
@@ -1330,18 +1330,18 @@ table td {
 }
 /* Outer border only */
 .table-border {
-  border: 1px solid #dedede;
+  border: 1px solid #bdc3c7;
 }
 /* Borders for inner table cells */
 .table-border-cells th,
 .table-border-cells td {
-  border-top: 1px solid #dedede;
-  border-left: 1px solid #dedede;
+  border-top: 1px solid #bdc3c7;
+  border-left: 1px solid #bdc3c7;
 }
 /* Border for rows only */
 .table-border-rows th,
 .table-border-rows td {
-  border-top: 1px solid #dedede;
+  border-top: 1px solid #bdc3c7;
 }
 /* Remove top border to avoid double border on `.border` tables */
 .table-border.table-border-cells thead:first-child tr:first-child th,
@@ -1360,7 +1360,7 @@ table td {
 }
 /* Add bottom border to last row in the table */
 .table-border-rows tr:last-child td {
-  border-bottom: 1px solid #dedede;
+  border-bottom: 1px solid #bdc3c7;
 }
 /* Alternate background colors for table rows */
 .table-stripes tbody > tr:nth-child(odd) > td {
@@ -1412,7 +1412,7 @@ fieldset > *:last-child {
 /* Add this class for a bordered <fieldset> */
 .fieldset-border {
   padding: 1.15rem;
-  border: 1px solid #dedede;
+  border: 1px solid #bdc3c7;
 }
 /* Make checkbox, image, and radio inputs `inline-block` by default */
 input[type="checkbox"],
@@ -1445,7 +1445,7 @@ textarea {
   outline: 0 none;
   *outline: thin dotted #222 \9;
   /* IE 6-8 */
-  border: 1px solid #cccccc;
+  border: 1px solid #95a5a6;
   border-radius: 0;
   vertical-align: middle;
   line-height: 1.5;
@@ -1531,7 +1531,7 @@ textarea {
   margin: 0;
   padding: 0.633rem 0.875rem;
   border: 0 none;
-  background-color: #dedede;
+  background-color: #bdc3c7;
   color: #444;
   vertical-align: middle;
   text-align: center;
@@ -1547,7 +1547,7 @@ textarea {
 }
 .button:active,
 .button.active {
-  background-color: #cccccc;
+  background-color: #95a5a6;
   box-shadow: inset 0 0 0.317rem rgba(0, 0, 0, 0.25);
 }
 .button:active:focus,
@@ -1585,15 +1585,15 @@ textarea {
 }
 /* Colors */
 .button-primary {
-  background-color: #1fa3ec;
+  background-color: #2980b9;
   color: #ffffff;
 }
 .button-primary:hover {
-  background-color: #3eb0ef;
+  background-color: #6ab0de;
 }
 .button-primary:active,
 .button-primary.active {
-  background-color: #1291d7;
+  background-color: #6ab0de;
 }
 /* ================================================================== *\
    Styles ($styles)
@@ -1617,15 +1617,15 @@ textarea {
   font-family: 'EB Garamond', serif;
 }
 .site-head a {
-  color: #444444;
+  color: #2c3e50;
   text-decoration: none;
   line-height: 1.75;
 }
 .site-head a:hover {
-  color: #1fa3ec;
+  color: #2980b9;
 }
 .site-head-border {
-  border-bottom: 1px solid #efefef;
+  border-bottom: 1px solid #ecf0f1;
 }
 /*
  *  Banner & Name
@@ -1690,20 +1690,20 @@ textarea {
   text-align: center;
 }
 .footer .social a {
-  color: #444444;
+  color: #2c3e50;
 }
 .footer a {
-  color: #444444;
+  color: #2c3e50;
   text-decoration: none;
 }
 .footer a:hover {
-  color: #1fa3ec;
+  color: #2980b9;
 }
 .footer .bottom {
-  border-top: 2px solid #444444;
-  border-bottom: 2px solid #444444;
+  border-top: 2px solid #2c3e50;
+  border-bottom: 2px solid #2c3e50;
   padding: 1rem 0;
-  color: #aaaaaa;
+  color: #7f8c8d;
   letter-spacing: 1px;
   text-align: center;
   font-weight: 300;
@@ -1721,7 +1721,7 @@ textarea {
     z-index: -1;
   }
   .footer .social a {
-    color: #444444;
+    color: #2c3e50;
   }
   .footer .bottom {
     position: relative;
@@ -1747,7 +1747,7 @@ textarea {
   width: 35px;
   height: 35px;
   line-height: 35px;
-  background: #444444;
+  background: #2c3e50;
   color: #ffffff;
   border-radius: 0 0 3px;
   font-size: 1rem;
@@ -2227,7 +2227,7 @@ a.ss-icon.instagram:hover {
   }
   blockquote,
   pre {
-    border: 0.0625rem solid #777777;
+    border: 0.0625rem solid #34495e;
     page-break-inside: avoid;
   }
   h2,
@@ -2262,7 +2262,7 @@ a.ss-icon.instagram:hover {
    Main Post Dashboard
 \* ================================================================== */
 .post-partial {
-  border-left: 0.1875rem solid #efefef;
+  border-left: 0.1875rem solid #ecf0f1;
   margin: 0 -1.3375rem;
   margin-bottom: 1.7249999999999999rem;
   position: relative;
@@ -2275,37 +2275,37 @@ a.ss-icon.instagram:hover {
 }
 .post-partial .settings-toggle:hover {
   cursor: pointer;
-  background-color: #efefef;
+  background-color: #ecf0f1;
 }
-.post-partial.published {
-  border-color: green;
-}
-.post-partial .title {
+.post-partial .settings-toggle .title {
   text-decoration: none;
   line-height: 2.25rem;
   margin: 0;
   padding-right: 2rem;
 }
-.post-partial .kind {
+.post-partial .settings-toggle .kind {
   margin: 0;
   font-size: 0.8rem;
   line-height: 2.25rem;
   font-weight: 300;
-  color: #cccccc;
+  color: #95a5a6;
 }
-.post-partial .pub-date {
+.post-partial .settings-toggle .pub-date {
   font-size: 0.8rem;
   font-weight: 300;
   margin-top: 0.25rem;
 }
+.post-partial.published {
+  border-color: #16a085;
+}
 .post-partial:hover {
   background-color: #f8f8f8;
 }
-.post-partial.hidden {
-  display: none;
+.post-partial:hover .fieldset-border legend {
+  background: #f8f8f8;
 }
 /*
- *  Post Settings
+ *f  Post Settings
  */
 .settings {
   padding: 1.15rem 1.15rem;
@@ -2315,14 +2315,12 @@ a.ss-icon.instagram:hover {
   opacity: 1;
   transition: opacity 100ms ease-out;
 }
-.settings.hidden {
-  display: none;
+.settings .fieldset-border legend {
+  transition: background-color 500ms ease-in;
+  background: #ffffff;
 }
 .settings.hidden * {
   opacity: 0;
-}
-.settings .button {
-  margin-right: 5px;
 }
 /*
  *  Post Filter
@@ -2333,11 +2331,11 @@ a.ss-icon.instagram:hover {
   margin-bottom: 1.7249999999999999rem;
 }
 .post-filter .button {
-  border-right: 1px solid #aaaaaa;
+  border-right: 1px solid #7f8c8d;
   outline: none;
 }
 .post-filter .button.active {
-  background-color: #aaaaaa;
+  background-color: #7f8c8d;
 }
 .post-filter .button:last-child {
   border-right: none;
@@ -2349,26 +2347,59 @@ a.ss-icon.instagram:hover {
   margin-top: 4px;
   z-index: -1;
 }
+/* ================================================================== *\
+   Form Elements
+\* ================================================================== */
+.inline-radio {
+  list-style-type: none;
+  padding-left: 0;
+}
+.inline-radio li {
+  display: inline-block;
+  padding-right: 2rem;
+}
 /*
  *  New Post Input Box
  */
-input.new-post {
+.new-post .title-input {
   margin-bottom: 2rem;
+}
+.new-post input {
   font-size: 1.5rem;
   line-height: 1.5;
   border: none;
   background: transparent;
   box-shadow: none;
   border-radius: 1px;
-  border-bottom: 1px dotted #444444;
+  border-bottom: 1px dotted #2c3e50;
   transition: all 0.3s ease-out;
 }
-input.new-post:active,
-input.new-post:focus {
+.new-post input:active,
+.new-post input:focus {
   outline: none;
   box-shadow: none;
-  border-bottom: 1px solid #444444;
+  border-bottom: 1px solid #2c3e50;
 }
+/*
+ *  Errors
+ */
+.has-error {
+  position: relative;
+  overflow: hidden;
+}
+.has-error input {
+  border-color: #c0392b;
+}
+.has-error .help-block::before,
+.has-error .help-block::after {
+  background-color: #c0392b;
+}
+.hidden {
+  display: none;
+}
+/* ================================================================== *\
+   Icon Buttons
+\* ================================================================== */
 button.useicons:hover {
   opacity: 1;
 }
@@ -2378,16 +2409,10 @@ button.useicons {
   background: none;
   cursor: pointer;
   font-size: 25px;
-  color: #444444;
+  color: #2c3e50;
   opacity: 0.5;
   padding: 0px;
   height: 32px;
   width: 25px;
   border: 0px;
 }
-.editable {
-  white-space: pre-wrap;
-}
-/* ================================================================== *\
-   ???
-\* ================================================================== */

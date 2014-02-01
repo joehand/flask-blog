@@ -1,5 +1,24 @@
 // User Variables - overwrite framework variables here
 
+
+// Grayscale
+@black:                            #222;
+@gray-darkest:                     #2C3E50;
+@gray-darker:                      #34495E;
+@gray-dark:                        #7F8C8D;
+@gray:                             #95A5A6;
+@gray-light:                       #BDC3C7;
+@gray-lighter:                     #ECF0F1;
+@gray-lightest:                    #f8f8f8;
+@white:                            #fff;
+
+
+// COlors!
+@red: #C0392B;
+@green: #16A085;
+@blue: #2980B9;
+@purple: #8E44AD;
+
 // Text selections
 @selection-background-color:       #b3d4fc;
 
@@ -9,7 +28,7 @@
 @base-muted-color:                 @gray-darker;
 @base-line-height:                 1.75;
 @base-rem-unit:                    1.15rem;
-@base-link-color:                  #1fa3ec;
+@base-link-color:                  @blue;
 @base-link-hover-color:            @base-link-color;
 
 // Blockquotes
@@ -30,3 +49,7 @@
 @button-primary-active-background: #1291d7;
 
 @nav-font-family:                  @heading-font-family;
+
+@button-primary-background:        @blue;
+@button-primary-hover-background:  lighten(@blue, 20%);
+@button-primary-active-background: lighten(@blue, 20%);

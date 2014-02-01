@@ -1,34 +1,35 @@
-<div class="settings hidden">
-    <form>
-        <div>
-            <span class="small-caps">Slug:</span>
-            <span class="editable" contenteditable="true" data-field="slug">{{post.slug}}</span>
-        </div>
-        <div>
-            <span class="small-caps">Kind:</span>
-            {% for option in g.POST_TYPES -%}
-                <label><input type="radio" {% if post.kind == option[0] %}checked="checked"{% endif %} name="kind" value="{{option[0]}}"/>{{option[1]}}</label>
-            {%- endfor %}
-        </div>
-        {%- if post.pub_date %}
-        <div>
-            <span class="small-caps">Published Date:</span> <span class="editable" contenteditable="true" data-field="pub_date">{{post.pub_date.strftime('%d %b %Y')}}</span>
-        </div>
-        {% endif %}
-        {%- if post.category %}
-        <div>
-            <span class="small-caps">Category:</span>
-            <span class="editable category" contenteditable="true" data-field="category">{{post.category}}</span>
-        </div>
-        {% endif %}
-        {%- if post.link_url %}
-        <div>
-            <span class="small-caps">Link URL:</span>
-            <span class="editable link_url" contenteditable="true" data-field="link_url">{{post.link_url}}</span>
-        </div>
-        {% endif %}
-        <div>
-            <button class="publish button">{% if post.published %}Unpublish{% else %}Publish{% endif %}</button><button class="delete useicons">&#xe62d;</button>
-        </div>
-    </form>
-</div>
+{% import "macros/_wtf.html" as wtf %}
+
+{% set form = post.form %}
+
+<form class="settings hidden">
+    {{ form.hidden_tag() }}
+    <fieldset class="fieldset-border">
+            <legend class="small-caps">{{post.kind}} Settings</legend>
+            <div class="">
+            {{ wtf.regular_field(form.slug, class="slug") }}
+            {{ wtf.regular_field(form.kind, class="kind inline-radio") }}
+
+            {%- if post.published %}
+            {{ wtf.regular_field(form.pub_date, class="pub_date", value=post.pub_date.strftime('%Y-%m-%d')) }}
+            {%- endif %}
+
+            {%- if post.kind == 'article' %}
+                {%- if post.category %}
+                {{ wtf.regular_field(form.category, class="category", value=post.category) }}
+                {%- else %}
+                {{ wtf.regular_field(form.category, class="category", placeholder='Enter a Category') }}
+                {%- endif %}
+            {%- elif post.kind == 'note' %}
+                {%- if post.link_url %}
+                {{ wtf.regular_field(form.link_url, class="link_url", value=post.link_url) }}
+                {%- else %}
+                {{ wtf.regular_field(form.link_url, class="link_url", placeholder='Enter a Link') }}
+                {%- endif %}
+            {%- endif %}
+            </div>
+    </fieldset>
+    <div class="form-group">
+        <button class="publish button">{% if post.published %}Unpublish{% else %}Publish{% endif %}</button><button class="delete useicons">&#xe62d;</button>
+    </div>
+</form>

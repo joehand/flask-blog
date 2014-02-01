@@ -9,7 +9,6 @@ from ..blog import POST_TYPES
 
 import json
 import sys
-import datetime
 
 admin = Blueprint('admin', __name__, url_prefix='/admin')
 
@@ -25,17 +24,21 @@ class PostAdmin(FlaskView):
         g.posts = Post.objects(kind__in=['note', 'article'])
         g.POST_TYPES = POST_TYPES
 
+        for post in g.all_pages:
+            post.form = PostForm(prefix=str(post.id), kind=post.kind, slug=post.slug)
+
     @route('/')
     def index(self):
         """ Main admin dashboard view """
-        form = PostForm(request.form)
-        return render_template('admin/index.html', form=form)
+        form = PostForm(request.form, prefix="new")
+        return render_template('admin/index.html', newForm=form)
 
     @route('/<slug>', endpoint='post')
     def get(self, slug):
         """ View for a single post"""
         post = Post.objects(slug=slug).first_or_404()
-        return render_template('admin/post_edit.html', post=post)
+        form = PostForm(request.form)
+        return render_template('admin/post_edit.html', post=post, form=form)
 
     def post(self):
         form = PostForm(request.form)
@@ -47,38 +50,25 @@ class PostAdmin(FlaskView):
                 post = Post(title=title, user_ref=current_user.id, kind=kind)
             elif kind == 'note':
                 post = Note(title=title, user_ref=current_user.id, kind=kind)
+                link_url = form.link_url.data
+                if link_url:
+                    post.link_url = link_url
             else:
                 post = Article(title=title, user_ref=current_user.id, kind='article')
+                category = form.category.data.strip()
+                if category:
+                    post.category = category
             post.save()
             slug = post.slug
             return redirect(url_for('admin.post', slug=slug))
         else:
-            print form.errors
-            flash('some error')
-            return render_template('admin/index.html', form=form)
+            flash('Error with form')
+            return render_template('admin/index.html', newForm=form)
 
     def put(self, id):
         try:
             post = Post.objects(id=id).first()
-            postJSON = json.loads(request.data)
-
-            #TODO: Put this validation elsewhere
-            for key, val in postJSON.items():
-                if key == 'content':
-                    val = val
-                if key == 'title':
-                    val = val.strip()
-                if key == 'slug':
-                    val = val.strip().replace(' ', '-')
-                if key == 'published':
-                    if val == 'False':
-                        val = False
-                    elif val == 'True':
-                        val = True
-                if key in ['title', 'slug', 'content', 'published', 'kind']:
-                    post[key] = val
-
-            post.save()
+            post = post.validate_json(json.loads(request.data))
             return post.to_dict()
         except:
             print "Unexpected error:", sys.exc_info()[0]

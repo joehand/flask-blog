@@ -1,13 +1,9 @@
 {% extends "admin/_admin_base.html" %}
-{% import "macros/_wtf.html" as wtf %}
 
 {% block title %}Admin Area Place{% endblock title %}
 
 {% block content %}
-            <form class="form" method="post" action="{{request.url}}">
-                {{ form.hidden_tag() }}
-                {{ wtf.regular_field(form.title, class="new-post", placeholder='New Post') }}
-            </form>
+            {% include "partials/_newpost.html" %}
             <div class="post-filter cf">
                 <div class="published float-left">
                     <button class="small-caps button button-mini" data-filter="published:true">published</button><button class="small-caps button button-mini active" data-filter="published:false">draft</button>

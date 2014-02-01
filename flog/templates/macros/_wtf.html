@@ -1,17 +1,32 @@
 {%- macro errors(field, description=None) %}
     {%- if field.errors %}
       {%- for error in field.errors %}
-        <p class="help-block">{{error|safe}}</p>
+        <p class="crossbars help-block">{{error|safe}}</p>
       {%- endfor %}
     {%- elif field.description -%}
-      <p class="help-block">{{field.description|safe}}</p>
+      <p class="crossbars help-block">{{field.description|safe}}</p>
     {%- elif description -%}
-      <p class="help-block">{{description|safe}}</p>
+      <p class="crossbars help-block">{{description|safe}}</p>
     {%- endif %}
 {%- endmacro %}
 
 
 {% macro regular_field(field, description=None) %}
+              <div class="{% if field.errors %}has-error{% endif %}">
+                  {{field(class="", **kwargs)|safe}}
+                  {{errors(field, description)}}
+              </div>
+{% endmacro %}
+
+
+{% macro no_label_field(field, description=None) %}
+              <div class="{% if field.errors %}has-error{% endif %}">
+                  {{field(class="", **kwargs)|safe}}
+                  {{errors(field, description)}}
+              </div>
+{% endmacro %}
+
+{% macro grid_field(field, description=None) %}
               <div class="{% if field.errors %}has-error{% endif %}">
                   {{field(class="", **kwargs)|safe}}
                   {{errors(field, description)}}

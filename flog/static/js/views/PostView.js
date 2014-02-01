@@ -18,12 +18,24 @@ define([
     var PostView = Backbone.View.extend({
 
         bindings: {
-            '.title'   : 'title',
+            '.title'                     : 'title',
+            'input.slug'                 : 'slug',
+            'input.link_url'             : 'link_url',
+            'input.category'             : 'category',
+            '.kind input[type=radio]'    : 'kind',
+            'input.pub_date'             : {
+                observe: 'pub_date',
+                updateView: false,
+                onSet: function(val, options) {
+                    console.log(val);
+                    return val;
+                }
+            },
             '.content' : {
                 observe: 'content',
                 updateMethod: 'html',
                 onSet: 'processContent',
-            }
+            },
         },
 
         events: {
@@ -41,7 +53,6 @@ define([
             }
         },
 
-
         _deletePost: function(e) {
             /* TODO: give a warning first */
             this.model.destroy({
@@ -52,6 +63,7 @@ define([
 
             this.remove();
         },
+
         _saveSelect: function(e) {
             var val = $(e.currentTarget).val(),
                 field = $(e.currentTarget).data('select');
@@ -60,7 +72,9 @@ define([
         },
 
         initialize: function(opts) {
-            this.model.on('change:title change:slug change:published change:kind', this.checkSave, this);
+            this.model.on('change:title change:category \
+                            change:link_url change:pub_date  change:slug \
+                            change:published change:kind', this.checkSave, this);
 
             if (this.$el.hasClass('post-full')) {
                 this.model.on('change:content', this.checkSave, this);

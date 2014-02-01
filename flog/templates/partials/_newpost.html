@@ -1,0 +1,15 @@
+{% import "macros/_wtf.html" as wtf %}
+
+        <form class="form new-post" method="post" action="{{request.url}}">
+                {{ newForm.hidden_tag() }}
+                <div class="title-input">
+                {{ wtf.no_label_field(newForm.title, class="title", placeholder='New Post') }}
+                </div>
+            <fieldset class="new-post-settings fieldset-border hidden">
+            <legend>Additional Settings</legend>
+                {{ wtf.no_label_field(newForm.kind, class="inline-radio kind") }}
+                {{ wtf.no_label_field(newForm.category, class="category", placeholder='Category') }}
+                {{ wtf.no_label_field(newForm.link_url, class="link_url", placeholder='Link') }}
+                <button type="submit" class="button button-primary">Submit</button>
+            </fieldset>
+        </form>

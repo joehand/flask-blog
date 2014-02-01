@@ -26,47 +26,51 @@
             cursor: pointer;
             background-color: @gray-lighter;
         }
+
+        .title {
+            text-decoration: none;
+            line-height: 2.25rem;
+            margin:0;
+            padding-right:2rem;
+        }
+
+        .kind {
+            margin:0;
+            font-size:0.8rem;
+            line-height: 2.25rem;
+            font-weight:300;
+            color:@gray;
+        }
+
+        .pub-date {
+            font-size:0.8rem;
+            font-weight:300;
+            margin-top:0.25rem;
+        }
     }
 
     &.published {
-        border-color:green;
+        border-color:@green;
     }
 
-    .title {
-        text-decoration: none;
-        line-height: 2.25rem;
-        margin:0;
-        padding-right:2rem;
-    }
 
-    .kind {
-        margin:0;
-        font-size:0.8rem;
-        line-height: 2.25rem;
-        font-weight:300;
-        color:@gray;
-    }
-
-    .pub-date {
-        font-size:0.8rem;
-        font-weight:300;
-        margin-top:0.25rem;
-    }
 
     transition: background-color 500ms ease-in;
     background-color: @white;
     
     &:hover {
         background-color: @gray-lightest;
-    }
 
-    &.hidden {
-        display:none;
+
+        .fieldset-border legend {
+            background: @gray-lightest;
+        }
+
     }
 }
 
 /*
- *  Post Settings
+ *f  Post Settings
  */
 
 .settings {
@@ -78,16 +82,15 @@
         transition: opacity 100ms ease-out;
     }
 
-    &.hidden {
-        display:none;
+    .fieldset-border legend {
+        transition: background-color 500ms ease-in;
+        background:@white;
+    }
 
+    &.hidden {
         * {
             opacity:0;
         }
-    }
-
-    .button {
-        margin-right:5px;
     }
 }
 
@@ -124,27 +127,84 @@
     }
 }
 
+
+
+/* ================================================================== *\
+   Form Elements
+\* ================================================================== */
+
+.inline-radio {
+    list-style-type: none;
+    padding-left:0;
+
+    li {
+        display:inline-block;
+        padding-right:2rem;
+    }
+}
+
+
 /*
  *  New Post Input Box
  */
 
-input.new-post {
-    margin-bottom:2rem;
-    font-size:1.5rem;
-    line-height: 1.5;
-    border: none;
-    background: transparent;
-    box-shadow: none;
-    border-radius: 1px;
-    border-bottom: 1px dotted @gray-darkest;
-    transition: all .3s ease-out;
+.new-post {
+    .title-input {
+        margin-bottom:2rem;
+    }
 
-    &:active, &:focus {
-        outline: none;
+    input {
+        font-size:1.5rem;
+        line-height: 1.5;
+        border: none;
+        background: transparent;
         box-shadow: none;
-        border-bottom: 1px solid @gray-darkest;
+        border-radius: 1px;
+        border-bottom: 1px dotted @gray-darkest;
+        transition: all .3s ease-out;
+
+        &:active, &:focus {
+            outline: none;
+            box-shadow: none;
+            border-bottom: 1px solid @gray-darkest;
+        }
+    }
+
+    .new-post-settings {
+
     }
 }
+
+
+/*
+ *  Errors
+ */
+
+.has-error {
+    position: relative;
+    overflow: hidden;
+
+    input {
+        border-color:@red;
+    }
+
+    .help-block {
+        &::before, &::after {
+            background-color: @red;
+        }
+    }
+
+
+}
+
+
+.hidden {
+    display:none;
+}
+
+/* ================================================================== *\
+   Icon Buttons
+\* ================================================================== */
 
 
 button.useicons:hover {
@@ -166,15 +226,4 @@ button.useicons {
   border: 0px;
 
 }
-
-  
-
-.editable {
-    white-space: pre-wrap;
-}
-
-
-/* ================================================================== *\
-   ???
-\* ================================================================== */
 
