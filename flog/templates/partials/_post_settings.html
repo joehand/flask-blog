@@ -1,12 +1,34 @@
-<div class="overlay hidden">
-    <div class="inner">
-        <div>Kind:
-            <select id="kind" class="select" name="kind" data-select="kind"><option value="static" {% if post.kind == 'static' %}selected="selected"{% endif %}>Static</option><option value="article" {% if post.kind == 'article' %}selected="selected"{% endif %}>Article</option><option value="link" {% if post.kind == 'link' %}selected="selected"{% endif %}>Link</option></select></div>
-        <div>Slug: <span class="editable" contenteditable="true" data-field="slug">{{post.slug}}</span></div>
-        <div>Published: <select id="published" class="select" name="published" data-select="published"><option value="False">False</option><option value="True" {% if post.published %}selected="selected"{% endif %}>True</option></select></div>
+<div class="settings hidden">
+    <form>
+        <div>
+            <span class="small-caps">Slug:</span>
+            <span class="editable" contenteditable="true" data-field="slug">{{post.slug}}</span>
+        </div>
+        <div>
+            <span class="small-caps">Kind:</span>
+            {% for option in g.POST_TYPES -%}
+                <label><input type="radio" {% if post.kind == option[0] %}checked="checked"{% endif %} name="kind" value="{{option[0]}}"/>{{option[1]}}</label>
+            {%- endfor %}
+        </div>
         {%- if post.pub_date %}
-        <div>Pub Date: <span class="editable" contenteditable="true" data-field="pub_date">{{post.pub_date.strftime('%d %b %Y')}}</span></div>
+        <div>
+            <span class="small-caps">Published Date:</span> <span class="editable" contenteditable="true" data-field="pub_date">{{post.pub_date.strftime('%d %b %Y')}}</span>
+        </div>
         {% endif %}
-        <div><a href="#" class="delete">delete me!</a></div>
-    </div>
+        {%- if post.category %}
+        <div>
+            <span class="small-caps">Category:</span>
+            <span class="editable category" contenteditable="true" data-field="category">{{post.category}}</span>
+        </div>
+        {% endif %}
+        {%- if post.link_url %}
+        <div>
+            <span class="small-caps">Link URL:</span>
+            <span class="editable link_url" contenteditable="true" data-field="link_url">{{post.link_url}}</span>
+        </div>
+        {% endif %}
+        <div>
+            <button class="publish button">{% if post.published %}Unpublish{% else %}Publish{% endif %}</button><button class="delete useicons">&#xe62d;</button>
+        </div>
+    </form>
 </div>

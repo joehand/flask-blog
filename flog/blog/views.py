@@ -15,10 +15,10 @@ class PostView(FlaskView):
 
     def before_request(self, name, *args, **kwargs):
         if current_user.has_role('admin'):
-            g.pages = Post.objects(kind__in=['static'])
+            g.pages = Post.objects(kind__in=['page'])
             g.posts = Post.objects(kind__in=['note', 'article'])
         else:
-            g.pages = Post.objects(kind__in=['static'], published=True)
+            g.pages = Post.objects(kind__in=['page'], published=True)
             g.posts = Post.objects(kind__in=['note', 'article'], published=True)
 
     def index(self):
@@ -40,7 +40,7 @@ class PostView(FlaskView):
     def get(self, slug):
         """ View for a single post"""
         post = Post.objects(slug=slug).first_or_404()
-        if not 'archive' in request.url and post.kind != 'static':
+        if not 'archive' in request.url and post.kind != 'page':
             return redirect(url_for('.post', slug=slug))
 
         posts = Post.objects()

@@ -16,10 +16,12 @@
         <meta name="description" content="{% block description %}{% endblock description %}">
 
         <!-- Styles -->
-        {%- assets filter="less", output="main.min.css",
+        {%- block css %}
+        {%- assets filters="less", output="main.min.css",
           "css/main.less" %}
         <link rel="stylesheet" href="{{ ASSET_URL }}">
         {% endassets -%}
+        {% endblock %}
 
         <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
         <script>
@@ -29,8 +31,6 @@
             }
           });
         </script>
-
-        {%- block additional_css %}{% endblock %}
 
         <!-- Modernizr -->
         <script src="{{url_for('static', filename='js/libs/modernizr-2.7.1.min.js')}}"></script>
@@ -42,6 +42,9 @@
 
         <div role="document" class="document">
         {%- block siteheader %}
+            {%- if current_user.has_role('admin') -%}
+            <a class="admin-link small-caps useicons" href="{{url_for('admin.PostAdmin:index')}}">&#xe600;</a>
+            {%- endif -%}
             <div class="site-head wrapper cf">
                     <header role="banner" class="banner medium-float-left">
                         <h1 class="name small-caps"><a class="" href="{{url_for('blog.PostView:index')}}">Joe Hand</a></h1>

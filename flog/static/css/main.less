@@ -102,6 +102,7 @@
 
 .page-content {
     margin:0 auto;
+    position: relative;
     max-width:620px;
 }
 
@@ -202,11 +203,8 @@
             }
         }
 
-
-        
     }
 }
-
 
 /* Medium-sized breakpoint 600px */
 @media only screen and (min-width: @grid-breakpoint-medium) {
@@ -217,6 +215,27 @@
 
 }
 
+.useicons {
+    -webkit-font-smoothing: antialiased;
+    font-family: 'icomoon' !important;
+    text-decoration: none;
+    color:inherit;
+}
+
+.admin-link {
+    position:fixed;
+    top:0;
+    left:0px;
+    width:35px;
+    height:35px;
+    line-height:35px;
+    background:@gray-darkest;
+    color:@white;
+    border-radius: 0 0 3px;
+    font-size:1rem;
+    text-align: center;
+}
 
 @import 'libs/ss-social.less';                 // SS Social Icons
+@import 'libs/icomoon.less';                   // Other Icons 
 @import 'libs/cardinal/print.less';            // Inlined, barebones print stylesf

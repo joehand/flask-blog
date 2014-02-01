@@ -27,20 +27,17 @@ define([
         },
 
         events: {
-            'click .settings'    : '_toggleOverlay',   
-            'click .overlay'     : '_toggleOverlay',
+            'click .settings-toggle'    : '_toggleOverlay', 
             'click .delete'      : '_deletePost',
             'change .select'     : '_saveSelect',
         },
 
         _toggleOverlay: function(e) {
-            e.preventDefault();
-
-            var $targ = $(e.currentTarget);
-            if ($targ.hasClass('settings')) {
-                this.$el.find('.overlay').toggleClass('hidden');
-            } else if ($targ.hasClass('overlay') && e.target == e.currentTarget)  {
-                this.$el.find('.overlay').toggleClass('hidden');
+            if(!$(e.target).closest('a').length){
+                e.preventDefault();
+                this.$el.find('.settings').slideToggle( '1500', "linear", function() {
+                    $(this).toggleClass('hidden');
+                });
             }
         },
 

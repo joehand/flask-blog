@@ -5,6 +5,7 @@ from flask.ext.security import current_user, login_required, roles_required
 from flask.ext.classy import FlaskView, route
 
 from ..blog import Post, Article, Note, PostForm
+from ..blog import POST_TYPES
 
 import json
 import sys
@@ -15,12 +16,14 @@ admin = Blueprint('admin', __name__, url_prefix='/admin')
 class PostAdmin(FlaskView):
     """ Post Admin View """
 
-    route_base = '/'
+    route_base = '/' 
     decorators = [roles_required('admin')]
 
     def before_request(self, name, *args , **kwargs):
-        g.pages = Post.objects(kind__in=['static'])
+        g.all_pages = Post.objects()
+        g.pages = Post.objects(kind__in=['page'])
         g.posts = Post.objects(kind__in=['note', 'article'])
+        g.POST_TYPES = POST_TYPES
 
     @route('/')
     def index(self):
@@ -40,12 +43,12 @@ class PostAdmin(FlaskView):
             print 'posting'
             title = form.title.data.strip()
             kind = form.kind.data
-            if kind == 'article':
-                post = Article(title=title, user_ref=current_user.id, kind=kind)
+            if kind == 'static':
+                post = Post(title=title, user_ref=current_user.id, kind=kind)
             elif kind == 'note':
                 post = Note(title=title, user_ref=current_user.id, kind=kind)
             else:
-                post = Post(title=title, user_ref=current_user.id, kind=kind)
+                post = Article(title=title, user_ref=current_user.id, kind='article')
             post.save()
             slug = post.slug
             return redirect(url_for('admin.post', slug=slug))

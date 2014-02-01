@@ -1,0 +1,162 @@
+@import 'main.less';         // Get all the main css stuff
+
+/* ================================================================== *\
+   Adjustments from Main Stylesheet
+\* ================================================================== */
+
+.main {
+    margin-top:2rem;
+}
+
+/* ================================================================== *\
+   Main Post Dashboard
+\* ================================================================== */
+
+.post-partial {
+    border-left: @blockquote-border-width/2 solid @gray-lighter;
+    margin:0 -(@base-rem-unit + @blockquote-border-width/2);
+    margin-bottom: @base-rem-unit * 1.5;
+
+    .settings-toggle {
+        padding: @base-rem-unit @base-rem-unit;
+        transition: background-color 500ms ease-in;
+
+        &:hover {
+            cursor: pointer;
+            background-color: @gray-lighter;
+        }
+    }
+
+    &.published {
+        border-color:green;
+    }
+
+    .title {
+        text-decoration: none;
+        line-height: 2rem;
+        margin:0;
+    }
+
+    .kind {
+        margin:0;
+        font-size:0.8rem;
+        line-height: 2rem;
+        font-weight:300;
+        color:@gray;
+    }
+
+    transition: background-color 500ms ease-in;
+    background-color: @white;
+    
+    &:hover {
+        background-color: @gray-lightest;
+    }
+}
+
+/*
+ *  Post Settings
+ */
+
+.settings {
+    padding: @base-rem-unit @base-rem-unit;
+    display:block;
+
+    * {
+        opacity:1;
+        transition: opacity 100ms ease-out;
+    }
+
+    &.hidden {
+        display:none;
+
+        * {
+            opacity:0;
+        }
+    }
+
+    .button {
+        margin-right:5px;
+    }
+}
+
+
+/*
+ *  Post Filter
+ */
+
+.post-filter {
+    text-align: center;
+    margin:0 -(@base-rem-unit + @blockquote-border-width/2);
+    margin-bottom: @base-rem-unit * 1.5;
+
+    .button {
+        border-right:1px solid @gray-dark;
+    }
+
+    .button:last-child {
+        border-right:none;
+    }
+
+    .count {
+        position: absolute;
+        width:100%;
+        line-height:26px;
+        margin-top:4px;
+        z-index:-1;
+    }
+}
+
+/*
+ *  New Post Input Box
+ */
+
+input.new-post {
+    margin-bottom:2rem;
+    font-size:1.5rem;
+    line-height: 1.5;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 1px;
+    border-bottom: 1px dotted @gray-darkest;
+    transition: all .3s ease-out;
+
+    &:active, &:focus {
+        outline: none;
+        box-shadow: none;
+        border-bottom: 1px solid @gray-darkest;
+    }
+}
+
+
+button.useicons:hover {
+  opacity: 1;
+}
+
+button.useicons {
+  transition: opacity 400ms;
+
+  font-family: inherit;
+  background: none;
+  cursor: pointer;
+  font-size: 25px;
+  color: @gray-darkest;
+  opacity: 0.5;
+  padding: 0px;
+  height: 32px;
+  width: 25px;
+  border: 0px;
+
+}
+
+  
+
+.editable {
+    white-space: pre-wrap;
+}
+
+
+/* ================================================================== *\
+   ???
+\* ================================================================== */
+

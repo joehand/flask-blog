@@ -8,9 +8,9 @@ import json
 
 ILLEGAL_SLUGS = ['admin', 'notes', 'archives']
 
-POST_TYPES = (('static','Static'),
-              ('article','Article'), 
-              ('note','Note'))
+POST_TYPES = (('article','Article'),
+              ('note','Note'), 
+              ('page','Page'))
 
 class Post(db.Document):
     user_ref = db.ReferenceField(User)
@@ -24,7 +24,7 @@ class Post(db.Document):
 
     meta = {
             'allow_inheritance': True, 
-            'ordering': ['-pub_date', '-last_update']
+            'ordering': ['-last_update','-pub_date']
             }
 
     def to_dict(self):
@@ -54,6 +54,7 @@ class Post(db.Document):
 
 class Article(Post):
     category = db.StringField()
+    subtitle = db.StringField()
 
 class Note(Post):
     link_url = db.StringField()

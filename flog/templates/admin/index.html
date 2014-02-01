@@ -1,36 +1,38 @@
-{% extends "admin/_adminbase.html" %}
+{% extends "admin/_admin_base.html" %}
 {% import "macros/_wtf.html" as wtf %}
 
 {% block title %}Admin Area Place{% endblock title %}
 
 {% block content %}
-            {%- if current_user %}
-            <p>{{current_user.email}}</p>
-            {% endif -%}
-
             <form class="form" method="post" action="{{request.url}}">
                 {{ form.hidden_tag() }}
-                {{ wtf.regular_field(form.title, autofocus=autofocus) }}
-                {{ form.kind }}
+                {{ wtf.regular_field(form.title, class="new-post", placeholder='New Post') }}
             </form>
+            <div class="post-filter cf">
+                <div class="published float-left">
+                    <button class="small-caps button button-mini">published</button><button class="small-caps button button-mini">draft</button>
+                </div>
+                <div class="count small-caps">
+                    140 posts
+                </div>
+                <div class="kind float-right">
+                {% for option in g.POST_TYPES -%}
+                <button class="small-caps button button-mini">{{option[0]}}</button>
+                {%- endfor %}
+            </div>
+            </div>
 
-            {%- for post in g.posts %}
-            <article class="post-partial {% if post.published %}published{% endif %}" data-id="{{post.id}}" data-published="{{post.published|lower}}" data-kind="{{post.kind}}">
-                <h3 class="editable title" contenteditable="true" data-field="title">{{post.title}}</h3>
-                <div><a href="{{url_for('admin.post', slug=post.slug)}}">open</a></div>
-                <div><a href="#" class="settings">settings</a></div>
-                {% include "partials/_post_settings.html" %}
-            </article>
-            {% endfor -%}
-
-            {%- for post in g.pages %}
-            <article class="post-partial {% if post.published %}published{% endif %}" data-id="{{post.id}}" data-published="{{post.published|lower}}" data-kind="{{post.kind}}">
-                <h3 class="editable title" contenteditable="true" data-field="title">{{post.title}}</h3>
-                <div><a href="{{url_for('admin.post', slug=post.slug)}}">open</a></div>
-                <div><a href="#" class="settings">settings</a></div>
-                {% include "partials/_post_settings.html" %}
-            </article>
-            {% endfor -%}
+            <div class="post-list">
+                {%- for post in g.all_pages %}
+                <article class="post-partial {% if post.published %}published{% endif %} {{post.kind}}" data-id="{{post.id}}" data-published="{{post.published|lower}}" data-kind="{{post.kind}}">
+                    <div class="cf settings-toggle">
+                        <a class="h3 float-left title" data-field="title" href="{{url_for('admin.post', slug=post.slug)}}">{{post.title}}</a>
+                        <span class="float-right kind small-caps">{{post.kind}}</span>
+                    </div>
+                    {% include "partials/_post_settings.html" %}
+                </article>
+                {% endfor -%}
+            </div>
 
 {% endblock %}
 

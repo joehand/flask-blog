@@ -1,13 +1,10 @@
 {% extends "_base.html" %}
-
-    {% block additional_css %}
-    {% if current_user.has_role('admin') -%}
-            <!-- CSS -->
-            <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-            <link href="{{url_for('static', filename='css/zenpen/style.css')}}" rel="stylesheet">
-            <link href="{{url_for('static', filename='css/zenpen/fonts.css')}}" rel="stylesheet">
-            <link href="{{url_for('static', filename='css/admin.css')}}" rel="stylesheet">
-    {% endif %}
+    <!-- Styles -->
+    {%- block css %}
+    {%- assets filters="less", output="admin.min.css",
+      "css/admin.less" %}
+        <link rel="stylesheet" href="{{ ASSET_URL }}">
+    {% endassets -%}
     {% endblock %}
 
     {%- block footer_js %}

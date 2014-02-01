@@ -11,4 +11,5 @@ class PostForm(Form):
                        validators=[required()])
     slug = TextField('Slug', description='',
                        validators=[optional()])
-    kind = SelectField('Kind', choices=POST_TYPES)
+    kind = SelectField('Kind', choices=POST_TYPES,
+                       validators=[optional()])
