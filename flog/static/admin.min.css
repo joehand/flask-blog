@@ -2265,6 +2265,7 @@ a.ss-icon.instagram:hover {
   border-left: 0.1875rem solid #efefef;
   margin: 0 -1.3375rem;
   margin-bottom: 1.7249999999999999rem;
+  position: relative;
   transition: background-color 500ms ease-in;
   background-color: #ffffff;
 }
@@ -2291,6 +2292,11 @@ a.ss-icon.instagram:hover {
   line-height: 2.25rem;
   font-weight: 300;
   color: #cccccc;
+}
+.post-partial .pub-date {
+  font-size: 0.8rem;
+  font-weight: 300;
+  margin-top: 0.25rem;
 }
 .post-partial:hover {
   background-color: #f8f8f8;

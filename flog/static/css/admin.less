@@ -16,6 +16,7 @@
     border-left: @blockquote-border-width/2 solid @gray-lighter;
     margin:0 -(@base-rem-unit + @blockquote-border-width/2);
     margin-bottom: @base-rem-unit * 1.5;
+    position: relative;
 
     .settings-toggle {
         padding: @base-rem-unit @base-rem-unit;
@@ -44,6 +45,12 @@
         line-height: 2.25rem;
         font-weight:300;
         color:@gray;
+    }
+
+    .pub-date {
+        font-size:0.8rem;
+        font-weight:300;
+        margin-top:0.25rem;
     }
 
     transition: background-color 500ms ease-in;

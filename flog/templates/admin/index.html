@@ -25,10 +25,17 @@
             <div class="post-list">
                 {%- for post in g.all_pages %}
                 <article class="post-partial {% if post.published %}published{% endif %} {{post.kind}} hidden" data-id="{{post.id}}" data-published="{{post.published|lower}}" data-kind="{{post.kind}}">
-                    <div class="cf settings-toggle">
-                        <a class="h3 float-left title" data-field="title" href="{{url_for('admin.post', slug=post.slug)}}">{{post.title}}</a>
-                        <span class="float-right kind small-caps">{{post.kind}}</span>
-                    </div>
+                    <div class="settings-toggle">
+                        <div class="cf">
+                            <a class="h3 float-left title" data-field="title" href="{{url_for('admin.post', slug=post.slug)}}">{{post.title}}</a>
+                            <span class="float-right kind small-caps">{{post.kind}}</span>
+                        </div>   
+                        {% if post.pub_date %}
+                        <div class="pub-date small-caps">
+                            <span>{{post.pub_date.strftime('%d %b %Y')}}</span>
+                        </div>
+                        {%- endif %}
+                    </div>   
                     {% include "partials/_post_settings.html" %}
                 </article>
                 {% endfor -%}
