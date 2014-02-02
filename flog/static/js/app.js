@@ -5,7 +5,7 @@ requirejs.config({
         'backbone'           : 'libs/backbone',
         'backboneStick'      : 'libs/backbone.stickit',
         'backboneDual'       : 'libs/backbone.dualstorage.amd',
-        'marked'             : 'libs/marked'
+        'medium'             : 'libs/medium'
     },
     shim: {
         backbone: {
@@ -21,8 +21,8 @@ requirejs.config({
         underscore: {
             exports: '_'
         },
-        marked: {
-            exports: 'marked'
+        medium: {
+            exports: 'Medium'
         },
     }
 });

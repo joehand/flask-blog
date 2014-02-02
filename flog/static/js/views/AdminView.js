@@ -15,9 +15,7 @@ define([
     var DEFAULT_FILTER = {
             'kind' : ['article', 'note'],
             'published' : [false]
-        },
-        RADIO_CHECK = '&#xe628;',
-        RADIO_EMPTY = '&#xe627;';
+        };
 
     var formactive;
 
@@ -25,33 +23,10 @@ define([
 
         events: {
             'click .post-filter'            : '_filterPosts',
-            'focusin .title-input input'    : '_showPostSettings',
-            'click .radio-button'           : '_toggleRadio',
+            'focusin .title-input input'    : '_showNewPostSettings',
         },
 
-        _toggleRadio: function(e) {
-            var $targ = $(e.currentTarget);
-
-            if (!$targ.hasClass('active')) {
-                $targ.parent().find('.radio-button.active')
-                    .removeClass('active')
-                    .find('.useicons')
-                    .html(RADIO_EMPTY)
-                    .parent()
-                    .find('input')
-                    .attr("checked", false);
-
-                $targ.addClass('active')
-                    .find('input')
-                    .attr("checked", "checked")
-                    .trigger("change") // needed to fire model update from stickit
-                    .parent()
-                    .find('.useicons')
-                    .html(RADIO_CHECK);
-            }
-        },
-
-        _showPostSettings: function(e) {
+        _showNewPostSettings: function(e) {
             this.$el.find('.new-post-settings').slideDown().removeClass('hidden');
         },
 
@@ -108,7 +83,6 @@ define([
         },
 
         render: function() {
-            console.log('Admin View rendered');
             console.log(this);
             return this;
         },

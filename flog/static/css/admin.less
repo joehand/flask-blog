@@ -9,9 +9,12 @@
 }
 
 /* ================================================================== *\
-   Main Post Dashboard
+   Main Post Dashboard!
 \* ================================================================== */
 
+/*
+ *  Single Partial Post listing w/ settings
+ */
 .post-partial {
     border-left: @blockquote-border-width/2 solid @gray-dark;
     margin:0 -(@base-rem-unit + @blockquote-border-width/2);
@@ -70,7 +73,7 @@
 }
 
 /*
- *f  Post Settings
+ *  Post Settings
  */
 
 .settings {
@@ -173,6 +176,14 @@
 }
 
 
+/* ================================================================== *\
+   Post Editing Page
+\* ================================================================== */
+
+.content {
+    min-height:300px;
+}
+
 
 /* ================================================================== *\
    Form Elements
@@ -269,37 +280,41 @@
             background-color: @red;
         }
     }
+}
 
 
+/* ================================================================== *\
+   Admin Navigation
+\* ================================================================== */
+
+.admin-nav {
+
+    .save-button {
+     
+    }
+
+}
+
+/* ================================================================== *\
+   General UI
+\* ================================================================== */
+
+.saving {
+//added to document when done saving
+
+    border-top-color:@green;
+    border-buttom-color:@green;
+
+    .save-button {
+        color:@green;
+    }
+}
+
+.no-save-hint {
+    position:absolute;
 }
 
 
 .hidden {
     display:none;
 }
-
-/* ================================================================== *\
-   Icon Buttons
-\* ================================================================== */
-
-
-button.useicons:hover {
-  opacity: 1;
-}
-
-button.useicons {
-  transition: opacity 400ms;
-
-  font-family: inherit;
-  background: none;
-  cursor: pointer;
-  font-size: 25px;
-  color: @gray-darkest;
-  opacity: 0.5;
-  padding: 0px;
-  height: 32px;
-  width: 25px;
-  border: 0px;
-
-}
-

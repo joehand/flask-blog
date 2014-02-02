@@ -4,6 +4,15 @@
     {%- block siteheader -%} 
     {%- endblock -%} 
 
+    {%- block adminnav %}
+        {%- if current_user.has_role('admin') -%}
+        <div class="admin-nav">
+            <a class="useicons" href="{{url_for('admin.PostAdmin:index')}}">&#xe600;</a>
+            <a class="save-button useicons" href="#">&#xe60c;</a>
+        </div>
+        {%- endif -%}
+    {%- endblock adminnav %}
+
     {%- block footer %}
     {%- endblock -%} 
 

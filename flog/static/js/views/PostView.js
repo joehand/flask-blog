@@ -11,13 +11,12 @@ define([
     'utils',
 ], function (Backbone, _, $, Utils) {
 
-    var SAVE_DELAY = 2000;  //delay after typing is over until we try to save
-
-    var saveTimeout;
+    var DELETE_CONFIRM_MESSAGE = '<span class="useicons">&#xe623;</span> Are You Sure?';
 
     var PostView = Backbone.View.extend({
 
         bindings: {
+            '.editable.title'            : 'title',
             'a.title'                    : 'title',
             'input.title'                : 'title',
             'input.slug'                 : 'slug',
@@ -34,22 +33,30 @@ define([
                 observe: 'pub_date',
                 updateView: false,
             },
-            '.content' : {
+            /*'.content' : {
                 observe: 'content',
                 updateMethod: 'html',
-                onSet: 'processContent',
-            },
+                //onSet: 'processContent',
+            },*/
         },
 
         events: {
-            'click .settings-toggle'    : '_toggleOverlay', 
+            'click .settings-toggle'    : '_togglePostSettings', 
             'click .delete-button'      : '_deletePost', 
-            'click .confirm-button'      : '_deletePost',
-            'change .select'            : '_saveSelect',
-            'click .publish-button'     : '_togglePublished',
+            'click .confirm-button'     : '_deletePost',
+            'click .publish-button'     : '_togglePostPublished',
         },
 
-        _togglePublished: function(e) {
+        _togglePostSettings: function(e) {
+            if(!$(e.target).closest('a').length){
+                e.preventDefault();
+                this.$el.find('.settings').slideToggle( '1500', 'linear', function() {
+                    $(this).toggleClass('hidden');
+                });
+            }
+        },
+
+        _togglePostPublished: function(e) {
             var $targ = $(e.currentTarget),
                 published = this.model.get('published');
             
@@ -62,15 +69,6 @@ define([
             this.model.set('published', !published);
             $targ.toggleClass('published');
             this.$el.toggleClass('published');
-        },
-
-        _toggleOverlay: function(e) {
-            if(!$(e.target).closest('a').length){
-                e.preventDefault();
-                this.$el.find('.settings').slideToggle( '1500', 'linear', function() {
-                    $(this).toggleClass('hidden');
-                });
-            }
         },
 
         _deletePost: function(e) {
@@ -99,27 +97,19 @@ define([
                   });
             } else {
                 $targ
-                     .html('<span class="useicons">&#xe623;</span> Are You Sure? <br/>')
+                     .html(SAVE_CONFIRM_MESSAGE + ' <br/>')
                      .append('<div class="button button-mini confirm-button confirm">Delete</div>')
                      .append('<div class="button button-mini confirm-button no">Keep</div>');
             }
-
-        },
-
-        _saveSelect: function(e) {
-            var val = $(e.currentTarget).val(),
-                field = $(e.currentTarget).data('select');
-
-            this.model.set(field, val);
         },
 
         initialize: function(opts) {
-            this.model.on('change:title change:category \
+            this.listenTo(this.model, 'change:title change:category \
                             change:link_url change:pub_date  change:slug \
-                            change:published change:kind', this.checkSave, this);
+                            change:published change:kind', this.model.checkSave);
 
             if (this.$el.hasClass('post-full')) {
-                this.model.on('change:content', this.checkSave, this);
+                this.listenTo(this.model, 'change:content', this.model.checkSave);
             }
 
             this.stickit();
@@ -139,36 +129,7 @@ define([
                 this.$el.slideUp().addClass('hidden');
                 return false;
             }
-        },
-
-        processContent: function(content) {
-            content = Utils.extractEditableText(content)
-            return content.trim();
-        },
-
-        checkSave: function() {
-            var self = this;
-
-            console.log('checking save');
-            console.log(this.model.changed);
-
-            if(saveTimeout) {
-                clearTimeout(saveTimeout);
-                saveTimeout = null;
-            }
-
-            saveTimeout = setTimeout(
-                function() {
-                    self.model.save(null, {
-                        wait:true,
-                        success: function(model, rsp) {
-                            /* TODO: This is too general. Do I want to send html over wire?
-                            self.render();*/
-                        }
-                    });
-            }, SAVE_DELAY)                
         }
-       
     });
 
     return PostView;

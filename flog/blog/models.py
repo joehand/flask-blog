@@ -50,12 +50,13 @@ class Post(db.Document):
         if self.slug in ILLEGAL_SLUGS:
             self.slug = self.slug + '1' #todo: make this more robust
 
-        # Ensures that published essays have a `pub_date`
-        if self.published and self.pub_date is None:
+        # Add last update timestamp
+        self.last_update = datetime.now()
+
+        if self.pub_date is None:
+        # Ensures that everything has a `pub_date`
             self.pub_date = datetime.now().strftime('%Y-%m-%d')
 
-        #Add last update timestamp
-        self.last_update = datetime.now()
 
     def validate_json(self, inputJSON):
         for key, val in inputJSON.items():

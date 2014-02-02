@@ -8,8 +8,9 @@ define([
     'backbone',
     'underscore',
     'jquery',
+    //'medium',
     'views/PostView',
-    'models/PostModel'
+    'models/PostModel',
 ], function (Backbone, _, $, PostView, PostModel) {
 
 
@@ -21,6 +22,7 @@ define([
 
         initialize: function(options) {
             this.initPosts();
+            //this.initMedium();
             this.render();
         },
 
@@ -34,6 +36,23 @@ define([
 
                 this.childViews.push(postView);
             }, this);
+        },
+
+        initMedium: function() {
+            new Medium({
+                element: document.getElementById('content-editor'),
+                debug: true,
+                placeholder: "Start Writing!!",
+                autofocus: true,
+                mode: 'rich', 
+            });
+            /*
+            new Medium({
+                element: document.getElementById('title-editor'),
+                debug: true,
+                mode: 'inline', 
+                placeholder: "Enter A Title...",
+            });*/
         },
 
         render: function() {

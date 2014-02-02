@@ -42,9 +42,11 @@
     </head>
     <body class="{% block body_class %}{% endblock %}">
         <div role="document" class="document">
+        {%- block adminnav -%}
             {%- if current_user.has_role('admin') -%}
             <a class="admin-link small-caps useicons" href="{{url_for('admin.PostAdmin:index')}}">&#xe600;</a>
             {%- endif -%}
+        {%- endblock adminnav %}
         {%- block siteheader %}
             <div class="site-head wrapper cf">
                     <header role="banner" class="banner medium-float-left">
