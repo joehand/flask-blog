@@ -17,7 +17,7 @@
 
         <!-- Styles -->
         {%- block css %}
-        {%- assets filters="less", output="main.min.css",
+        {%- assets filters="less,cssutils", output="build/main.min.css",
           "css/main.less" %}
         <link rel="stylesheet" href="{{ ASSET_URL }}">
         {% endassets -%}
@@ -31,9 +31,6 @@
             }
           });
         </script>
-
-        <!-- Modernizr -->
-        <script src="{{url_for('static', filename='js/libs/modernizr-2.7.1.min.js')}}"></script>
     </head>
     <body class="{% block body_class %}{% endblock %}">
         <!--[if lt IE 8]>

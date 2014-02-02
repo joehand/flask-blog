@@ -6,6 +6,8 @@ from flog import create_app
 from flog.extensions import db
 from flog.user import User, Role
 
+import os
+
 app = create_app()
 manager = Manager(app)
 
@@ -20,6 +22,16 @@ def initdb():
     user = user_datastore.create_user(email='joe.a.hand@gmail.com', password='password')
 
     user_datastore.add_role_to_user(user, admin)
+
+@manager.command
+def build_js():
+    """ Builds the js for production
+        TODO: Build css here too. 
+    """
+    jsfile = 'app.min.js'
+    os.system('cd flog/static/js && node libs/r.js -o app.build.js out=../build/%s'%jsfile)
+    os.system('cd flog/static/js && cp libs/require.js ../build/')
+    jsfile = 'flog/static/js/' + jsfile
 
 def shell_context():
     return dict(app=app)

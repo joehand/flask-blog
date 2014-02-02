@@ -8,6 +8,8 @@ define([
     'backbone',
     'underscore',
     'jquery',
+    'views/AdminView', //need these here to get included in build. another way to do this?
+    'views/PageView',
 ], function (Backbone, _, $) {
     var SAVE_ICON_HIGHLIGHT = 3000, //time to highlight the save icon after saving 
         WINDOW_CLOSE_MESSAGE = "========================= \

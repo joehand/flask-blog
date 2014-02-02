@@ -1,7 +1,7 @@
 {% extends "_base.html" %}
     <!-- Styles -->
     {%- block css %}
-    {%- assets filters="less", output="admin.min.css",
+    {%- assets filters="less, cssutils", output="build/admin.min.css",
       "css/admin.less" %}
         <link rel="stylesheet" href="{{ ASSET_URL }}">
     {% endassets -%}
