@@ -1,7 +1,6 @@
 {% import "macros/_wtf.html" as wtf %}
 
-{% set form = post.form %}
-
+{%- set form = post.form -%}
 <form class="settings hidden post-form">
     {{ form.hidden_tag() }}
     <fieldset class="">
@@ -22,7 +21,7 @@
                 {%- else %}
                 {{ wtf.regular_field(form.link_url, class="link_url", placeholder='Enter a Link') }}
                 {%- endif %}
-            {%- endif %}
+            {%- endif -%}
 
             {%- if post.pub_date %}
             {{ wtf.regular_field(form.pub_date, class="pub_date", value=post.pub_date.strftime('%Y-%m-%d')) }}

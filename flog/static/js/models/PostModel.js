@@ -10,7 +10,7 @@ define([
 ], function (Backbone, _) {
 
     var Post = Backbone.Model.extend({
-        initialize: function(opt) {
+        initialize: function(opts) {
             this.url = this.collection.url + this.id;
         },
         isInFilter: function(filter) {
@@ -32,7 +32,9 @@ define([
 
     var Posts = Backbone.Collection.extend({
         model : Post,
-        url : postURL,
+        initialize: function(models, opts) {
+            this.url = opts.url;
+        },
     });
 
     return Posts;

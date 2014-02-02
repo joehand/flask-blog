@@ -1,5 +1,4 @@
-{% import "macros/_wtf.html" as wtf %}
-
+{% import "macros/_wtf.html" as wtf -%}
         <form class="form new-post post-form" method="post" action="{{request.url}}">
                 {{ newForm.hidden_tag() }}
                 <div class="title-input">
@@ -9,11 +8,10 @@
             <legend class="small-caps">New Post Settings</legend>
                 {{ wtf.no_label_field(newForm.category, class="category", placeholder='Category or Link') }}
                 <div class="radio-group kind cf float-left">
-                    {%- for subfield in newForm.kind %}
+                    {%- for subfield in newForm.kind -%}
                     {{ wtf.radio_buttons(subfield, class="kind") }}
-                    {% endfor -%}
+                    {%- endfor -%}
                 </div>
                 <button type="submit" class="float-right button button-primary">Submit</button>
             </fieldset>
-
         </form>

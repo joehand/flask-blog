@@ -1,39 +1,45 @@
 {% extends "_base.html" %}
-    <!-- Styles -->
-    {%- block css %}
-    {%- assets filters="less, cssutils", output="build/admin.min.css",
-      "css/admin.less" %}
-        <link rel="stylesheet" href="{{ ASSET_URL }}">
-    {% endassets -%}
-    {% endblock %}
+{% set css_name = 'admin' %}
 
-    {% block siteheader %} 
-    {% endblock %} 
+    {%- block siteheader -%} 
+    {%- endblock -%} 
 
     {%- block footer %}
-    {% endblock %} 
+    {%- endblock -%} 
 
     {%- block footer_js %}
     {%- if current_user.has_role('admin') %}
         <script>
-            {% if current_user.is_authenticated() -%}
+            {%- if current_user.is_authenticated() -%}
+
             {%- block post_js %}
-            var postsBootstrap = [{% for post in g.posts %}{{post.to_dict()|safe}},{% endfor %}];
-            var pagesBootstrap = [{% for post in g.pages %}{{post.to_dict()|safe}},{% endfor %}];
-            {%- endblock post_js %}
-            var childView = {%- block js_view %}null{%- endblock js_view -%};
-            {%- endif %}
-            var postURL = '{{url_for('admin.PostAdmin:index')}}';
-        </script>
-        <script>
-            {% if current_user.is_authenticated() -%}
-            var currentUser = {
+            var {{ config.PROJECT }} = {}; //namespace everything under here.
+            
+            {{ config.PROJECT }}.postsBootstrap = [
+                {%- for post in g.posts -%}
+                {{post.to_dict()|safe}},
+                {%- endfor -%}
+            ];
+            {{ config.PROJECT }}.pagesBootstrap = [
+                {%- for post in g.pages -%}
+                    {{post.to_dict()|safe}},
+                {%- endfor -%}
+            ];
+            {%- endblock post_js -%}
+
+            {{ config.PROJECT }}.childView = {%- block js_view %}null{%- endblock js_view -%};
+            {%- endif -%}
+
+            {{ config.PROJECT }}.postURL = '{{url_for('admin.PostAdmin:index')}}';
+
+            {%- if current_user.is_authenticated() %}
+            {{ config.PROJECT }}.currentUser = {
                                 'id'     : '{{current_user.id}}',
                                 'roles'  : [{% for role in current_user.roles %}'{{role.name}}'{% endfor %}],
                                 'email'  : '{{current_user.email}}'
                               };
-            {%- else %}
-            var currentUser = false;
+            {%- else -%}
+            {{ config.PROJECT }}.currentUser = false;
             {%- endif %}
         </script>
         <script data-main="{{ url_for('static', filename='js/app')}}" src="{{ url_for('static', filename='js/libs/require.js')}}"></script>

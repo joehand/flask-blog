@@ -16,18 +16,18 @@ define([
     var appView, appModel, postsCol, collection;
 
     appModel = new AppModel({ 
-        'user': currentUser 
+        'user': flog.currentUser 
     });
 
-    collection = _.union(postsBootstrap, pagesBootstrap);
+    collection = _.union(flog.postsBootstrap, flog.pagesBootstrap);
 
-    postsCol = new Posts(collection);
+    postsCol = new Posts(collection, {url:flog.postURL});
 
     appView = new AppView({
         model      : appModel,
         collection : postsCol,
         el         : $('#main').get(0),
-        childView  : childView
+        childView  : flog.childView
     });
     
 });
