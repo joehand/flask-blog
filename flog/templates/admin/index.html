@@ -27,7 +27,7 @@
                         </div>   
                         {%- if post.published %}
                         <div class="pub_date small-caps">
-                            <span>{{post.pub_date.strftime('%d %b %Y')}}</span>
+                            <span>{{post.pub_date|format_date}}</span>
                         </div>
                         {%- endif %}
                     </div>   

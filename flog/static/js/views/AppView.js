@@ -61,6 +61,7 @@ define([
         },
 
         _forceSave: function(e) {
+            e.preventDefault();
             if (this.model.get('contentDirty') === true){
                 this.collection.save();
             } else {

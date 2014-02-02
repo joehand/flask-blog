@@ -9,7 +9,7 @@ from .user import user, User, Role
 from .admin import admin
 from .blog import blog
 
-from .extensions import db, mail, security, assets
+from .extensions import db, mail, security, assets, md
 
 # For import *
 __all__ = ['create_app']
@@ -66,6 +66,9 @@ def configure_extensions(app):
     # Flask assets
     assets.init_app(app)
 
+    # markdown
+    md.init_app(app)
+
     if app.debug:
         from flask.ext.debugtoolbar import DebugToolbarExtension
         toolbar = DebugToolbarExtension(app)
@@ -81,9 +84,8 @@ def configure_blueprints(app, blueprints):
 def configure_template_filters(app):
 
     @app.template_filter()
-    def format_date(value, format='%Y-%m-%d'):
+    def format_date(value, format='%d %b %Y'):
         return value.strftime(format)
-
 
 def configure_logging(app):
     """Configure file(info) and email(error) logging."""

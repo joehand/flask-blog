@@ -38,6 +38,8 @@ define([
             self = _.isUndefined(self) ? this : self;
             forceSave = !_.isUndefined(forceSave);
 
+            console.log(self.changed);
+
             if (forceSave === true) {
                 self.save(null);
                 self.syncPending = false;

@@ -9,6 +9,8 @@
         <div class="admin-nav">
             <a class="useicons" href="{{url_for('admin.PostAdmin:index')}}">&#xe600;</a>
             <a class="save-button useicons" href="#">&#xe60c;</a>
+            <a class="settings-button useicons" href="#">&#xe617;</a>
+            <a class="preview-button useicons" href="#">&#xe63c;</a>
         </div>
         {%- endif -%}
     {%- endblock adminnav %}
@@ -19,8 +21,6 @@
     {%- block footer_js %}
     {%- if current_user.has_role('admin') %}
         <script>
-            {%- if current_user.is_authenticated() -%}
-
             {%- block post_js %}
             var {{ config.PROJECT }} = {}; //namespace everything under here.
             
@@ -37,19 +37,14 @@
             {%- endblock post_js -%}
 
             {{ config.PROJECT }}.childView = {%- block js_view %}null{%- endblock js_view -%};
-            {%- endif -%}
 
             {{ config.PROJECT }}.postURL = '{{url_for('admin.PostAdmin:index')}}';
 
-            {%- if current_user.is_authenticated() %}
             {{ config.PROJECT }}.currentUser = {
                                 'id'     : '{{current_user.id}}',
                                 'roles'  : [{% for role in current_user.roles %}'{{role.name}}'{% endfor %}],
                                 'email'  : '{{current_user.email}}'
                               };
-            {%- else -%}
-            {{ config.PROJECT }}.currentUser = false;
-            {%- endif %}
         </script>
         <script data-main="{{ url_for('static', filename='js/app')}}" src="{{ url_for('static', filename='js/libs/require.js')}}"></script>
     {%- endif -%}

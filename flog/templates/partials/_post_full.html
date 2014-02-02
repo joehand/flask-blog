@@ -3,6 +3,6 @@
                     {{post.title}}
                 </h1>
                 <article class="content" data-field="content">
-                    {% if post.content %}{{post.content|safe}}{% endif %}
+                    {% if post.content %}{{post.content|markdown|safe}}{% endif %}
                 </article>
             </section>

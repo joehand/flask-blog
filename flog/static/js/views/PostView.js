@@ -8,21 +8,23 @@ define([
     'backbone',
     'underscore',
     'jquery',
-    'utils',
-], function (Backbone, _, $, Utils) {
+    'marked'
+], function (Backbone, _, $, marked) {
 
     var DELETE_CONFIRM_MESSAGE = '<span class="useicons">&#xe623;</span> Are You Sure?';
 
     var PostView = Backbone.View.extend({
 
         bindings: {
-            '.editable.title'            : 'title',
+            /* Post List Items */
             'a.title'                    : 'title',
+            'span.kind'                  : 'kind',
+
+            /* Post Setting Items */
             'input.title'                : 'title',
             'input.slug'                 : 'slug',
             'input.link_url'             : 'link_url',
             'input.category'             : 'category',
-            'span.kind'                  : 'kind',
             'input[type=radio].kind '    : {
                 observe: 'kind',
                 updateModel: function(val, e, opts) {
@@ -33,11 +35,14 @@ define([
                 observe: 'pub_date',
                 updateView: false,
             },
-            /*'.content' : {
+
+            /* Single Page Items */
+            '.title.editor'              : 'title',
+            '.content.editor' : {
                 observe: 'content',
-                updateMethod: 'html',
-                //onSet: 'processContent',
-            },*/
+                updateMethod: 'text',
+                updateView: false,
+            },
         },
 
         events: {
@@ -47,9 +52,10 @@ define([
             'click .publish-button'     : '_togglePostPublished',
         },
 
-        _togglePostSettings: function(e) {
-            if(!$(e.target).closest('a').length){
+        _togglePostSettings: function(e, postPage) {
+            if(!$(e.target).closest('a').length || postPage === true){
                 e.preventDefault();
+                console.log('settings');
                 this.$el.find('.settings').slideToggle( '1500', 'linear', function() {
                     $(this).toggleClass('hidden');
                 });
@@ -73,6 +79,7 @@ define([
 
         _deletePost: function(e) {
             var $targ = $(e.target);
+            var self = this;
 
             if ($targ.hasClass('no')) {
                 console.log('here');
@@ -81,42 +88,67 @@ define([
             }
 
             if ($targ.hasClass('confirm')) {
-                this.model.destroy({
+                self.model.destroy({
                     error:  function(model, resp) {
                         console.log(resp);
                     }
                 });
-                this.$el.animate({
+                self.$el.animate({
                     opacity: 0.05,
                     left: "-=2000",
                     height: "0"
                   }, 1000, function() {
                     // Animation complete.
                     $('html, body').animate({scrollTop:0}, 'slow');
-                    this.remove();
+                    self.remove();
+                    self.unbind();
                   });
             } else {
                 $targ
-                     .html(SAVE_CONFIRM_MESSAGE + ' <br/>')
+                     .html(DELETE_CONFIRM_MESSAGE + ' <br/>')
                      .append('<div class="button button-mini confirm-button confirm">Delete</div>')
                      .append('<div class="button button-mini confirm-button no">Keep</div>');
             }
         },
 
         initialize: function(opts) {
+            this.contentPreviewActive = false;
+
             this.listenTo(this.model, 'change:title change:category \
                             change:link_url change:pub_date  change:slug \
                             change:published change:kind', this.model.checkSave);
 
             if (this.$el.hasClass('post-full')) {
                 this.listenTo(this.model, 'change:content', this.model.checkSave);
+                this.listenTo(this.model, 'change:content', this.adjustContentSize);
             }
 
-            this.stickit();
+            this.render();
         },
 
         render: function() {
+            this.adjustContentSize();
+            this.stickit();
             return this;
+        },
+
+        adjustContentSize: function() {
+            $("textarea").height( $("textarea")[0].scrollHeight );
+        },
+
+        toggleContentPreview: function() {
+            if (this.contentPreviewActive === true) {
+                this.$el.find('.content.editor').show()
+                this.$el.find('.content-preview').hide()
+                this.contentPreviewActive = false;
+            } else {
+                var content = marked(this.model.get('content'));
+                this.$el.find('.content.editor').hide()
+                this.$el.find('.content-preview')
+                    .html(marked(content))
+                    .show()
+                this.contentPreviewActive = true;
+            }
         },
 
         checkFilter: function(filter) {

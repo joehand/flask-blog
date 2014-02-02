@@ -9,3 +9,6 @@ mail = Mail()
 
 from flask.ext.assets import Environment
 assets = Environment()
+
+from flask.ext.misaka import Misaka
+md = Misaka()

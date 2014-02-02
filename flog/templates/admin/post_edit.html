@@ -1,13 +1,16 @@
 {% extends "admin/_admin_base.html" %}
 
 {% block content %}      
-        <section class="post-full" data-id="{{post.id}}">
+        <section class="post-edit" data-id="{{post.id}}">
             <header>
-                <h2 class="fuckyou" contenteditable>{{post.title}}</h2>
+                <h2 class="title editor" contenteditable="true">{{post.title}}</h2>
             </header>
             
-            <article id="content-editor" class="content">
-                {% if post.content %}{{post.content}}{% endif %}
+            <article>
+                <textarea class="content editor" placeholder="Start writing..." autofocus>
+                    {%- if post.content -%}{{post.content}}{%- endif -%}
+                </textarea>
+                <div class="content-preview"></div>
             </article>
             
             {% include "partials/_post_settings.html" %}

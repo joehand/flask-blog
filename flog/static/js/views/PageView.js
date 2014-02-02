@@ -8,7 +8,6 @@ define([
     'backbone',
     'underscore',
     'jquery',
-    //'medium',
     'views/PostView',
     'models/PostModel',
 ], function (Backbone, _, $, PostView, PostModel) {
@@ -17,42 +16,38 @@ define([
     var PageView = Backbone.View.extend({
 
         events: {
+            'click .preview-button'  : '_toggleContentPreview',
+            'click .settings-button' : '_togglePostSettings'
+        },
 
+        _togglePostSettings: function(e) {
+            this.$el.toggleClass('settings-active')
+            this.postView._togglePostSettings(e, true);
+        },
+
+        _toggleContentPreview: function(e) {
+            console.log('previewing');
+            e.preventDefault();
+
+            this.$el.toggleClass('content-preview-active')
+            this.postView.toggleContentPreview();
         },
 
         initialize: function(options) {
+            this.model.set('contentPreviewActive', false);
             this.initPosts();
-            //this.initMedium();
             this.render();
         },
 
         initPosts: function() {
-            var postView, el;
-            this.childViews = [];
+            var postView, el, postID;
 
-            _.each(this.collection.models, function(model) {
-                el = $('*[data-id="' + model.id + '"]').get(0);
-                postView = new PostView({model:model,el:el})
-
-                this.childViews.push(postView);
-            }, this);
-        },
-
-        initMedium: function() {
-            new Medium({
-                element: document.getElementById('content-editor'),
-                debug: true,
-                placeholder: "Start Writing!!",
-                autofocus: true,
-                mode: 'rich', 
-            });
-            /*
-            new Medium({
-                element: document.getElementById('title-editor'),
-                debug: true,
-                mode: 'inline', 
-                placeholder: "Enter A Title...",
-            });*/
+            postId = $('.post-edit').data('id');
+            el = $('*[data-id="' + postId + '"]').get(0);
+            model = this.collection.get(postId);
+            if (!_.isUndefined(el)) {
+                this.postView = new PostView({model:model,el:el});
+            }
         },
 
         render: function() {

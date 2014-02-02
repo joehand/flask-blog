@@ -24,7 +24,7 @@
             {%- endif -%}
 
             {%- if post.pub_date %}
-            {{ wtf.regular_field(form.pub_date, class="pub_date", value=post.pub_date.strftime('%Y-%m-%d')) }}
+            {{ wtf.regular_field(form.pub_date, class="pub_date", value=post.pub_date|format_date('%Y-%m-%d')) }}
             {%- else %}
             {{ wtf.regular_field(form.pub_date, class="pub_date") }}
             {%- endif %}
