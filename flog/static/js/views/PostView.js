@@ -43,7 +43,7 @@ define([
 
         events: {
             'click .settings-toggle'    : '_toggleOverlay', 
-            'click .delete'             : '_deletePost',
+            'click .delete-button'      : '_deletePost',
             'change .select'            : '_saveSelect',
             'click .publish-button'     : '_togglePublished',
         },
@@ -73,14 +73,30 @@ define([
         },
 
         _deletePost: function(e) {
-            /* TODO: give a warning first */
-            this.model.destroy({
-                error:  function(model, resp) {
-                    console.log(resp);
-                }
-            });
+            var $targ = $(e.currentTarget);
 
-            this.remove();
+            if ($targ.hasClass('confirm')) {
+                this.model.destroy({
+                    error:  function(model, resp) {
+                        console.log(resp);
+                    }
+                });
+                this.$el.animate({
+                    opacity: 0.05,
+                    left: "-=2000",
+                    height: "0"
+                  }, 1000, function() {
+                    // Animation complete.
+                    $('html, body').animate({scrollTop:0}, 'slow');
+                    this.remove();
+                  });
+            } else {
+                $targ.addClass('confirm')
+                     .html('Are You Sure?!')
+                     .fadeTo('slow', 0.5)
+                     .fadeTo('slow', 1.0);
+            }
+
         },
 
         _saveSelect: function(e) {

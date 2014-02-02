@@ -2351,6 +2351,14 @@ a.ss-icon.instagram:hover {
 .settings .publish-button.published {
   background-color: #34495e;
 }
+.settings .delete-button {
+  position: absolute;
+  background-color: #c0392b;
+  border: none;
+  color: #ffffff;
+  right: 0;
+  margin-top: 1.25rem;
+}
 .settings.hidden * {
   opacity: 0;
 }
