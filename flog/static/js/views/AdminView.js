@@ -87,10 +87,9 @@ define([
             this.model.set('filter', DEFAULT_FILTER);
 
             this.model.on('change:filter', this.checkFilter, this);
-            this.collection.on('remove', this.checkFilter, this);
+            this.collection.on('remove', this.initPosts, this); //could be better about this and just remove one
 
             this.initPosts();
-            this.checkFilter();
             this.render();
         },
 
@@ -104,6 +103,8 @@ define([
 
                 this.childViews.push(postView);
             }, this);
+
+            this.checkFilter();
         },
 
         render: function() {
