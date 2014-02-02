@@ -26,8 +26,8 @@
                             <a class="h3 float-left title" data-field="title" href="{{url_for('admin.post', slug=post.slug)}}">{{post.title}}</a>
                             <span class="float-right kind small-caps {{post.kind}}">{{post.kind}}</span>
                         </div>   
-                        {% if post.pub_date %}
-                        <div class="pub-date small-caps">
+                        {% if post.published %}
+                        <div class="pub_date small-caps">
                             <span>{{post.pub_date.strftime('%d %b %Y')}}</span>
                         </div>
                         {%- endif %}

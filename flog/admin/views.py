@@ -46,11 +46,11 @@ class PostAdmin(FlaskView):
             print 'posting'
             title = form.title.data.strip()
             kind = form.kind.data
-            if kind == 'static':
+            if kind == 'page':
                 post = Post(title=title, user_ref=current_user.id, kind=kind)
             elif kind == 'note':
                 post = Note(title=title, user_ref=current_user.id, kind=kind)
-                link_url = form.link_url.data
+                link_url = form.category.data
                 if link_url:
                     post.link_url = link_url
             else:

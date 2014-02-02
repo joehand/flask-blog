@@ -52,18 +52,17 @@ class Post(db.Document):
 
         # Ensures that published essays have a `pub_date`
         if self.published and self.pub_date is None:
-            self.pub_date = datetime.date.today().strftime('%Y-%m-%d')
+            self.pub_date = datetime.now().strftime('%Y-%m-%d')
 
         #Add last update timestamp
         self.last_update = datetime.now()
 
     def validate_json(self, inputJSON):
-        #TODO: Put this validation elsewhere
         for key, val in inputJSON.items():
             if key not in ACCEPTED_KEYS:
                 continue
             if key == 'content':
-                val = val
+                val = val #may need to clean or do markdown processing
             if key == 'title':
                 val = val.strip()
             if key == 'slug':
@@ -73,16 +72,16 @@ class Post(db.Document):
             if key == 'pub_date' and val != 'None':
                 val = datetime.strptime(val.split(' ')[0], '%Y-%m-%d').date()
             if key == 'published':
-                if val == 'False':
-                    val = False
-                elif val == 'True':
-                    val = True
-            if val and val != 'None':  
+                if isinstance(val, basestring):
+                    if val.lower() == 'false':
+                        val = False
+                    elif val.lower() == 'true':
+                        val = True
+            if val != None and val != 'None':  
                 print key, val
                 self[key] = val
-        self.save()
-        print 'saved'
 
+        self.save()
         return self
 
 class Article(Post):

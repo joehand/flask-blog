@@ -18,18 +18,21 @@ define([
     var PostView = Backbone.View.extend({
 
         bindings: {
-            '.title'                     : 'title',
+            'a.title'                    : 'title',
+            'input.title'                : 'title',
             'input.slug'                 : 'slug',
             'input.link_url'             : 'link_url',
             'input.category'             : 'category',
-            '.kind input[type=radio]'    : 'kind',
+            'span.kind'                  : 'kind',
+            'input[type=radio].kind '    : {
+                observe: 'kind',
+                updateModel: function(val, e, opts) {
+                    return !_.isUndefined(val); //something was being tricky and making undefined
+                }
+            },
             'input.pub_date'             : {
                 observe: 'pub_date',
                 updateView: false,
-                onSet: function(val, options) {
-                    console.log(val);
-                    return val;
-                }
             },
             '.content' : {
                 observe: 'content',
@@ -42,6 +45,22 @@ define([
             'click .settings-toggle'    : '_toggleOverlay', 
             'click .delete'             : '_deletePost',
             'change .select'            : '_saveSelect',
+            'click .publish-button'     : '_togglePublished',
+        },
+
+        _togglePublished: function(e) {
+            var $targ = $(e.currentTarget),
+                published = this.model.get('published');
+            
+            if (!published) {
+                $targ.html('Unpublish');
+            } else {
+                $targ.html('Publish!');
+            }
+
+            this.model.set('published', !published);
+            $targ.toggleClass('published');
+            this.$el.toggleClass('published');
         },
 
         _toggleOverlay: function(e) {

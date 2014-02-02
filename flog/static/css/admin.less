@@ -42,7 +42,7 @@
             color:@gray;
         }
 
-        .pub-date {
+        .pub_date {
             font-size:0.8rem;
             font-weight:300;
             margin-top:0.25rem;
@@ -74,17 +74,54 @@
  */
 
 .settings {
-    padding: @base-rem-unit @base-rem-unit;
+    padding: 0 @base-rem-unit @base-rem-unit @base-rem-unit;
     display:block;
+    position: relative;
 
     * {
         opacity:1;
         transition: opacity 100ms ease-out;
     }
 
-    .fieldset-border legend {
-        transition: background-color 500ms ease-in;
-        background:@white;
+    .form-group {
+        margin-bottom:1rem;
+    }
+
+    .form-label {
+        font-size:0.8rem;
+        line-height: 1;
+        font-weight:400;
+        color:@gray;
+    }
+
+    input[type=text], input[type=url], input[type=date]{
+        padding:0;
+    }
+
+    .fieldset-border {
+        padding-top:0;
+
+        legend {
+            transition: background-color 500ms ease-in;
+            background:@white;
+        }
+    }
+
+    .radio-group {
+        margin-top:1rem;
+    }
+
+    .publish-button {
+        position: absolute;
+        background-color:@green;
+        border:none;
+        color:@white;
+        right:0;
+        top:0.25rem;
+
+        &.published {
+            background-color: @gray-darker;
+        }
     }
 
     &.hidden {
@@ -104,29 +141,6 @@
     margin:0 -(@base-rem-unit + @blockquote-border-width/2);
     margin-bottom: @base-rem-unit * 1.5;
 
-    .button {
-        border-right:1px solid @gray-dark;
-        outline:none;
-
-        &.active {
-            background-color:@gray-darker;
-            color:@white;
-
-            &.published {
-                background-color:@green;
-            }
-            &.draft {
-            }
-        }
-
-
-
-    }
-
-    .button:last-child {
-        border-right:none;
-    }
-
     .post-count {
         position: absolute;
         width:100%;
@@ -142,26 +156,61 @@
    Form Elements
 \* ================================================================== */
 
-.inline-radio {
-    list-style-type: none;
-    padding-left:0;
+.radio-group {
+    .button {
+        float:left;
+    }
 
-    li {
-        display:inline-block;
-        padding-right:2rem;
+    .useicons {
+        vertical-align: text-top;
+    }
+
+    input[type=radio] {
+        display:none;
     }
 }
 
+
+.button {
+    border-right:1px solid @gray-dark;
+    outline:none;
+
+    &.active {
+        background-color:@gray-darker;
+        color:@white;
+
+        &.published {
+            background-color:@green;
+        }
+        &.draft {
+
+        }
+    }
+
+    &:last-child {
+        border-right:none;
+    }
+
+}
 
 /*
  *  New Post Input Box
  */
 
 .new-post {
-    .title-input {
-        margin-bottom:2rem;
+    margin-bottom:2.5rem;
+
+    .new-post-settings {
+        margin-top:0.5rem;
     }
 
+    .category {
+        margin-bottom: 1.15rem;
+    }
+}
+
+
+.post-form {
     input {
         font-size:1.5rem;
         line-height: 1.5;
@@ -177,10 +226,6 @@
             box-shadow: none;
             border-bottom: 1px solid @gray-darkest;
         }
-    }
-
-    .new-post-settings {
-
     }
 }
 

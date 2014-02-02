@@ -2,17 +2,13 @@
 
 {% set form = post.form %}
 
-<form class="settings hidden">
+<form class="settings hidden post-form">
     {{ form.hidden_tag() }}
-    <fieldset class="fieldset-border">
-            <legend class="small-caps">{{post.kind}} Settings</legend>
-            <div class="">
-            {{ wtf.regular_field(form.slug, class="slug") }}
-            {{ wtf.regular_field(form.kind, class="kind inline-radio") }}
+    <fieldset class="">
+            <a class="publish-button button button-mini small-caps{% if post.published %} published{% endif %}">{% if post.published %}Unpublish{% else %}Publish!{% endif %}</a>
 
-            {%- if post.published %}
-            {{ wtf.regular_field(form.pub_date, class="pub_date", value=post.pub_date.strftime('%Y-%m-%d')) }}
-            {%- endif %}
+            {{ wtf.regular_field(form.title, class="title") }}
+            {{ wtf.regular_field(form.slug, class="slug") }}
 
             {%- if post.kind == 'article' %}
                 {%- if post.category %}
@@ -27,9 +23,15 @@
                 {{ wtf.regular_field(form.link_url, class="link_url", placeholder='Enter a Link') }}
                 {%- endif %}
             {%- endif %}
+
+            {{ wtf.regular_field(form.pub_date, class="pub_date", value=post.pub_date.strftime('%Y-%m-%d')) }}
+
+            <div class="radio-group kind cf float-left">
+                {%- for subfield in form.kind %}
+                {{ wtf.radio_buttons(subfield, class="kind", label_class="button-small") }}
+                {% endfor -%}
             </div>
+            <!--
+            <a class="delete useicons">&#xe62d;</a>-->
     </fieldset>
-    <div class="form-group">
-        <button class="publish button">{% if post.published %}Unpublish{% else %}Publish{% endif %}</button><button class="delete useicons">&#xe62d;</button>
-    </div>
 </form>

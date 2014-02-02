@@ -2290,7 +2290,7 @@ a.ss-icon.instagram:hover {
   font-weight: 400;
   color: #95a5a6;
 }
-.post-partial .settings-toggle .pub-date {
+.post-partial .settings-toggle .pub_date {
   font-size: 0.8rem;
   font-weight: 300;
   margin-top: 0.25rem;
@@ -2308,16 +2308,48 @@ a.ss-icon.instagram:hover {
  *f  Post Settings
  */
 .settings {
-  padding: 1.15rem 1.15rem;
+  padding: 0 1.15rem 1.15rem 1.15rem;
   display: block;
+  position: relative;
 }
 .settings * {
   opacity: 1;
   transition: opacity 100ms ease-out;
 }
+.settings .form-group {
+  margin-bottom: 1rem;
+}
+.settings .form-label {
+  font-size: 0.8rem;
+  line-height: 1;
+  font-weight: 400;
+  color: #95a5a6;
+}
+.settings input[type=text],
+.settings input[type=url],
+.settings input[type=date] {
+  padding: 0;
+}
+.settings .fieldset-border {
+  padding-top: 0;
+}
 .settings .fieldset-border legend {
   transition: background-color 500ms ease-in;
   background: #ffffff;
+}
+.settings .radio-group {
+  margin-top: 1rem;
+}
+.settings .publish-button {
+  position: absolute;
+  background-color: #16a085;
+  border: none;
+  color: #ffffff;
+  right: 0;
+  top: 0.25rem;
+}
+.settings .publish-button.published {
+  background-color: #34495e;
 }
 .settings.hidden * {
   opacity: 0;
@@ -2330,20 +2362,6 @@ a.ss-icon.instagram:hover {
   margin: 0 -1.3375rem;
   margin-bottom: 1.7249999999999999rem;
 }
-.post-filter .button {
-  border-right: 1px solid #7f8c8d;
-  outline: none;
-}
-.post-filter .button.active {
-  background-color: #34495e;
-  color: #ffffff;
-}
-.post-filter .button.active.published {
-  background-color: #16a085;
-}
-.post-filter .button:last-child {
-  border-right: none;
-}
 .post-filter .post-count {
   position: absolute;
   width: 100%;
@@ -2354,21 +2372,42 @@ a.ss-icon.instagram:hover {
 /* ================================================================== *\
    Form Elements
 \* ================================================================== */
-.inline-radio {
-  list-style-type: none;
-  padding-left: 0;
+.radio-group .button {
+  float: left;
 }
-.inline-radio li {
-  display: inline-block;
-  padding-right: 2rem;
+.radio-group .useicons {
+  vertical-align: text-top;
+}
+.radio-group input[type=radio] {
+  display: none;
+}
+.button {
+  border-right: 1px solid #7f8c8d;
+  outline: none;
+}
+.button.active {
+  background-color: #34495e;
+  color: #ffffff;
+}
+.button.active.published {
+  background-color: #16a085;
+}
+.button:last-child {
+  border-right: none;
 }
 /*
  *  New Post Input Box
  */
-.new-post .title-input {
-  margin-bottom: 2rem;
+.new-post {
+  margin-bottom: 2.5rem;
 }
-.new-post input {
+.new-post .new-post-settings {
+  margin-top: 0.5rem;
+}
+.new-post .category {
+  margin-bottom: 1.15rem;
+}
+.post-form input {
   font-size: 1.5rem;
   line-height: 1.5;
   border: none;
@@ -2378,8 +2417,8 @@ a.ss-icon.instagram:hover {
   border-bottom: 1px dotted #2c3e50;
   transition: all 0.3s ease-out;
 }
-.new-post input:active,
-.new-post input:focus {
+.post-form input:active,
+.post-form input:focus {
   outline: none;
   box-shadow: none;
   border-bottom: 1px solid #2c3e50;
