@@ -29,7 +29,7 @@ class Post(db.Document):
 
     meta = {
             'allow_inheritance': True, 
-            'ordering': ['-last_update','-pub_date']
+            'ordering': ['-pub_date','-last_update']
             }
 
     def to_dict(self):

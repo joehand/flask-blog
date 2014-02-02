@@ -24,14 +24,16 @@
                 {%- endif %}
             {%- endif %}
 
+            {%- if post.pub_date %}
             {{ wtf.regular_field(form.pub_date, class="pub_date", value=post.pub_date.strftime('%Y-%m-%d')) }}
-
+            {%- else %}
+            {{ wtf.regular_field(form.pub_date, class="pub_date") }}
+            {%- endif %}
             <div class="radio-group kind cf float-left">
                 {%- for subfield in form.kind %}
                 {{ wtf.radio_buttons(subfield, class="kind", label_class="button-small") }}
                 {% endfor -%}
             </div>
-            <!--
-            <a class="delete useicons">&#xe62d;</a>-->
+            <a class="delete useicons">&#xe62d;</a>
     </fieldset>
 </form>

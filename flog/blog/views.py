@@ -6,6 +6,8 @@ from flask.ext.security import current_user
 
 from models import Post
 
+from datetime import datetime
+
 blog = Blueprint('blog', __name__, url_prefix='')
 
 class PostView(FlaskView):
@@ -18,8 +20,8 @@ class PostView(FlaskView):
             g.pages = Post.objects(kind__in=['page'])
             g.posts = Post.objects(kind__in=['note', 'article'])
         else:
-            g.pages = Post.objects(kind__in=['page'], published=True)
-            g.posts = Post.objects(kind__in=['note', 'article'], published=True)
+            g.pages = Post.objects(kind__in=['page'], published=True, pub_date__lte=datetime.now())
+            g.posts = Post.objects(kind__in=['note', 'article'], published=True, pub_date__lte=datetime.now())
 
     def index(self):
         """ Our main index view """

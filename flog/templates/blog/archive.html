@@ -5,6 +5,15 @@
             <h1>Archive</h1>
         </header>
         {%- for post in g.posts %}
-        {% include "partials/_post_full.html" %}
+        <section class="post-full" data-id="{{post.id}}">
+                <h2 class="title" data-field="title">
+                    {{post.title}}
+                </h2>
+                    {%- if post.pub_date %}
+                <h5 class="title" data-field="title">
+                    {{post.pub_date.strftime('%d %b %Y')}}
+                </h5>
+                {% endif -%}
+            </section>
         {% endfor -%}
 {%- endblock -%}
