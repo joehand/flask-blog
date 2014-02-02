@@ -2359,6 +2359,17 @@ a.ss-icon.instagram:hover {
   right: 0;
   margin-top: 1.25rem;
 }
+.settings .delete-button .confirm-button {
+  margin-top: 0.5rem;
+  border: none;
+}
+.settings .delete-button .confirm {
+  background-color: #34495e;
+  color: #ffffff;
+}
+.settings .delete-button .no {
+  background-color: #ffffff;
+}
 .settings.hidden * {
   opacity: 0;
 }

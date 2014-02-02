@@ -43,7 +43,8 @@ define([
 
         events: {
             'click .settings-toggle'    : '_toggleOverlay', 
-            'click .delete-button'      : '_deletePost',
+            'click .delete-button'      : '_deletePost', 
+            'click .confirm-button'      : '_deletePost',
             'change .select'            : '_saveSelect',
             'click .publish-button'     : '_togglePublished',
         },
@@ -73,7 +74,13 @@ define([
         },
 
         _deletePost: function(e) {
-            var $targ = $(e.currentTarget);
+            var $targ = $(e.target);
+
+            if ($targ.hasClass('no')) {
+                console.log('here');
+                $targ.parent()
+                    .html('Delete');
+            }
 
             if ($targ.hasClass('confirm')) {
                 this.model.destroy({
@@ -91,10 +98,10 @@ define([
                     this.remove();
                   });
             } else {
-                $targ.addClass('confirm')
-                     .html('Are You Sure?!')
-                     .fadeTo('slow', 0.5)
-                     .fadeTo('slow', 1.0);
+                $targ
+                     .html('<span class="useicons">&#xe623;</span> Are You Sure? <br/>')
+                     .append('<div class="button button-mini confirm-button confirm">Delete</div>')
+                     .append('<div class="button button-mini confirm-button no">Keep</div>');
             }
 
         },

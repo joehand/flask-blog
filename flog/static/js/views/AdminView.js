@@ -87,6 +87,7 @@ define([
             this.model.set('filter', DEFAULT_FILTER);
 
             this.model.on('change:filter', this.checkFilter, this);
+            this.collection.on('remove', this.checkFilter, this);
 
             this.initPosts();
             this.checkFilter();
@@ -112,6 +113,7 @@ define([
         },
 
         checkFilter: function() {
+            console.log('checking filter');
             var postCount = 0; //TODO: need a better way to do this. maybe make a filtered collection?
             _.each(this.childViews, function(view) {
                 if (view.checkFilter(this.model.get('filter'))) {

@@ -10,6 +10,9 @@
     {% block siteheader %} 
     {% endblock %} 
 
+    {%- block footer %}
+    {% endblock %} 
+
     {%- block footer_js %}
     {%- if current_user.has_role('admin') %}
         <script>
