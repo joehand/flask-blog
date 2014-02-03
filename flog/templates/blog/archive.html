@@ -5,15 +5,18 @@
             <h1>Archive</h1>
         </header>
         {%- for post in g.posts %}
-        <section class="post-full" data-id="{{post.id}}">
-                <h2 class="title" data-field="title">
-                    {{post.title}}
-                </h2>
-                    {%- if post.pub_date %}
-                <h5 class="title" data-field="title">
-                    {{post.pub_date.strftime('%d %b %Y')}}
+            <section class="post-full" data-id="{{post.id}}">
+                    <h2 class="title"><a href="{{url_for('blog.post', slug=post.slug)}}">{{post.title}}</a></h2>
+                    {%- if post.kind == 'article' %}
+                    <h5 class="category editor small-caps">
+                    {%- if post.category -%}{{post.category}}{%- else -%}Uncategorized{%- endif -%}
+                    </h5>
+                    {%- elif post.kind == 'note' %}
+                    <h5 class="category small-caps">Note</h5>
+                    {%- endif -%}
+                <h5 class="pub_date">
+                    {{post.pub_date|format_date}}
                 </h5>
-                {% endif -%}
             </section>
         {% endfor -%}
 {%- endblock -%}

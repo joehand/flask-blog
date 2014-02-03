@@ -1,4 +1,5 @@
 import os
+from urlparse import urlparse
 
 from flask import Flask, render_template
 from flask.ext.security import MongoEngineUserDatastore
@@ -86,6 +87,17 @@ def configure_template_filters(app):
     @app.template_filter()
     def format_date(value, format='%d %b %Y'):
         return value.strftime(format)
+
+
+    @app.template_filter()
+    def get_domain(url):
+        """ Return just the domain (and subdomain!) for a url
+        """
+        parsed_uri = urlparse(url)
+        domain = '{uri.netloc}'.format(uri=parsed_uri)
+        domain = domain.replace('www.', '')
+
+        return domain
 
 def configure_logging(app):
     """Configure file(info) and email(error) logging."""

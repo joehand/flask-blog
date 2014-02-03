@@ -4,6 +4,10 @@
    Styles ($styles)
 \* ================================================================== */
 
+a {
+    transition: all 200ms ease-in;
+}
+
 /* Make buttons and navigation links feel faster on `touchstart` */
 .page .button,
 .nav a {
@@ -131,6 +135,53 @@
    Posts
 \* ================================================================== */
 
+.post-full {
+    position: relative;
+    header {
+        margin-bottom: 2rem;
+    }
+
+    .title {
+        line-height: 1;
+
+        a {
+            color:@heading-font-color;
+            text-decoration:none;
+
+            &:hover {
+                color:lighten(@heading-font-color, 30%);
+            }
+        }
+    }
+
+    .category {
+        color:@gray-light;
+        position: absolute;
+        right:100%;
+        top:0;
+        font-size:1rem;
+        margin-right:1rem;
+    }
+
+    .link_url {
+        font-size:1rem;
+
+        a {
+            text-decoration: none;
+            color:@gray-light;
+
+            &:hover {
+                color:darken(@gray-light, 20%)
+            }
+        }
+
+        .useicons {
+            font-size:0.75rem;
+            vertical-align: middle;
+            padding-right:0.5rem;
+        }
+    }
+}
 
 
 /* ================================================================== *\
