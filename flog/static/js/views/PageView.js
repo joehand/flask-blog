@@ -8,16 +8,30 @@ define([
     'backbone',
     'underscore',
     'jquery',
+    'utils',
     'views/PostView',
     'models/PostModel',
-], function (Backbone, _, $, PostView, PostModel) {
+], function (Backbone, _, $, Utils, PostView, PostModel) {
 
 
     var PageView = Backbone.View.extend({
 
         events: {
-            'click .preview-button'  : '_toggleContentPreview',
-            'click .settings-button' : '_togglePostSettings'
+            'click .fullscreen-button'      : '_toggleFullscreen',
+            'click .preview-button'         : '_toggleContentPreview',
+            'click .settings-button'        : '_togglePostSettings',
+            'click .settings-close'         : '_togglePostSettings'
+        },
+
+        _toggleFullscreen: function(e) {
+            if ((!document.mozFullScreen && !document.webkitIsFullScreen)) {
+                Utils.launchFullscreen(document.documentElement);
+            } else {
+                Utils.exitFullscreen();
+            }
+            this.$el.find('.contract').toggleClass('hidden');
+            this.$el.find('.expand').toggleClass('hidden');
+            this.$el.toggleClass('zen-writing');
         },
 
         _togglePostSettings: function(e) {
@@ -26,11 +40,12 @@ define([
         },
 
         _toggleContentPreview: function(e) {
-            console.log('previewing');
             e.preventDefault();
 
-            this.$el.toggleClass('content-preview-active')
+            this.$el.toggleClass('content-preview-active');
             this.postView.toggleContentPreview();
+            this.$el.find('.preview').toggleClass('hidden');
+            this.$el.find('.edit').toggleClass('hidden');
         },
 
         initialize: function(options) {

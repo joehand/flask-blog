@@ -16,13 +16,9 @@ class PostView(FlaskView):
     route_base = '/'
 
     def before_request(self, name, *args, **kwargs):
-        if current_user.has_role('admin'):
-            g.pages = Post.objects(kind__in=['page'])
-            g.posts = Post.objects(kind__in=['note', 'article'])
-        else:
-            g.pages = Post.objects(kind__in=['page'], 
+        g.pages = Post.objects(kind__in=['page'], 
                 published=True, pub_date__lte=datetime.now())
-            g.posts = Post.objects(kind__in=['note', 'article'], 
+        g.posts = Post.objects(kind__in=['note', 'article'], 
                 published=True, pub_date__lte=datetime.now())
 
     def index(self):

@@ -14,7 +14,7 @@ POST_TYPES = (('article','Article'),
 
 # keys to accept over PUT request (used for validation)
 ACCEPTED_KEYS = ['title', 'slug', 'content', 'published', 
-                    'kind', 'link_url', 'pub_date']
+                    'kind', 'link_url', 'pub_date', 'category']
 
 
 class Post(db.Document):
@@ -57,6 +57,10 @@ class Post(db.Document):
         # Ensures that everything has a `pub_date`
             self.pub_date = datetime.now().strftime('%Y-%m-%d')
 
+        if self.kind == 'note':
+            self.category = 'note'
+        elif self.kind == 'article' and self.category is None:
+            self.category = 'uncategorized'
 
     def validate_json(self, inputJSON):
         for key, val in inputJSON.items():
@@ -64,6 +68,8 @@ class Post(db.Document):
                 continue
             if key == 'content':
                 val = val #may need to clean or do markdown processing
+            if key == 'category':
+                val = val.strip().lower()
             if key == 'title':
                 val = val.strip()
             if key == 'slug':
@@ -71,15 +77,14 @@ class Post(db.Document):
             if key == 'link_url':
                 val = urlparse(val).geturl()
             if key == 'pub_date' and val != 'None':
-                val = datetime.strptime(val.split(' ')[0], '%Y-%m-%d').date()
+                val = datetime.strptime(val.split(' ')[0], '%Y-%m-%d')
             if key == 'published':
                 if isinstance(val, basestring):
                     if val.lower() == 'false':
                         val = False
                     elif val.lower() == 'true':
                         val = True
-            if val != None and val != 'None':  
-                print key, val
+            if val != None and val != 'None': 
                 self[key] = val
 
         self.save()
@@ -90,3 +95,4 @@ class Article(Post):
 
 class Note(Post):
     link_url = db.StringField()
+    category = db.StringField(default='Note')

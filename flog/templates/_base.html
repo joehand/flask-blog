@@ -66,13 +66,13 @@
 
         {%- block main %}
             <main role="main" class="main wrapper"> 
-
-                {%- block adminnav -%}
+                {%- block adminheader -%}
                 {%- if current_user.has_role('admin') -%}
-                <a class="admin-link small-caps useicons" href="{{url_for('admin.PostAdmin:index')}}">&#xe600;</a>
+                <nav class="admin-nav">
+                    <a class="admin-link small-caps useicons" href="{{url_for('admin.PostAdmin:index')}}">&#xe600;</a>
+                </nav>
                 {%- endif -%}
-                {%- endblock adminnav -%}
-
+                {%- endblock adminheader -%}
                 {%- with messages = get_flashed_messages() %}
                       {% if messages %}
                         <ul class=flashes>
@@ -94,7 +94,7 @@
                     {% include "partials/_social.html" %}
                     <div class="wrapper">
                     <span class="copyright medium-float-left"><a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Copyright © 2014</a> &nbsp;·&nbsp; Joe Hand</span>
-                    <span class="made medium-float-right"><a href="{{url_for('blog.page', slug='about')}}#site">Made by Hand</a></span>
+                    <span class="made medium-float-right"><a href="{{url_for('blog.page', slug='about')}}#site">Made by <span class="useicons">&#xe635;</span></a></span>
                     </div>
                 </div>
             </footer>

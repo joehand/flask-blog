@@ -15,8 +15,9 @@ define([
     var SUB_VIEW_EL = '.main',
         RADIO_CHECK = '&#xe628;',
         RADIO_EMPTY = '&#xe627;',
-        SAVE_ICON_HIGHLIGHT = 3000, //time to highlight the save icon after saving 
-        NO_CONTENT_SAVE_MESSAGE = "All content saved!",
+        SAVE_DELAY = 4000, //time to show saved message 
+        SAVING_MESSAGE = "Saving...",
+        SAVED_MESSAGE = "Saved",
         WINDOW_CLOSE_MESSAGE = "========================= \
                                 Content not saved! Please save before going. \
                                 ========================="; 
@@ -24,8 +25,6 @@ define([
     var AppView = Backbone.View.extend({
 
         events: {
-            'click .fullscreen'       : '_toggleFullscreen',
-            'click .save-button'      : '_forceSave',
             'click .radio-button'     : '_toggleRadio',
         },
 
@@ -48,31 +47,6 @@ define([
                     .parent()
                     .find('.useicons')
                     .html(RADIO_CHECK);
-            }
-        },
-
-        _toggleFullscreen: function(e) {
-            console.log('toggling full screen');
-            if ((!document.mozFullScreen && !document.webkitIsFullScreen)) {
-                Utils.launchFullscreen(document.documentElement);
-            } else {
-                Utils.exitFullscreen();
-            }
-        },
-
-        _forceSave: function(e) {
-            e.preventDefault();
-            if (this.model.get('contentDirty') === true){
-                this.collection.save();
-            } else {
-                console.info('No changes to save');
-                /* flash message */
-                $el = $('<span class="no-save-hint">' + 
-                        NO_CONTENT_SAVE_MESSAGE + '</span>');
-                $(e.currentTarget).after($el);
-                setTimeout(function(){
-                    $el.slideUp("fast", function(){$(this).remove();});
-                }, SAVE_ICON_HIGHLIGHT/2);
             }
         },
 
@@ -107,6 +81,9 @@ define([
 
         setDirtyContent: function() {
             this.model.set('contentDirty', true);
+            this.$el
+                .find('.save-message')
+                .text(SAVING_MESSAGE);
         },
 
         serverError: function() {
@@ -116,13 +93,18 @@ define([
         serverSync: function() {
             console.info('server sync');
             this.model.set('contentDirty', false);
-            this.showVisualSave();
+            this.showSaved();
         },
 
-        showVisualSave: function() {
-            var $el = this.$el;
+        showSaved: function() {
+            var $el = this.$el,
+                $saveEl = $el.find('.save-message');
             $el.addClass('saving');
-            setTimeout(function(){$el.removeClass('saving')}, SAVE_ICON_HIGHLIGHT);
+            $saveEl.text(SAVED_MESSAGE);
+            setTimeout(function(){
+                $el.removeClass('saving');
+                $saveEl.text('')
+            }, SAVE_DELAY);
         },
 
         checkSaveBeforeClose: function(e, model) {

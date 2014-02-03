@@ -38,6 +38,14 @@ define([
 
             /* Single Page Items */
             '.title.editor'              : 'title',
+            '.link_url.editor'           :  {
+                observe: 'link_url',
+                updateView: false,
+            },
+            '.category.editor'            : {
+                observe: 'category',
+                updateView: false,
+            },
             '.content.editor' : {
                 observe: 'content',
                 updateMethod: 'text',
@@ -55,7 +63,6 @@ define([
         _togglePostSettings: function(e, postPage) {
             if(!$(e.target).closest('a').length || postPage === true){
                 e.preventDefault();
-                console.log('settings');
                 this.$el.find('.settings').slideToggle( '1500', 'linear', function() {
                     $(this).toggleClass('hidden');
                 });
@@ -118,7 +125,9 @@ define([
                             change:link_url change:pub_date  change:slug \
                             change:published change:kind', this.model.checkSave);
 
-            if (this.$el.hasClass('post-full')) {
+            if (this.$el.hasClass('post-edit')) {
+                this.adjustContentSize();
+
                 this.listenTo(this.model, 'change:content', this.model.checkSave);
                 this.listenTo(this.model, 'change:content', this.adjustContentSize);
             }
@@ -127,7 +136,6 @@ define([
         },
 
         render: function() {
-            this.adjustContentSize();
             this.stickit();
             return this;
         },
@@ -142,10 +150,13 @@ define([
                 this.$el.find('.content-preview').hide()
                 this.contentPreviewActive = false;
             } else {
-                var content = marked(this.model.get('content'));
+                var content = this.model.get('content');
+                if (!_.isUndefined(this.model.get('content'))) {
+                    content = marked(this.model.get('content'));
+                }
                 this.$el.find('.content.editor').hide()
                 this.$el.find('.content-preview')
-                    .html(marked(content))
+                    .html(content)
                     .show()
                 this.contentPreviewActive = true;
             }

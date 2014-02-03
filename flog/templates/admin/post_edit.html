@@ -1,9 +1,35 @@
 {% extends "admin/_admin_base.html" %}
 
-{% block content %}      
+{%- block body_class -%}post-editor{%- endblock -%} 
+{%- block content -%} 
+        <div class="admin-buttons">
+            <div class="ui-buttons">
+            <a class="fullscreen-button useicons" href="#">
+                <span class="expand">&#xe637;</span>
+                <span class="contract hidden">&#xe636;</span>
+            </a>
+            <a class="preview-button useicons" href="#">
+                <span class="preview">&#xe63c;</span>
+                <span class="edit hidden">&#xe602;</span>
+            </a>
+            </div>
+            {% if not post.published -%}
+            <!--<a class="publish-button button button-mini small-caps" href="#">Publish!</a>-->
+            {%- endif -%}
+        </div>     
         <section class="post-edit" data-id="{{post.id}}">
-            <header>
+            <header class="cf">
                 <h2 class="title editor" contenteditable="true">{{post.title}}</h2>
+                {%- if post.kind == 'article' %}
+                <h5 class="category editor small-caps" contenteditable="true">
+                    {%- if post.category -%}{{post.category}}{%- else -%}Uncategorized{%- endif -%}
+                </h5>
+                {%- elif post.kind == 'note' %}
+                <h5 class="category small-caps">Note</h5>
+                <h5 class="link_url">
+                    <span class="useicons">&#xe61e;</span><span class="link_url editor" contenteditable="true">{%- if post.link_url -%}{{post.link_url}}{%- else -%}No Link{%- endif -%}</span>
+                </h5>
+                {%- endif -%}
             </header>
             
             <article>

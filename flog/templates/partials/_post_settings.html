@@ -2,6 +2,7 @@
 
 {%- set form = post.form -%}
 <form class="settings hidden post-form">
+    <a class="useicons settings-close">&#xe625;</a>
     {{ form.hidden_tag() }}
     <fieldset class="">
             <a class="publish-button button button-mini small-caps{% if post.published %} published{% endif %}">{% if post.published %}Unpublish{% else %}Publish!{% endif %}</a>

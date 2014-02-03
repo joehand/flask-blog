@@ -7,6 +7,7 @@ from flask.ext.classy import FlaskView, route
 from ..blog import Post, Article, Note, PostForm
 from ..blog import POST_TYPES
 
+from urlparse import urlparse
 import json
 import sys
 
@@ -52,10 +53,10 @@ class PostAdmin(FlaskView):
                 post = Note(title=title, user_ref=current_user.id, kind=kind)
                 link_url = form.category.data
                 if link_url:
-                    post.link_url = link_url
+                    post.link_url = urlparse(link_url).geturl()
             else:
                 post = Article(title=title, user_ref=current_user.id, kind='article')
-                category = form.category.data.strip()
+                category = form.category.data.strip().lower()
                 if category:
                     post.category = category
             post.save()

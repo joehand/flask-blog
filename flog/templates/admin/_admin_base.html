@@ -4,22 +4,17 @@
     {%- block siteheader -%} 
     {%- endblock -%} 
 
-    {%- block adminnav %}
-        {%- if current_user.has_role('admin') -%}
-        <div class="admin-nav">
-            <a class="useicons" href="{{url_for('admin.PostAdmin:index')}}">&#xe600;</a>
-            <a class="save-button useicons" href="#">&#xe60c;</a>
-            <a class="settings-button useicons" href="#">&#xe617;</a>
-            <a class="preview-button useicons" href="#">&#xe63c;</a>
-        </div>
-        {%- endif -%}
-    {%- endblock adminnav %}
+    {%- block adminheader -%}
+    <nav class="admin-nav">
+        <a class="admin-link small-caps useicons" href="{{url_for('admin.PostAdmin:index')}}">&#xe600;</a>
+    </nav>
+    <div class="save-message"></div>
+    {%- endblock adminheader -%}
 
     {%- block footer %}
     {%- endblock -%} 
 
     {%- block footer_js %}
-    {%- if current_user.has_role('admin') %}
         <script>
             {%- block post_js %}
             var {{ config.PROJECT }} = {}; //namespace everything under here.
@@ -47,5 +42,4 @@
                               };
         </script>
         <script data-main="{{ url_for('static', filename='js/app')}}" src="{{ url_for('static', filename='js/libs/require.js')}}"></script>
-    {%- endif -%}
     {% endblock footer_js -%}
