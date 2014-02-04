@@ -1,22 +1,30 @@
 {% extends "_base.html" %}
 
 {%- block content %}
-        <header>
-            <h1>Archive</h1>
-        </header>
-        {%- for post in g.posts %}
-            <section class="post-full" data-id="{{post.id}}">
-                    <h2 class="title"><a href="{{url_for('blog.post', slug=post.slug)}}">{{post.title}}</a></h2>
-                    {%- if post.kind == 'article' %}
-                    <h5 class="category editor small-caps">
-                    {%- if post.category -%}{{post.category}}{%- else -%}Uncategorized{%- endif -%}
-                    </h5>
-                    {%- elif post.kind == 'note' %}
-                    <h5 class="category small-caps">Note</h5>
-                    {%- endif -%}
-                <h5 class="pub_date">
-                    {{post.pub_date|format_date}}
-                </h5>
-            </section>
-        {% endfor -%}
+    <div class="post-archive">
+    {%- for post in g.posts %}
+        {% if loop.first %}
+            {% set year = post.pub_date.year %}
+            <div class="year crossbars">{{year}}</div>
+        {% elif post.pub_date.year < year %}
+            {% set year = post.pub_date.year%}
+            <div class="year crossbars">{{year}}</div>
+        {% endif -%}
+
+        <div class="post-list" data-id="{{post.id}}">
+            <div class="cf">
+            <h4 class="title float-left"><a href="{{url_for('blog.post', slug=post.slug)}}">{{post.title}}</a></h4>
+            <span class="category float-right">
+                {%- if post.category -%}{{post.category}}{%- else -%}Uncategorized{%- endif -%}
+            </span>
+            </div>
+            <div class="cf">
+            <span class="pub_date float-left">
+                {{post.pub_date.strftime('%B %d')}}
+            </span>
+            </div>
+
+        </div>
+    {% endfor -%}
+    </div>
 {%- endblock -%}

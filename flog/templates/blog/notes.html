@@ -1,13 +1,28 @@
 {% extends "_base.html" %}
 
+{% macro render_pagination(pagination, endpoint) %}
+  <div class=pagination>
+  {%- for page in pagination.iter_pages() %}
+    {% if page %}
+      {% if page != pagination.page %}
+        <a href="{{ url_for(endpoint, page=page) }}">{{ page }}</a>
+      {% else %}
+        <strong>{{ page }}</strong>
+      {% endif %}
+    {% else %}
+      <span class=ellipsis>…</span>
+    {% endif %}
+  {%- endfor %}
+  </div>
+{% endmacro %}
+
 {%- block content %}
         <header>
-            <h1>Notes</h1>
             <h5>A collection of interesting things from around the web.</h5>
         </header>
-        {%- for post in g.posts %}
-        {% if post.kind == 'note' -%}
+        {%- for post in g.posts.items %}
         {% include "partials/_post_full.html" %}
-        {% endif %}
         {% endfor -%}
+
+        {{ render_pagination(g.posts, '.notes') }}
 {%- endblock -%}

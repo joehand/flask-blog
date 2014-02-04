@@ -18,21 +18,26 @@ class PostView(FlaskView):
     def before_request(self, name, *args, **kwargs):
         g.pages = Post.objects(kind__in=['page'], 
                 published=True, pub_date__lte=datetime.now())
-        g.posts = Post.objects(kind__in=['note', 'article'], 
-                published=True, pub_date__lte=datetime.now())
 
     def index(self):
         """ Our main index view """
+        g.post = Post.objects(kind__in=['note', 'article'], 
+                published=True, pub_date__lte=datetime.now()).first()
         return render_template('blog/index.html')
     
-    @route('/archive/', endpoint='archive')
+    @route('/archive/', endpoint='archive',)
     def archive(self):
         """ Archive View """
+        g.posts = Post.objects(kind__in=['article'], 
+                published=True, pub_date__lte=datetime.now())
+
         return render_template('blog/archive.html')
 
-    @route('/notes/', endpoint='notes')
-    def notes(self):
-        """ Notes View """
+    @route('/notes/<int:page>', endpoint='notes')
+    def notes(self, page=1):
+        """ Notes View - like Archive ish for Notes"""
+        g.posts = Post.objects(kind__in=['note'], published=True, 
+                pub_date__lte=datetime.now()).paginate(page=page, per_page=10)
         return render_template('blog/notes.html')
 
     @route('/<slug>', endpoint='page')
@@ -43,7 +48,6 @@ class PostView(FlaskView):
         if not 'archive' in request.url and post.kind != 'page':
             return redirect(url_for('.post', slug=slug))
 
-        posts = Post.objects()
         return render_template('blog/post.html', post=post)
 
 #Register our View Classes

@@ -56,7 +56,7 @@
                         {%- endif -%}
                         {%- endfor %}
                             <li class="nav-item"><a href="{{url_for('blog.archive')}}">Archive</a></li>
-                            <li class="nav-item"><a href="{{url_for('blog.notes')}}">Notes</a></li>
+                            <li class="nav-item"><a href="{{url_for('blog.notes', page=1)}}">Notes</a></li>
                         </ul>
                     </nav>
                 {%- endblock navbar %}

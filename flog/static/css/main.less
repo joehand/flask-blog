@@ -181,8 +181,88 @@ a {
             padding-right:0.5rem;
         }
     }
+
+    .post-footer {
+        margin:2rem 0 4rem;
+        a {
+            text-decoration: none;
+            color:@gray-darkest;
+            .useicons {
+                vertical-align: middle;
+            }
+        }
+
+        .pub_date {
+            color: @gray-light;
+            font-family: @heading-font-family;
+            font-size:1rem;
+        }
+
+
+    }
 }
 
+/* ================================================================== *\
+   Archive Page
+\* ================================================================== */
+
+.post-archive {
+    position: relative;
+    overflow: hidden;
+
+    .post-list {
+        margin:0 0 2rem 0;
+    }
+
+    .year, .pub_date, .category {  
+        text-transform: uppercase;
+        letter-spacing: 0.125rem;
+    }
+
+    .category {
+        font-weight:bold;
+        color:@gray;
+    }
+
+    .category, .pub_date {
+        font-size:0.75rem;
+    }
+
+    .pub_date, .year {
+        font-family: @heading-font-family;
+    }
+
+    .title {
+        margin:0;
+        max-width: 500px;
+        a {
+            color:@heading-font-color;
+            text-decoration: none;
+
+            &:hover {
+                color:@blue;
+            }
+        }
+    }
+
+    .year {
+        font-size:1.777rem;
+        line-height: 0.5rem;
+        margin-top:4rem;
+        margin-bottom:2rem;
+
+        &:first-child{
+            margin-top:0;
+        }
+    }
+
+    .crossbars {
+        &:before, &:after {
+            background-color:@gray-lighter;
+        }
+    }
+
+}
 
 /* ================================================================== *\
    Footer
