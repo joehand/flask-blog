@@ -15,10 +15,6 @@ class PostView(FlaskView):
     """
     route_base = '/'
 
-    def before_request(self, name, *args, **kwargs):
-        g.pages = Post.objects(kind__in=['page'], 
-                published=True, pub_date__lte=datetime.now())
-
     def index(self):
         """ Our main index view """
         g.post = Post.objects(kind__in=['note', 'article'], 

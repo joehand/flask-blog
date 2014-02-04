@@ -1,25 +1,21 @@
 {% extends "_base.html" %}
 
 {% macro render_pagination(pagination, endpoint) %}
-  <div class=pagination>
-  {%- for page in pagination.iter_pages() %}
-    {% if page %}
-      {% if page != pagination.page %}
-        <a href="{{ url_for(endpoint, page=page) }}">{{ page }}</a>
-      {% else %}
-        <strong>{{ page }}</strong>
-      {% endif %}
-    {% else %}
-      <span class=ellipsis>…</span>
-    {% endif %}
-  {%- endfor %}
+  <div class="pagination small-caps">
+  {% if pagination.has_prev %}
+        <a class="page-link" href="{{ url_for(endpoint, page=pagination.prev_num) }}"><span class="useicons">&#xe63d;</span> Newer</a>
+  {% else %}
+      <span class="disabled"><span class="useicons">&#xe63d;</span> Newer</span>
+  {% endif %}
+  {% if pagination.has_next %}
+        <a class="page-link" href="{{ url_for(endpoint, page=pagination.next_num) }}">Older <span class="useicons">&#xe63e;</span></a>
+  {% else %}
+      <span class="disabled">Older <span class="useicons">&#xe63e;</span></span>
+  {% endif %}
   </div>
 {% endmacro %}
 
 {%- block content %}
-        <header>
-            <h5>A collection of interesting things from around the web.</h5>
-        </header>
         {%- for post in g.posts.items %}
         {% include "partials/_post_full.html" %}
         {% endfor -%}

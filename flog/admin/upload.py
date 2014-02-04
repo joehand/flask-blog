@@ -44,7 +44,7 @@ def processMDFile(filename, contents):
 
         if 'link_url' in contents['metadata']:
             post.link_url = urlparse(contents['metadata']['link_url']).geturl()
-        if 'external_url' in contents['metadata']:
+        if 'external_link' in contents['metadata']:
             post.link_url = urlparse(contents['metadata']['external_url']).geturl()
     else:
         post = Article(title=title, user_ref=current_user.id, kind='article', slug=slug)

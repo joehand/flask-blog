@@ -5,7 +5,7 @@
 \* ================================================================== */
 
 a {
-    transition: all 200ms ease-in;
+    transition: all 100ms ease-out;
 }
 
 /* Make buttons and navigation links feel faster on `touchstart` */
@@ -199,6 +199,29 @@ a {
         }
 
 
+    }
+}
+
+/* ================================================================== *\
+   Notes Page
+\* ================================================================== */
+
+.pagination {
+    text-align: center;
+
+    .page-link {
+        color:@gray-darker;
+        text-decoration: none;
+        padding:0 1rem;
+    }
+
+    .disabled {
+        padding:0 0.5rem;
+        color:@gray-lighter;
+    }
+
+    .useicons {
+        color:@gray-lighter;
     }
 }
 
