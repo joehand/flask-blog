@@ -198,6 +198,7 @@
 }
 
 
+
 /* ================================================================== *\
    Post Editing Page
 \* ================================================================== */
@@ -390,9 +391,27 @@ textarea.content {
    Admin Navigation
 \* ================================================================== */
 
+
+.dashboard-links {
+    position: fixed;
+    top:0;
+    right:0;
+    a {
+        width:35px;
+        height:35px;
+        display:inline-block;
+    }
+    line-height:35px;
+    background:@gray-darkest;
+    color:@white;
+    border-radius: 0 0 0 3px;
+    font-size:1rem;
+    text-align: center;
+}
+
 .post-editor {
 
-    .admin-link {
+    .admin-link, .dashboard-links {
         opacity:0;
         transition: all 500ms ease-in;
     }
@@ -402,7 +421,7 @@ textarea.content {
         left:0;
         padding:0 5rem 4rem 0;
 
-        &:hover .admin-link {
+        &:hover .admin-link, &:hover .dashboard-links {
             opacity:1;
         }
     }

@@ -12,10 +12,7 @@ define([
     'models/PostModel'
 ], function (Backbone, _, $, PostView, PostModel) {
 
-    var DEFAULT_FILTER = {
-            'kind' : ['article', 'note'],
-            'published' : [false]
-        };
+    DEFAULT_FILTER = flog.DEFAULT_FILTER || { 'kind' : ['article', 'note'], 'published' : [false] };
 
     var formactive;
 
@@ -62,7 +59,6 @@ define([
             this.model.set('filter', DEFAULT_FILTER);
 
             this.model.on('change:filter', this.checkFilter, this);
-            this.collection.on('remove', this.initPosts, this); //could be better about this and just remove one
 
             this.initPosts();
             this.render();
@@ -88,8 +84,10 @@ define([
         },
 
         checkFilter: function() {
+            // TODO: if the filter is active make sure button has active class (or other way around?)
             console.log('checking filter');
             var postCount = 0; //TODO: need a better way to do this. maybe make a filtered collection?
+
             _.each(this.childViews, function(view) {
                 if (view.checkFilter(this.model.get('filter'))) {
                     postCount += 1;

@@ -7,6 +7,10 @@
     {%- block adminheader -%}
     <nav class="admin-nav">
         <a class="admin-link small-caps useicons" href="{{url_for('admin.PostAdmin:index')}}">&#xe600;</a>
+        <div class="dashboard-links">
+            <a href="{{url_for('admin.upload')}}" class="useicons">&#xe61d;</a>
+            <a href="#settings" class="useicons">&#xe617;</a>
+        </div>
     </nav>
     <div class="save-message"></div>
     {%- endblock adminheader -%}
@@ -16,20 +20,19 @@
 
     {%- block footer_js %}
         <script>
-            {%- block post_js %}
             var {{ config.PROJECT }} = {}; //namespace everything under here.
-            
+            {%- block post_js %}
             {{ config.PROJECT }}.postsBootstrap = [
                 {%- for post in g.posts -%}
                 {{post.to_dict()|safe}},
                 {%- endfor -%}
             ];
+            {%- endblock post_js -%}
             {{ config.PROJECT }}.pagesBootstrap = [
                 {%- for post in g.pages -%}
                     {{post.to_dict()|safe}},
                 {%- endfor -%}
             ];
-            {%- endblock post_js -%}
 
             {{ config.PROJECT }}.childView = {%- block js_view %}null{%- endblock js_view -%};
 

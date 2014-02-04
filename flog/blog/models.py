@@ -1,5 +1,5 @@
 from ..extensions import db
-from ..utils import mongo_to_dict
+from ..utils import mongo_to_dict, slugify
 from ..user import User
 
 from datetime import datetime
@@ -45,7 +45,7 @@ class Post(db.Document):
     def clean(self):
         """Clean Data!"""
         if not self.slug:
-            self.slug = self.title.replace(' ', '-').lower()
+            self.slug = slugify(self.title)
 
         if self.slug in ILLEGAL_SLUGS:
             self.slug = self.slug + '1' #todo: make this more robust

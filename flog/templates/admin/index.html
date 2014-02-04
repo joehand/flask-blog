@@ -15,7 +15,7 @@
                 {%- for option in g.POST_TYPES -%}
                 <button class="small-caps button button-mini {{option[0]}} {% if option[0] != 'page' %}active{%- endif %}" data-filter="kind:{{option[0]}}">{{option[0]}}</button>
                 {%- endfor -%}
-            </div>
+                </div>
             </div>
             <div class="post-list">
                 {%- for post in g.all_pages %}

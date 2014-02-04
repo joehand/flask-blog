@@ -1,0 +1,66 @@
+{% extends "admin/_admin_base.html" %}
+
+{%- block content -%}
+    {% if posts %}
+    <h1>Uploaded More!</h1>
+    {%- else -%}
+    <h1>Upload Posts</h1>
+    <p>We accept single markdown files or zip archives of markdown files. We will try to take the title, date, category, and published status from the file.</p>
+    {%- endif -%}
+    <form action="" method=post enctype=multipart/form-data>
+      <p><input type=file name=file multiple>
+         <input type=submit value=Upload>
+    </form>
+
+    {% if posts %}
+    <h2>Uploaded Posts</h2>
+    <div class="post-filter cf">
+        <div class="published float-left">
+            <button class="small-caps button button-mini published active" data-filter="published:true">published</button><button class="small-caps button button-mini draft active" data-filter="published:false">draft</button>
+        </div>
+        <div class="post-count small-caps">
+            <span class="post-num">0</span> posts
+        </div>
+        <div class="kind float-right">
+        {%- for option in g.POST_TYPES -%}
+        <button class="small-caps button button-mini {{option[0]}} {% if option[0] != 'page' %}active{%- endif %}" data-filter="kind:{{option[0]}}">{{option[0]}}</button>
+        {%- endfor -%}
+        </div>
+    </div>
+
+    <div class="post-list">
+        {%- for post in posts %}
+        <article class="post-partial {% if post.published %}published{% endif %} {{post.kind}} hidden" data-id="{{post.id}}" data-published="{{post.published|lower}}" data-kind="{{post.kind}}">
+            <div class="settings-toggle">
+                <div class="cf">
+                    <a class="h3 float-left title" data-field="title" href="{{url_for('admin.post', slug=post.slug)}}">{{post.title}}</a>
+                    <span class="float-right kind small-caps {{post.kind}}">{{post.kind}}</span>
+                </div>   
+                {%- if post.published %}
+                <div class="pub_date small-caps">
+                    <span>{{post.pub_date|format_date}}</span>
+                </div>
+                {%- endif %}
+            </div>   
+            {%- include "partials/_post_settings.html" -%}
+        </article>
+        {% endfor -%}
+    </div>
+
+    {%- endif %}
+{% endblock content %}
+
+{%- block post_js %}
+            {{ config.PROJECT }}.postsBootstrap = [
+                {%- for post in posts -%}
+                {{post.to_dict()|safe}},
+                {%- endfor -%}
+            ];
+
+            {{ config.PROJECT }}.DEFAULT_FILTER = {
+                'kind' : ['article', 'note'],
+                'published' : [false, true]
+            };
+            {%- endblock post_js -%}
+
+{%- block js_view %}'AdminView'{%- endblock js_view -%}

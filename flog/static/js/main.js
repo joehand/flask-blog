@@ -18,7 +18,8 @@ define([
     NAMESPACE = flog //for now...
 
     appModel = new AppModel({ 
-        'user': NAMESPACE.currentUser 
+        'user'       : NAMESPACE.currentUser,
+        'namespace'  : NAMESPACE
     });
 
     collection = _.union(NAMESPACE.postsBootstrap, NAMESPACE.pagesBootstrap);
@@ -29,7 +30,7 @@ define([
         model      : appModel,
         collection : postsCol,
         el         : $('.document').get(0),
-        childView  : NAMESPACE.childView
+        childView  : NAMESPACE.childView,
     });
     
 });

@@ -6,6 +6,7 @@ from flask.ext.classy import FlaskView, route
 
 from ..blog import Post, Article, Note, PostForm
 from ..blog import POST_TYPES
+from upload import process_upload
 
 from urlparse import urlparse
 import json
@@ -40,6 +41,18 @@ class PostAdmin(FlaskView):
         post = Post.objects(slug=slug).first_or_404()
         post.form = PostForm()
         return render_template('admin/post_edit.html', post=post)
+
+    @route("/upload", methods=['GET', 'POST'], endpoint='upload')
+    def upload(self):
+        posts = []
+        if request.method == 'POST':
+            uploaded_files = request.files.getlist("file")
+            print uploaded_files
+            posts = process_upload(uploaded_files)
+
+            for post in posts:
+                post.form = PostForm(prefix=str(post.id), kind=post.kind, slug=post.slug)
+        return render_template('admin/upload.html', posts=posts)
 
     def post(self):
         form = PostForm(request.form)
