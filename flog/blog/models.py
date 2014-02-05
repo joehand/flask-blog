@@ -1,21 +1,11 @@
 from ..extensions import db
 from ..utils import mongo_to_dict, slugify
 from ..user import User
+from .constants import *
 
 from datetime import datetime
 from urlparse import urlparse
 import json
-
-ILLEGAL_SLUGS = ['admin', 'archives', 'category']
-
-POST_TYPES = (('article','Article'),
-              ('note','Note'), 
-              ('page','Page'))
-
-# keys to accept over PUT request (used for validation)
-ACCEPTED_KEYS = ['title', 'slug', 'content', 'published', 
-                    'kind', 'link_url', 'pub_date', 'category']
-
 
 class Post(db.Document):
     user_ref = db.ReferenceField(User)

@@ -30,15 +30,15 @@ class PostView(FlaskView):
         return render_template('blog/archive.html')
 
     @route('/category/<category>/', endpoint='category')
-    @route('/category/<category>/<int:page>/', endpoint='category')
-    def category(self, category, page=1):
+    @route('/category/<category>/<int:page_num>/', endpoint='category')
+    def category(self, category, page_num=1):
         """ Category Page"""
         if category == 'note':
             g.posts = Post.objects(kind__in=['note'], published=True, 
-                pub_date__lte=datetime.now()).paginate(page=page, per_page=10)
+                pub_date__lte=datetime.now()).paginate(page=page_num, per_page=10)
             return render_template('blog/category.html', category = category)
         g.posts = Article.objects(kind__in=['article'], published=True, category = category,
-                pub_date__lte=datetime.now()).paginate(page=page, per_page=10)
+                pub_date__lte=datetime.now()).paginate(page=page_num, per_page=10)
         if len(g.posts.items) == 0:
             flash('Sorry, there are no posts in the <b>%s</b> category.' % category)
             return abort(404)
