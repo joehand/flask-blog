@@ -1,10 +1,10 @@
-from flask import (Blueprint, render_template, flash, g,
+from flask import (Blueprint, render_template, flash, g, abort,
                     request, redirect, url_for)
 
 from flask.ext.classy import FlaskView, route
 from flask.ext.security import current_user
 
-from models import Post
+from models import Post, Article
 
 from datetime import datetime
 
@@ -17,9 +17,9 @@ class PostView(FlaskView):
 
     def index(self):
         """ Our main index view """
-        g.post = Post.objects(kind__in=['note', 'article'], 
+        post = Post.objects(kind__in=['note', 'article'], 
                 published=True, pub_date__lte=datetime.now()).first()
-        return render_template('blog/index.html')
+        return render_template('blog/index.html', post=post)
     
     @route('/archive/', endpoint='archive',)
     def archive(self):
@@ -29,15 +29,23 @@ class PostView(FlaskView):
 
         return render_template('blog/archive.html')
 
-    @route('/notes/<int:page>', endpoint='notes')
-    def notes(self, page=1):
-        """ Notes View - like Archive ish for Notes"""
-        g.posts = Post.objects(kind__in=['note'], published=True, 
+    @route('/category/<category>/', endpoint='category')
+    @route('/category/<category>/<int:page>/', endpoint='category')
+    def category(self, category, page=1):
+        """ Category Page"""
+        if category == 'note':
+            g.posts = Post.objects(kind__in=['note'], published=True, 
                 pub_date__lte=datetime.now()).paginate(page=page, per_page=10)
-        return render_template('blog/notes.html')
+            return render_template('blog/category.html', category = category)
+        g.posts = Article.objects(kind__in=['article'], published=True, category = category,
+                pub_date__lte=datetime.now()).paginate(page=page, per_page=10)
+        if len(g.posts.items) == 0:
+            flash('Sorry, there are no posts in the <b>%s</b> category.' % category)
+            return abort(404)
+        return render_template('blog/category.html', category = category)
 
-    @route('/<slug>', endpoint='page')
-    @route('/archive/<slug>', endpoint='post')
+    @route('/<slug>/', endpoint='page')
+    @route('/archive/<slug>/', endpoint='post')
     def get(self, slug):
         """ View for a single post"""
         post = Post.objects(slug=slug).first_or_404()
@@ -45,6 +53,7 @@ class PostView(FlaskView):
             return redirect(url_for('.post', slug=slug))
 
         return render_template('blog/post.html', post=post)
+
 
 #Register our View Classes
 PostView.register(blog)

@@ -1,0 +1,38 @@
+{% extends "_base.html" %}
+{% import "macros/_css.html" as css %}
+    {%- block css -%}
+        {{ css.render_css('main') }}
+    {%- endblock -%}
+
+    {%- block siteheader %}
+        {%- if current_user.has_role('admin') -%}
+        <div class="admin-nav">
+            <a class="admin-link small-caps useicons" href="{{url_for('admin.PostAdmin:index')}}">&#xe600;</a>
+        </div>
+        {%- endif -%}
+        <div class="site-head wrapper cf">
+                <header role="banner" class="banner medium-float-left">
+                    <h1 class="name small-caps"><a class="" href="{{url_for('blog.PostView:index')}}">Joe Hand</a></h1>
+                </header>
+                <nav role="navigation" class="site-nav medium-float-right ">
+                    <ul class="small-caps">
+                        <li class="nav-item"><a href="{{url_for('blog.page', slug='about')}}">About</a></li>
+                        <li class="nav-item"><a href="{{url_for('blog.archive')}}">Archive</a></li>
+                        <li class="nav-item"><a href="{{url_for('blog.category', category='note')}}">Notes</a></li>
+                    </ul>
+                </nav>
+        </div>
+        <div class="site-head-border strip"></div>
+    {%- endblock siteheader -%}
+
+    {%- block sitefooter %}
+    <footer role="contentinfo" class="footer">
+        <div class="bottom cf">
+            {% include "partials/_social.html" %}
+            <div class="wrapper">
+            <span class="copyright medium-float-left"><a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Copyright © 2014</a> &nbsp;·&nbsp; Joe Hand</span>
+            <span class="made medium-float-right"><a href="{{url_for('blog.page', slug='about')}}#site">Made by <span class="useicons">&#xe635;</span></a></span>
+            </div>
+        </div>
+    </footer>
+    {% endblock sitefooter %}

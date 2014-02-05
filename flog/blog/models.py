@@ -6,7 +6,7 @@ from datetime import datetime
 from urlparse import urlparse
 import json
 
-ILLEGAL_SLUGS = ['admin', 'notes', 'archives']
+ILLEGAL_SLUGS = ['admin', 'archives', 'category']
 
 POST_TYPES = (('article','Article'),
               ('note','Note'), 

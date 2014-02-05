@@ -1,22 +1,22 @@
 {% extends "_base.html" %}
-{% set css_name = 'admin' %}
+{% import "macros/_css.html" as css %}
+
+    {%- block css -%}
+        {{ css.render_css('admin') }}
+    {%- endblock -%}
 
     {%- block siteheader -%} 
-    {%- endblock -%} 
-
-    {%- block adminheader -%}
     <nav class="admin-nav">
         <a class="admin-link small-caps useicons" href="{{url_for('admin.PostAdmin:index')}}">&#xe600;</a>
         <div class="dashboard-links">
             <a href="{{url_for('admin.upload')}}" class="useicons">&#xe61d;</a>
-            <a href="#settings" class="useicons">&#xe617;</a>
+            <a href="#" class="settings-button useicons">&#xe617;</a>
         </div>
     </nav>
     <div class="save-message"></div>
-    {%- endblock adminheader -%}
+    {%- endblock siteheader -%} 
 
-    {%- block footer %}
-    {%- endblock -%} 
+    {%- block footer %}{%- endblock -%} 
 
     {%- block footer_js %}
         <script>

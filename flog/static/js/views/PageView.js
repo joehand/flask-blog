@@ -35,6 +35,7 @@ define([
         },
 
         _togglePostSettings: function(e) {
+            console.log('clicked')
             this.$el.toggleClass('settings-active')
             this.postView._togglePostSettings(e, true);
         },
@@ -48,7 +49,7 @@ define([
             this.$el.find('.edit').toggleClass('hidden');
         },
 
-        initialize: function(options) {
+        initialize: function(opts) {
             this.model.set('contentPreviewActive', false);
             this.initPosts();
             this.render();

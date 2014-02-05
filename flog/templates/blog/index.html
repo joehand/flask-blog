@@ -1,6 +1,5 @@
-{% extends "_base.html" %}
+{% extends "blog/_blog_base.html" %}
 
 {%- block content -%}
-        {%- set post = g.post -%}
-        {%- include "partials/_post_full.html" %}
+        {%- include "blog/partials/_post_full.html" %}
 {%- endblock -%}

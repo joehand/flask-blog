@@ -2,22 +2,12 @@
                 <header>
                     {%- if post.kind == 'article' %}
                     <h1 class="title"><a href="{{url_for('blog.post', slug=post.slug)}}">{{post.title}}</a></h1>
-                    <h5 class="category editor small-caps">
-                        {%- if post.category -%}
-                            {{post.category}}
-                        {%- else -%}
-                            Uncategorized
-                        {%- endif -%}
-                    </h5>
+                    <h5 class="category small-caps"><a href="{{url_for('.category', category=post.category)}}">{{post.category}}</a></h5>
                     {%- elif post.kind == 'note' %}
                     <h2 class="title"><a href="{{url_for('blog.post', slug=post.slug)}}">{{post.title}}</a></h2>
-                    <h5 class="category small-caps">Note</h5>
+                    <h5 class="category small-caps"><a href="{{url_for('.category', category='note')}}">{{post.category}}</a></h5>
                     {%- if post.link_url -%}
-                    <h5 class="link_url">
-                        <a href="{{post.link_url}}">
-                        <span class="useicons">&#xe61e;</span><span class="link_url">{{post.link_url|get_domain}}</span>
-                        </a>
-                    </h5>
+                    <h5 class="link_url"><a href="{{post.link_url}}"><span class="useicons">&#xe61e;</span><span class="link_url">{{post.link_url|get_domain}}</span></a></h5>
                     {%- endif -%}
                     {%- elif post.kind == 'page' -%}
                     <h1 class="title"><a href="{{url_for('blog.post', slug=post.slug)}}">{{post.title}}</a></h1>

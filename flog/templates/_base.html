@@ -13,23 +13,7 @@
         <meta name="description" content="{% block description %}{% endblock description %}">
 
         <!-- Styles -->
-
-        {%- block css %}
-        {%- if config.DEBUG %}
-        {%- if not css_name -%}
-            {%- set css_name = 'main' %}
-        {%- endif -%} 
-        {%- assets filters="less", output="build/" + css_name + ".min.css",
-          "css/" + css_name + ".less" %}
-        <link rel="stylesheet" href="{{ ASSET_URL }}">
-        {% endassets -%}
-        {%- else -%} 
-        {%- assets filters="less", output="build/" + css_name + ".min.css",
-          "css/" + css_name + ".less" %}
-        <link rel="stylesheet" href="{{ ASSET_URL }}">
-        {% endassets -%}
-        {%- endif %} 
-        {% endblock -%}
+        {%- block css %}{% endblock -%}
 
         <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
         <script>
@@ -42,64 +26,33 @@
     </head>
     <body class="{% block body_class %}{% endblock %}">
         <div role="document" class="document">
-        {%- block siteheader %}
-            <div class="site-head wrapper cf">
-                    <header role="banner" class="banner medium-float-left">
-                        <h1 class="name small-caps"><a class="" href="{{url_for('blog.PostView:index')}}">Joe Hand</a></h1>
-                    </header>
-                {%- block navbar %}
-                    <nav role="navigation" class="site-nav medium-float-right ">
-                        <ul class="small-caps">
-                            <li class="nav-item"><a href="{{url_for('blog.page', slug='about')}}">About</a></li>
-                            <li class="nav-item"><a href="{{url_for('blog.archive')}}">Archive</a></li>
-                            <li class="nav-item"><a href="{{url_for('blog.notes', page=1)}}">Notes</a></li>
-                        </ul>
-                    </nav>
-                {%- endblock navbar %}
-            </div>
-            <div class="site-head-border strip"></div>
-        {%- endblock siteheader -%}
+        {%- block siteheader -%}
+        {% endblock siteheader -%}
 
         {%- block main %}
             <main role="main" class="main wrapper"> 
-                {%- block adminheader -%}
-                {%- if current_user.has_role('admin') -%}
-                <nav class="admin-nav">
-                    <a class="admin-link small-caps useicons" href="{{url_for('admin.PostAdmin:index')}}">&#xe600;</a>
-                </nav>
-                {%- endif -%}
-                {%- endblock adminheader -%}
+                <div class="page-content">
                 {%- with messages = get_flashed_messages() %}
                       {% if messages %}
-                        <ul class=flashes>
+                        <ul class="flashes well">
                         {% for message in messages %}
-                            <li>{{ message }}</li>
+                            <li>{{ message | safe}}</li>
                         {% endfor %}
                         </ul>
                       {% endif %}
-                {%- endwith %}
-                <div class="page-content">
+                {%- endwith -%}
                 {%- block content %}
-                {% endblock content %}
+                {% endblock content -%}
                 </div>
-            </main> <!-- main .container -->
+            </main> <!-- main  -->
 
-            {%- block footer %}
-            <footer role="contentinfo" class="footer">
-                <div class="bottom cf">
-                    {% include "partials/_social.html" %}
-                    <div class="wrapper">
-                    <span class="copyright medium-float-left"><a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Copyright © 2014</a> &nbsp;·&nbsp; Joe Hand</span>
-                    <span class="made medium-float-right"><a href="{{url_for('blog.page', slug='about')}}#site">Made by <span class="useicons">&#xe635;</span></a></span>
-                    </div>
-                </div>
-            </footer>
-            {% endblock footer %}
+            {%- block sitefooter -%}
+            {% endblock sitefooter -%}
 
-        {%- endblock main %}
+        {%- endblock main -%}
+
         </div> <!-- document -->
-
-    {%- block footer_js %}
-    {% endblock footer_js -%}
+    {%- block footer_js -%}
+    {%- endblock footer_js -%}
     </body>
 </html>

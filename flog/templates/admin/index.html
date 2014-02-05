@@ -3,7 +3,7 @@
 {% block title %}Admin Area Place{% endblock title %}
 
 {%- block content -%}
-            {%- include "partials/_newpost.html" -%}
+            {%- include "admin/partials/_newpost.html" -%}
             <div class="post-filter cf">
                 <div class="published float-left">
                     <button class="small-caps button button-mini published" data-filter="published:true">published</button><button class="small-caps button button-mini draft active" data-filter="published:false">draft</button>
@@ -31,7 +31,7 @@
                         </div>
                         {%- endif %}
                     </div>   
-                    {%- include "partials/_post_settings.html" -%}
+                    {%- include "admin/partials/_post_settings.html" -%}
                 </article>
                 {% endfor -%}
             </div>

@@ -1,0 +1,13 @@
+{%- macro render_css(css_name) -%}
+    {%- if config.DEBUG %}
+    {%- assets filters="less", output="build/" + css_name + ".min.css",
+      "css/" + css_name + ".less" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}">
+    {% endassets -%}
+    {%- else -%} 
+    {%- assets filters="less, cssmin", output="build/" + css_name + ".min.css",
+      "css/" + css_name + ".less" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}">
+    {% endassets -%}
+    {%- endif %} 
+{%- endmacro -%}
