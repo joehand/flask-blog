@@ -80,6 +80,9 @@ define([
                     model.checkSave(model, null, null, true); //forces server sync on model
                 }
             });
+        },
+        dirtyModels: function() {
+            return localStorage.getItem(this.url + '_dirty');    
         }
     });
 

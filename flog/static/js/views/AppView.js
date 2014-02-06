@@ -87,15 +87,30 @@ define([
                 .text(SAVING_MESSAGE);
         },
 
-        serverError: function() {
+        serverError: function(model) {
+            console.log(model);
             console.error('Server Error');
+            // TODO: Check the KIND of server error (offline vs bad request)
+            this.model.set('appOffline', true);
+
+            var dirtyItems = this.collection.dirtyItems();
+            console.log(dirtyItems);
+            if (!_.isNull(dirtyItems)) {
+                dirtyItems = dirtyItems.push(model.id);
+            } else {
+                dirtyItems = [model.id];
+            }
+
+            localStorage.setItem(model.collection.url + '_dirty', dirtyItems);
+            localStorage.setItem(model.url, JSON.stringify(model));
+
+            //this.checkDirty();
         },
 
         serverSync: function() {
             console.info('server sync');
             this.model.set('contentDirty', false);
             this.showSaved();
-            //this.checkDirty();
         },
 
         checkDirty: function() {
