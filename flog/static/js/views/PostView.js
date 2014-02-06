@@ -40,16 +40,13 @@ define([
             '.title.editor'              : 'title',
             '.link_url.editor'           :  {
                 observe: 'link_url',
-                updateView: false,
             },
             '.category.editor'            : {
                 observe: 'category',
-                updateView: false,
             },
             '.content.editor' : {
                 observe: 'content',
                 updateMethod: 'text',
-                updateView: false,
             },
         },
 

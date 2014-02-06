@@ -4,7 +4,6 @@ requirejs.config({
         'underscore'         : 'libs/underscore',
         'backbone'           : 'libs/backbone',
         'backboneStick'      : 'libs/backbone.stickit',
-        //'backboneDual'       : 'libs/backbone.dualstorage.amd',
         'marked'             : 'libs/marked',
     },
     shim: {
@@ -15,9 +14,6 @@ requirejs.config({
         backboneStick: {
             deps: ['backbone'],
         },
-        /*backboneDual: {
-            deps: ['backbone'],
-        },*/
         underscore: {
             exports: '_'
         },

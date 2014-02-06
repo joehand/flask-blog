@@ -8,9 +8,10 @@ define([
     'backbone',
     'underscore',
     'jquery',
+    'Utils',
     'views/AdminView', //need these here to get included in build. another way to do this?
     'views/PageView',
-], function (Backbone, _, $) {
+], function (Backbone, _, $, Utils) {
 
     var SUB_VIEW_EL = '.main',
         RADIO_CHECK = '&#xe628;',
@@ -94,6 +95,17 @@ define([
             console.info('server sync');
             this.model.set('contentDirty', false);
             this.showSaved();
+            //this.checkDirty();
+        },
+
+        checkDirty: function() {
+            // TODO: re-write this for my use case
+            console.log('check dirty');
+            if (this.collection.dirtyModels().length > 0) {
+                console.log('has dirty');
+                // we are offline, start checking when server is back
+                Utils.checkOnlineStatus(this);
+            }
         },
 
         showSaved: function() {
