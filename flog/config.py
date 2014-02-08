@@ -30,9 +30,9 @@ class ProductionConfig(Config):
 
     PRODUCTION = True
 
-    SECRET_KEY = os.environ.get('SECRET_KEY')
+    SECRET_KEY = 'test'
 
-    SECURITY_PASSWORD_SALT = os.environ.get('PASSWORD_SALT')
+    SECURITY_PASSWORD_SALT = 'test'
 
     DEBUG = True
 
