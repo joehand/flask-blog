@@ -25,6 +25,8 @@ class Config(object):
     #ASSETS_AUTO_BUILD = True
     ASSETS_DEBUG = True
 
+    S3_BUCKET_NAME = 'joehand_blog'
+
 class ProductionConfig(Config):
 
     DEBUG = False
@@ -33,7 +35,7 @@ class ProductionConfig(Config):
     MONGODB_DB = 'app17531201'
     MONGODB_HOST = os.environ.get('MONGOHQ_URL')
 
-    ASSETS_DEBUG = False
+    FLASK_ASSETS_USE_S3 = True
 
 class DevelopmentConfig(Config):
 

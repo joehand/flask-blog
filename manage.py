@@ -1,6 +1,8 @@
 # manage.py
 from flask.ext.script import Manager, Shell, Server
 from flask.ext.security import MongoEngineUserDatastore
+from flask.ext.s3 import create_all
+from flask.ext.assets import ManageAssets
 
 from flog import create_app
 from flog.extensions import db
@@ -23,7 +25,6 @@ def initdb():
 
     user_datastore.add_role_to_user(user, admin)
 
-@manager.command
 def build_js():
     """ Builds the js for production
         TODO: Build css here too. 
@@ -32,6 +33,10 @@ def build_js():
     os.system('cd flog/static/js && node libs/r.js -o app.build.js out=../build/%s'%jsfile)
     os.system('cd flog/static/js && cp libs/require.js ../build/')
     jsfile = 'flog/static/js/' + jsfile
+
+def build_css():
+    """ TODO: Write this with ManageAssets """
+    css = faslkdfja
 
 def shell_context():
     return dict(app=app)

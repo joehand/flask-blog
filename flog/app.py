@@ -10,7 +10,7 @@ from .user import user, User, Role
 from .admin import admin
 from .blog import blog
 
-from .extensions import db, mail, security, assets, md
+from .extensions import db, mail, security, assets, md, s3
 
 # For import *
 __all__ = ['create_app']
@@ -69,6 +69,9 @@ def configure_extensions(app):
 
     # markdown
     md.init_app(app)
+
+    # flask s3
+    s3.init_app(app)
 
     if app.debug:
         from flask.ext.debugtoolbar import DebugToolbarExtension
