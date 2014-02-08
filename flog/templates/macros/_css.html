@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="{{ ASSET_URL }}">
     {% endassets -%}
     {%- else -%} 
-    <link rel="stylesheet" href="{{ url_for('static', filename=build/css_name.min.css)}}">
+    {% set css_file = 'build/' + css_name + '.min.css' %}
+    <link rel="stylesheet" href="{{ url_for('static', filename=css_file)}}">
     {%- endif %} 
 {%- endmacro -%}
