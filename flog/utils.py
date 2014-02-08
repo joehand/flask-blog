@@ -1,4 +1,9 @@
+from __future__ import unicode_literals, print_function
+import six
+
 from .extensions import db
+
+from flask import Markup
 
 from datetime import datetime
 from markdown import Markdown
@@ -116,7 +121,6 @@ def mongo_to_dict(obj):
                 data = str(data)
             except:
                 data = data
-                print 'fucking error'
                 pass
             return_data.append((field_name, data))
         elif isinstance(obj._fields[field_name], db.FloatField):

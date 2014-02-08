@@ -17,7 +17,7 @@ def processMDFile(filename, contents):
     print contents['metadata']
     print contents['content']
 
-    slug = contents['metadata']['slug'] + '-asdfdfasdf'
+    slug = contents['metadata']['slug']
     kind = None
     category = None
 
@@ -45,7 +45,8 @@ def processMDFile(filename, contents):
         if 'link_url' in contents['metadata']:
             post.link_url = urlparse(contents['metadata']['link_url']).geturl()
         if 'external_link' in contents['metadata']:
-            post.link_url = urlparse(contents['metadata']['external_url']).geturl()
+            # TODO: check if there are quotes around the string
+            post.link_url = urlparse(contents['metadata']['external_link']).geturl()
     else:
         post = Article(title=title, user_ref=current_user.id, kind='article', slug=slug)
         if category:

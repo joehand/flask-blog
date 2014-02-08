@@ -16,7 +16,7 @@ class Config(object):
     SECURITY_TRACKABLE = True
 
     # MongoDB Config
-    MONGODB_DB = 'bloggin_db'
+    MONGODB_DB = 'blog_db'
     MONGODB_HOST = 'localhost'
     MONGODB_PORT = 27017
 

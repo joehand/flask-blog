@@ -22,8 +22,8 @@ flask-mongoengine==0.7.0
 html2text==3.200.3
 itsdangerous==0.23
 misaka==1.0.2
-mongoengine==0.8.6
+mongoengine==0.8.7
 passlib==1.6.2
 pymongo==2.6.3
-webassets==0.8
+webassets==0.9
 wsgiref==0.1.2
