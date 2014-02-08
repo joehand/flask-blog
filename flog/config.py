@@ -49,7 +49,8 @@ class ProductionConfig(Config):
 
 class DevelopmentConfig(Config): 
 
-    from local_config import *
+    if not PRODUCTION:
+        from local_config import *
 
     # MongoDB Config
     MONGODB_DB = 'blog_db'
@@ -57,7 +58,7 @@ class DevelopmentConfig(Config):
     MONGODB_PORT = 27017
 
     DEBUG_TB_INTERCEPT_REDIRECTS = False
-    
+
     SECURITY_PASSWORD_SALT = '/2aX16zPnnIgfMwkOjGX4S'
 
     DEBUG_TB_PANELS = (
