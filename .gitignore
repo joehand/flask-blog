@@ -60,3 +60,5 @@ sftp-config*.json
 .webassets-cache
 
 local_config.py
+
+flog/local.py

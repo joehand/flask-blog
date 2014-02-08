@@ -49,11 +49,6 @@ class ProductionConfig(Config):
 
 class DevelopmentConfig(Config): 
 
-    try:
-        from local_config import *
-    except:
-        pass
-
     # MongoDB Config
     MONGODB_DB = 'blog_db'
     MONGODB_HOST = 'localhost'

@@ -47,11 +47,16 @@ def configure_app(app, config=None):
     """Different ways of configurations."""
 
     # http://flask.pocoo.org/docs/api/#configuration
+    print config
 
     if config:
         app.config.from_object(config)
     else:
-        app.config.from_object(DevelopmentConfig)
+        try:
+            from local import LocalConfig
+            app.config.from_object(LocalConfig)
+        except:
+            app.config.from_object(DevelopmentConfig)
 
 
 
