@@ -58,3 +58,5 @@ nosetests.xml
 sftp-config*.json
 
 .webassets-cache
+
+local_config.py

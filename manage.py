@@ -1,6 +1,7 @@
 # manage.py
 from flask.ext.script import Manager, Shell, Server
 from flask.ext.security import MongoEngineUserDatastore
+from flask.ext.security.utils import encrypt_password
 from flask.ext.s3 import create_all
 from flask.ext.assets import ManageAssets
 
@@ -9,6 +10,7 @@ from flog.extensions import db, assets
 from flog.user import User, Role
 
 import os
+import bcrypt
 
 app = create_app()
 manager = Manager(app)
@@ -20,11 +22,16 @@ def initdb():
 
     user_datastore = MongoEngineUserDatastore(db, User, Role)
 
+            
     admin = user_datastore.create_role(name='admin', description='Admin User')
-    user = user_datastore.create_user(email='joe.a.hand@gmail.com', password='password')
+    user = user_datastore.create_user(
+        email='joe.a.hand@gmail.com', 
+        password=encrypt_password('password')
+    )
 
     user_datastore.add_role_to_user(user, admin)
 
+@manager.command
 def build_js():
     """ Builds the js for production
         TODO: Build css here too. 
@@ -32,11 +39,21 @@ def build_js():
     jsfile = 'app.min.js'
     os.system('cd flog/static/js && node libs/r.js -o app.build.js out=../build/%s'%jsfile)
     os.system('cd flog/static/js && cp libs/require.js ../build/')
-    jsfile = 'flog/static/js/' + jsfile
+    jsfile = 'flog/static/build/' + jsfile
 
+@manager.command
 def build_css():
-    """ TODO: Write this with ManageAssets """
-    css = faslkdfja
+    import logging
+    from webassets.script import CommandLineEnvironment
+
+    # Setup a logger
+    log = logging.getLogger('webassets')
+    log.addHandler(logging.StreamHandler())
+    log.setLevel(logging.DEBUG)
+
+    cmdenv = CommandLineEnvironment(assets, log)
+    cmdenv.clean()
+
 
 @manager.command
 def upload():

@@ -19,11 +19,24 @@ class Config(object):
 
     S3_BUCKET_NAME = 'joehand_blog'
 
+    S3_HEADERS = {
+        'Expires': 'Thu, 15 Feb 2014 20:00:00 GMT',
+        'Cache-Control': 'max-age=86400',
+    }
+
+    SECURITY_PASSWORD_HASH = 'bcrypt'
+
 class ProductionConfig(Config):
 
     PRODUCTION = True
 
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+
+    SECURITY_PASSWORD_SALT = os.environ.get('PASSWORD_SALT')
+
     DEBUG = True
+
+    ASSETS_AUTO_BUILD = False
 
     USE_S3_DEBUG = True
 
@@ -36,12 +49,16 @@ class ProductionConfig(Config):
 
 class DevelopmentConfig(Config): 
 
+    from local_config import *
+
     # MongoDB Config
     MONGODB_DB = 'blog_db'
     MONGODB_HOST = 'localhost'
     MONGODB_PORT = 27017
 
     DEBUG_TB_INTERCEPT_REDIRECTS = False
+    
+    SECURITY_PASSWORD_SALT = '/2aX16zPnnIgfMwkOjGX4S'
 
     DEBUG_TB_PANELS = (
         'flask.ext.debugtoolbar.panels.versions.VersionDebugPanel',
