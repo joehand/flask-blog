@@ -3,7 +3,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
 
-    PROJECT = "flog"
+    PROJECT = "joehand_blog"
 
     # Get app root path
     PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
@@ -16,7 +16,6 @@ class Config(object):
     SECURITY_TRACKABLE = True
 
     DEBUG_TB_ENABLED = False
-
 
     S3_BUCKET_NAME = 'joehand_blog'
 
