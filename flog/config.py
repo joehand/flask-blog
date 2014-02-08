@@ -3,7 +3,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
 
-    PROJECT = "joehand_blog"
+    PROJECT = "flog"
 
     # Get app root path
     PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
@@ -30,8 +30,7 @@ class ProductionConfig(Config):
     MONGODB_USERNAME = os.environ.get('MONGODB_USERNAME')
     MONGODB_PASSWORD = os.environ.get('MONGODB_PASSWORD')
 
-
-    FLASK_ASSETS_USE_S3 = True
+    FLASK_ASSETS_USE_S3 = False
 
 class DevelopmentConfig(Config):
     #ASSETS_AUTO_BUILD = True

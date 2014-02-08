@@ -22,6 +22,7 @@ boto==2.25.0
 cssmin==0.2.0
 cssutils==1.0
 flask-mongoengine==0.7.0
+gunicorn==18.0
 html2text==3.200.3
 itsdangerous==0.23
 misaka==1.0.2
