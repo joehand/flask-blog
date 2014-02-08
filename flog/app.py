@@ -47,10 +47,12 @@ def configure_app(app, config=None):
     """Different ways of configurations."""
 
     # http://flask.pocoo.org/docs/api/#configuration
-    app.config.from_object(ProductionConfig)
 
     if config:
         app.config.from_object(config)
+    else:
+        app.config.from_object(DevelopmentConfig)
+
 
 
 def configure_extensions(app):
@@ -73,7 +75,7 @@ def configure_extensions(app):
     md.init_app(app)
 
     # flask s3
-    #s3.init_app(app)
+    s3.init_app(app)
 
     if app.debug:
         from flask.ext.debugtoolbar import DebugToolbarExtension

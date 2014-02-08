@@ -5,7 +5,7 @@ from flask.ext.s3 import create_all
 from flask.ext.assets import ManageAssets
 
 from flog import create_app
-from flog.extensions import db
+from flog.extensions import db, assets
 from flog.user import User, Role
 
 import os
@@ -37,6 +37,10 @@ def build_js():
 def build_css():
     """ TODO: Write this with ManageAssets """
     css = faslkdfja
+
+@manager.command
+def upload():
+    create_all(app)
 
 def shell_context():
     return dict(app=app)

@@ -1,6 +1,6 @@
-from flog import create_app
+from flog import create_app, config
 
-app = create_app()
+app = create_app(config=config.ProductionConfig)
 
 if __name__ == '__main__':
     app.run()
