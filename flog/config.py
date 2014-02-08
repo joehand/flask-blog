@@ -49,6 +49,8 @@ class ProductionConfig(Config):
 
 class DevelopmentConfig(Config): 
 
+    PRODUCTION = False
+
     if not PRODUCTION:
         from local_config import *
 
