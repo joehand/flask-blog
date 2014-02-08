@@ -5,7 +5,21 @@
 \* ================================================================== */
 
 a {
-    transition: all 100ms ease-out;
+    transition: all 150ms ease-out;
+
+    text-decoration: none;
+
+    &:hover {
+            color:@red !important;
+        }
+}
+
+blockquote {
+    border-color:@red;
+}
+
+p a {
+    text-decoration: underline;
 }
 
 .document {
@@ -13,7 +27,7 @@ a {
     border-bottom:5px solid @gray-darkest;
 }
 /* ================================================================== *\
-   Site Header wtf
+   Site Header
 \* ================================================================== */
 
 
@@ -22,12 +36,7 @@ a {
 
     a {
         color: @gray-darkest;
-        text-decoration: none;
         line-height:1.75;
-
-        &:hover {
-            color:@base-link-color;
-        }
     }
 
     font-family: @nav-font-family;
@@ -134,18 +143,12 @@ a {
 
         a {
             color:@heading-font-color;
-            text-decoration:none;
-
-            &:hover {
-                color:lighten(@heading-font-color, 30%);
-            }
         }
     }
 
     .category {
         a {
             color:@gray-light;
-            text-decoration: none;
 
         }
         position: absolute;
@@ -159,12 +162,7 @@ a {
         font-size:@8-size;
 
         a {
-            text-decoration: none;
             color:@gray-light;
-
-            &:hover {
-                color:darken(@gray-light, 20%)
-            }
         }
 
         .useicons {
@@ -179,17 +177,22 @@ a {
         a {
             font-size:@9-size;
             text-decoration: none;
-            color:@gray-darkest;
             .useicons {
                 padding-right:0.5rem;
                 vertical-align: middle;
+                color:@red;
+            }
+            .pub_date {
+                transition: all 150ms ease-out;
+                color: @gray;
+                font-family: @heading-font-family;
+            }
+
+            &:hover .pub_date {
+                color:@red;
             }
         }
 
-        .pub_date {
-            color: @gray-light;
-            font-family: @heading-font-family;
-        }
     }
 }
 
@@ -202,7 +205,6 @@ a {
 
     .page-link {
         color:@gray-darker;
-        text-decoration: none;
         padding:0 1rem;
     }
 
@@ -236,7 +238,6 @@ a {
     .category {
         font-weight:bold;
         color:@gray;
-        text-decoration: none;
     }
 
     .category, .pub_date {
@@ -247,22 +248,21 @@ a {
         font-family: @heading-font-family;
     }
 
+    .pub_date {
+        color: @gray;
+        font-weight:bold;
+    }
+
     .title {
         margin:0;
         max-width: 500px;
         a {
             color:@heading-font-color;
-            text-decoration: none;
-
-            &:hover {
-                color:@blue;
-            }
         }
     }
 
     .year {
         font-size:@4-size;
-        line-height: 0.5rem;
         margin-top:4rem;
         margin-bottom:2rem;
 
@@ -273,11 +273,23 @@ a {
 
     .crossbars {
         &:before, &:after {
-            background-color:@gray-lighter;
+            background-color:@red;
+            height:2px;
+            margin-top:0;
         }
     }
-
 }
+
+
+/* ================================================================== *\
+   Cateogry Page
+\* ================================================================== */
+
+.category-header {
+    margin-bottom: 2rem;
+    color:@gray-light;
+}
+
 
 /* ================================================================== *\
    Footer
@@ -297,11 +309,6 @@ a {
 
     a {
         color:@gray-darkest;
-        text-decoration: none;
-
-        &:hover {
-            color:@base-link-color;
-        }
     }
 
     .bottom {
