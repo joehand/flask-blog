@@ -10,7 +10,6 @@ from flog.extensions import db, assets
 from flog.user import User, Role
 
 import os
-import bcrypt
 
 app = create_app()
 manager = Manager(app)
