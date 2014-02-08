@@ -22,12 +22,14 @@ class Config(object):
 
 class ProductionConfig(Config):
 
-    DEBUG = False
+    DEBUG = True
 
     #MongoDB Info
     MONGODB_DB = os.environ.get('MONGODB_DATABASE')
     MONGODB_HOST = os.environ.get('MONGO_URL')
     MONGODB_PORT = os.environ.get('MONGODB_PORT')
+    MONGODB_USERNAME = os.environ.get('MONGODB_USERNAME')
+    MONGODB_PASSWORD = os.environ.get('MONGODB_PASSWORD')
 
 
     FLASK_ASSETS_USE_S3 = True

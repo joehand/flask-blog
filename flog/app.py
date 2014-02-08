@@ -4,7 +4,7 @@ from urlparse import urlparse
 from flask import Flask, render_template
 from flask.ext.security import MongoEngineUserDatastore
 
-from .config import Config, DevelopmentConfig
+from .config import Config, DevelopmentConfig, ProductionConfig
 
 from .user import user, User, Role
 from .admin import admin
@@ -47,7 +47,7 @@ def configure_app(app, config=None):
     """Different ways of configurations."""
 
     # http://flask.pocoo.org/docs/api/#configuration
-    app.config.from_object(DevelopmentConfig)
+    app.config.from_object(ProductionConfig)
 
     if config:
         app.config.from_object(config)
