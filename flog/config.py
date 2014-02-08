@@ -22,7 +22,8 @@ class Config(object):
 class ProductionConfig(Config):
 
     DEBUG = True
-    ASSETS_DEBUG = True
+    ASSETS_DEBUG = False
+    ASSETS_AUTO_BUILD = False
 
     #MongoDB Info
     MONGODB_DB = os.environ.get('MONGODB_DATABASE')
@@ -33,8 +34,7 @@ class ProductionConfig(Config):
 
     FLASK_ASSETS_USE_S3 = False
 
-class DevelopmentConfig(Config):
-    #ASSETS_AUTO_BUILD = True
+class DevelopmentConfig(Config):   
     ASSETS_DEBUG = True
 
     # MongoDB Config
