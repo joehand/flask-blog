@@ -17,11 +17,11 @@ class Config(object):
 
     DEBUG_TB_ENABLED = False
 
-    S3_BUCKET_NAME = 'joehand_blog'
-
 class ProductionConfig(Config):
 
-    DEBUG = False
+    PRODUCTION = True
+
+    DEBUG = True
 
     #MongoDB Info
     MONGODB_DB = os.environ.get('MONGODB_DATABASE')
@@ -29,8 +29,6 @@ class ProductionConfig(Config):
     MONGODB_PORT = os.environ.get('MONGODB_PORT')
     MONGODB_USERNAME = os.environ.get('MONGODB_USERNAME')
     MONGODB_PASSWORD = os.environ.get('MONGODB_PASSWORD')
-
-    FLASK_ASSETS_USE_S3 = False
 
 class DevelopmentConfig(Config):   
     ASSETS_DEBUG = True
