@@ -73,7 +73,7 @@ def configure_extensions(app):
     md.init_app(app)
 
     # flask s3
-    s3.init_app(app)
+    #s3.init_app(app)
 
     if app.debug:
         from flask.ext.debugtoolbar import DebugToolbarExtension

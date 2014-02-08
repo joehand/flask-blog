@@ -22,6 +22,7 @@ class Config(object):
 class ProductionConfig(Config):
 
     DEBUG = True
+    ASSETS_DEBUG = True
 
     #MongoDB Info
     MONGODB_DB = os.environ.get('MONGODB_DATABASE')
