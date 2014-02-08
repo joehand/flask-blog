@@ -15,15 +15,8 @@ class Config(object):
     # Flask Security Config
     SECURITY_TRACKABLE = True
 
-    # MongoDB Config
-    MONGODB_DB = 'blog_db'
-    MONGODB_HOST = 'localhost'
-    MONGODB_PORT = 27017
-
     DEBUG_TB_ENABLED = False
 
-    #ASSETS_AUTO_BUILD = True
-    ASSETS_DEBUG = True
 
     S3_BUCKET_NAME = 'joehand_blog'
 
@@ -32,12 +25,21 @@ class ProductionConfig(Config):
     DEBUG = False
 
     #MongoDB Info
-    MONGODB_DB = 'app17531201'
-    MONGODB_HOST = os.environ.get('MONGOHQ_URL')
+    MONGODB_DB = os.environ.get('MONGODB_DATABASE')
+    MONGODB_HOST = os.environ.get('MONGO_URL')
+    MONGODB_PORT = os.environ.get('MONGODB_PORT')
+
 
     FLASK_ASSETS_USE_S3 = True
 
 class DevelopmentConfig(Config):
+    #ASSETS_AUTO_BUILD = True
+    ASSETS_DEBUG = True
+
+    # MongoDB Config
+    MONGODB_DB = 'blog_db'
+    MONGODB_HOST = 'localhost'
+    MONGODB_PORT = 27017
 
     DEBUG_TB_INTERCEPT_REDIRECTS = False
 
