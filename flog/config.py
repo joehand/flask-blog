@@ -49,10 +49,10 @@ class ProductionConfig(Config):
 
 class DevelopmentConfig(Config): 
 
-    PRODUCTION = False
-
-    if not PRODUCTION:
+    try:
         from local_config import *
+    except:
+        pass
 
     # MongoDB Config
     MONGODB_DB = 'blog_db'
