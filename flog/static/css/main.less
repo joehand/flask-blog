@@ -23,8 +23,8 @@ p a {
 }
 
 .document {
-    border-top:5px solid @gray-darkest;
-    border-bottom:5px solid @gray-darkest;
+    border-top:5px solid @heading-font-color;
+    border-bottom:5px solid @heading-font-color;
 }
 /* ================================================================== *\
    Site Header
@@ -35,7 +35,7 @@ p a {
     padding:1rem 0;
 
     a {
-        color: @gray-darkest;
+        color: @heading-font-color;
         line-height:1.75;
     }
 
@@ -52,7 +52,7 @@ p a {
  */
 
 .name {
-    margin:0;
+    margin:0 0 2rem;
 }
 
 
@@ -149,13 +149,8 @@ p a {
     .category {
         a {
             color:@gray-light;
-
         }
-        position: absolute;
-        right:100%;
-        top:0;
         font-size:@7-size;
-        margin-right:1rem;
     }
 
     .link_url {
@@ -196,6 +191,26 @@ p a {
     }
 }
 
+
+
+/* LARGE-sized breakpoint */
+@media only screen and (min-width: @grid-breakpoint-large) {
+
+
+    .post-full {
+        .category {
+            position: absolute;
+            right:100%;
+            top:0;
+            margin-right:1rem;
+        }
+    }
+
+
+
+
+}
+
 /* ================================================================== *\
    Notes Page
 \* ================================================================== */
@@ -204,7 +219,7 @@ p a {
     text-align: center;
 
     .page-link {
-        color:@gray-darker;
+        color:@heading-font-color;
         padding:0 1rem;
     }
 
@@ -265,6 +280,7 @@ p a {
         font-size:@4-size;
         margin-top:4rem;
         margin-bottom:2rem;
+        color:@heading-font-color;
 
         &:first-child{
             margin-top:0;
@@ -297,27 +313,28 @@ p a {
 
 .footer {
     font-size:@9-size;
+    font-family: @heading-font-family;
 
     .social {
         font-size:1.75rem;
         text-align: center;
 
         a {
-            color:@gray-darkest;
+            color: @heading-font-color;
         }
     }
 
     a {
-        color:@gray-darkest;
+        color: @heading-font-color;
     }
 
     .bottom {
         border-top:1px solid @gray-lighter;
         padding:1rem 0;
-        color:@gray-dark;
+        color: @gray;
         letter-spacing: 1px;
         text-align: center;
-        font-weight:300;
+
 
         span {
             display:block;
@@ -344,7 +361,7 @@ p a {
             z-index:-1;
 
             a {
-                color:@gray-darkest;
+                color: @heading-font-color;
             }
         }
 
@@ -398,7 +415,7 @@ p a {
     width:35px;
     height:35px;
     line-height:35px;
-    background:@gray-darkest;
+    background: @heading-font-color;
     color:@white;
     border-radius: 0 0 3px;
     font-size:1rem;
