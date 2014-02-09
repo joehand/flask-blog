@@ -48,7 +48,7 @@ class PostView(FlaskView):
     @route('/archive/<slug>/', endpoint='post')
     def get(self, slug):
         """ View for a single post"""
-        post = Post.objects(slug=slug).first_or_404()
+        post = Post.objects(slug=slug, published=True).first_or_404()
         if not 'archive' in request.url and post.kind != 'page':
             return redirect(url_for('.post', slug=slug))
 
