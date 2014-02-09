@@ -7,7 +7,7 @@
     {%- block siteheader %}
         {%- if current_user.has_role('admin') -%}
         <div class="admin-nav">
-            <a class="admin-link small-caps useicons" href="{{url_for('admin.PostAdmin:index')}}">&#xe600;</a>
+            <a class="admin-link small-caps useicons" href="{{url_for('admin.PostAdmin:index')}}" data-no-instant>&#xe600;</a>
         </div>
         {%- endif -%}
         <div class="site-head wrapper cf">
