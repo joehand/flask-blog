@@ -31,15 +31,13 @@ class ProductionConfig(Config):
 
     PRODUCTION = True
 
-    SECRET_KEY = 'test'
+    SECRET_KEY = os.environ.get('SECRET_KEY')
 
-    SECURITY_PASSWORD_SALT = 'test'
+    SECURITY_PASSWORD_SALT = os.environ.get('SECURITY_PASSWORD_SALT')
 
-    DEBUG = True
+    DEBUG = False
 
     ASSETS_AUTO_BUILD = False
-
-    USE_S3_DEBUG = True
 
     #MongoDB Info
     MONGODB_DB = os.environ.get('MONGODB_DATABASE')
