@@ -22,7 +22,8 @@ manager = Manager(app)
 @manager.command
 def initdb():
     """Init/reset database."""
-    db.connection.drop_database(app.config['MONGODB_DB'])
+    if not os.environ.get('PRODUCTION'):
+        db.connection.drop_database(app.config['MONGODB_DB'])
 
     user_datastore = MongoEngineUserDatastore(db, User, Role)
 
