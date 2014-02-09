@@ -43,6 +43,9 @@ class ProductionConfig(Config):
     #MongoDB Info
     MONGODB_DB = os.environ.get('MONGODB_DATABASE')
     MONGODB_HOST = os.environ.get('MONGO_URL')
+    MONGODB_PORT = os.environ.get('MONGODB_PORT')
+    MONGODB_USERNAME = os.environ.get('MONGODB_USERNAME')
+    MONGODB_PASSWORD = os.environ.get('MONGODB_PASSWORD')
 
 class DevelopmentConfig(Config): 
 
