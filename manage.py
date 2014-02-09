@@ -8,32 +8,19 @@ from flask.ext.assets import ManageAssets
 from flog import create_app
 from flog.extensions import db, assets
 from flog.user import User, Role
-from flog.config import ProductionConfig
+from flog.config import ProductionConfig, DevelopmentConfig
 
 import os
 
-manager = Manager(create_app)
+if os.environ.get('PRODUCTION'):
+    app = create_app(config = ProductionConfig)
+else:
+    app = create_app(config = DevelopmentConfig)
+
+manager = Manager(app)
 
 @manager.command
 def initdb():
-    """Init/reset database."""
-    db.connection.drop_database(app.config['MONGODB_DB'])
-
-    user_datastore = MongoEngineUserDatastore(db, User, Role)
-
-            
-    admin = user_datastore.create_role(name='admin', description='Admin User')
-    user = user_datastore.create_user(
-        email='joe.a.hand@gmail.com', 
-        password=encrypt_password('password')
-    )
-
-    user_datastore.add_role_to_user(user, admin)
-
-
-@manager.command
-def initproddb():
-    app = create_app(config=ProductionConfig)
     """Init/reset database."""
     db.connection.drop_database(app.config['MONGODB_DB'])
 
