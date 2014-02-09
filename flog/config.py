@@ -14,7 +14,6 @@ class Config(object):
 
     # Flask Security Config
     SECURITY_TRACKABLE = True
-    SECURITY_CHANGEABLE = True
 
     DEBUG_TB_ENABLED = False
 
@@ -47,7 +46,7 @@ class ProductionConfig(Config):
     MONGODB_PORT = os.environ.get('MONGODB_PORT')
     MONGODB_USERNAME = os.environ.get('MONGODB_USERNAME')
     MONGODB_PASSWORD = os.environ.get('MONGODB_PASSWORD')
-
+    
 class DevelopmentConfig(Config): 
 
     # MongoDB Config
