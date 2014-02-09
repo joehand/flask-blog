@@ -58,6 +58,8 @@ def processMDFile(filename, contents):
             published = True
         elif published == 'false' or published is False:
             published = False
+        else:
+            published = False
         post.published = published
 
 
