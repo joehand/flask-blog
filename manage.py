@@ -15,7 +15,7 @@ import os
 if os.environ.get('PRODUCTION'):
     app = create_app(config = ProductionConfig)
 else:
-    app = create_app(config = DevelopmentConfig)
+    app = create_app()
 
 manager = Manager(app)
 

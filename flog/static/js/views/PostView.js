@@ -47,6 +47,7 @@ define([
             '.content.editor' : {
                 observe: 'content',
                 updateMethod: 'text',
+                updateView: false,
             },
         },
 

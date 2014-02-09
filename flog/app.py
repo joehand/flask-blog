@@ -57,7 +57,6 @@ def configure_app(app, config=None):
             app.config.from_object(DevelopmentConfig)
 
 
-
 def configure_extensions(app):
     # flask-mongoengine
     db.init_app(app)
