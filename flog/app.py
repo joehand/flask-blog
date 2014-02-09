@@ -47,8 +47,6 @@ def configure_app(app, config=None):
     """Different ways of configurations."""
 
     # http://flask.pocoo.org/docs/api/#configuration
-    print config
-
     if config:
         app.config.from_object(config)
     else:
