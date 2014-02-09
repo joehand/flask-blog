@@ -45,7 +45,7 @@
                               };
         </script>
         {%- if config.PRODUCTION %}
-        <script data-main="{{ url_for('static', filename='app.min')}}" src="{{ url_for('static', filename='build/require.js')}}"></script>
+        <script data-main="{{ url_for('static', filename='build/app.min')}}" src="{{ url_for('static', filename='build/require.js')}}"></script>
         {%- else %}
         <script data-main="{{ url_for('static', filename='js/app')}}" src="{{ url_for('static', filename='js/libs/require.js')}}"></script>
         {%- endif %}
