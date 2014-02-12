@@ -12,6 +12,7 @@ define([
     'views/PostView',
     'models/PostModel',
     'atwho',
+    'modals',
 ], function (Backbone, _, $, Utils, PostView, PostModel) {
 
     var keys = []
@@ -23,27 +24,18 @@ define([
             'click .preview-button'         : '_toggleContentPreview',
             'click .settings-button'        : '_togglePostSettings',
             'click .settings-close'         : '_togglePostSettings',
-            //'keypress .content.editor'      : '_checkYoself',
-            'change .image-upload input'    : 's3_upload'
+            'change .image-upload input'    : '_beginImageUpload',
         },
 
-        _checkYoself: function(e) {
-            if (e.which == 33) {
-                //exclamation point
-                keys.unshift(e.which);
-            } else if (e.which == 91 && keys.length == 1) {
-                //left square bracket
-                var top = $('.content.editor').caret('position').top;
-                console.log('i think we have image!');
+        _beginImageUpload: function(e) {
+            console.log(e.currentTarget.value);
 
-                $('.image-upload').css({'top':top, 'display':'block'});
-                keys = [];
-            } else {
-                // empty our history
-                keys = [];
+            // make sure image was chosen
+            // TODO: check file types(?), could also do on server-side?
+            if (e.currentTarget.value !== '') {
+                console.log('begin upload');
+                this.initS3Upload(e);
             }
-
-            console.log('checking yourself');
         },
 
         _toggleFullscreen: function(e) {
@@ -75,7 +67,10 @@ define([
         initialize: function(opts) {
             this.model.set('contentPreviewActive', false);
             this.initPosts();
+
+            this.$contentInput = $('textarea.content');
             this.initAutoComplete();
+
             this.render();
         },
 
@@ -99,57 +94,76 @@ define([
 
         initAutoComplete: function() {
             var self = this,
+                $inputEl = this.$contentInput,
                 autoComplete = [
                     {'name' : 'image', 'content' : '![img]()'},
                     {'name':"link", 'content':'[link]()'},
                 ];
 
-            $('textarea.content').on("inserted.atwho", function(event, $li, context) {
-                $('textarea.content').caret('pos', context.query.head_pos + 6);
+            $inputEl.on("inserted.atwho", function(event, $li, context) {
+                $inputEl.caret('pos', context.query.head_pos + 6);
             });
 
-            $('textarea.content').atwho({ 
+            $inputEl.atwho({ 
                 at: "[", 
                 data: autoComplete,
                 tpl: "<li data-value='${content}'>${name}</li>",
                 callbacks: {
                     before_insert: function(value, $li) {
                         if (value.indexOf("img") != -1) {
-                            // pop up image upload modal ?
-                            var top = $('.content.editor').caret('position').top;
-                            $('.image-upload').css({'top':top, 'display':'block'});
+                            // get ready to upload image
+                            self.showImageUpload();
                         }
 
                         return value;
                      }
                 }
             });
-
         },
 
-        s3_upload: function(e) {
-            console.log('s3 change');
-            console.log(e.currentTarget.value);
-            var fileName = 'imgs/' + this.postView.model.get('slug') + '-' + 
+        showImageUpload: function() {
+            // Simulate Input Click to Show File Browser
+            $('.image-upload input[type=file]').trigger('click');
+            $('.image-upload').modal('show')
+        },
+
+        insertTextAtCurrentPos: function(text) {
+            // Insert Text At Current Caret Position
+            var output = '',
+                source = this.$contentInput.val(),
+                pos = this.$contentInput.caret('pos');
+
+            output = source.substring(0, pos) + text + source.substring(pos);
+            this.$contentInput.val(output);
+        },
+
+        initS3Upload: function(e) {
+            var self = this,
+                fileName = 'imgs/' + this.postView.model.get('slug') + '-' + 
                             e.currentTarget.value.replace(/^.*\\/, '');
 
-            
-            var s3upload = new S3Upload({
-                file_dom_selector: 'image-upload',
-                s3_sign_put_url: '/admin/sign_s3/',
-                s3_object_name: fileName,
+            if (!_.isUndefined(fileName)) {
+                var s3upload = new S3Upload({
+                    file_dom_selector: 'image-upload',
+                    s3_sign_put_url: '/admin/sign_s3/',
+                    s3_object_name: fileName,
 
-                onProgress: function(percent, message) {
-                    $('.status').html(percent + '% ' + message);
-                },
-                onFinishS3Put: function(url) {
-                    $('.status').html('Done @ '+ url);
-                    //$("#preview").html('<img src="'+url+'" style="width:300px;" />');
-                },
-                onError: function(status) {
-                    $('.status').html('Error: ' + status);
-                }
-            });
+                    onProgress: function(percent, message) {
+                        $('.status').html(percent + '% ' + message);
+                    },
+                    onFinishS3Put: function(url) {
+                        // insert image URL in text area
+                        self.insertTextAtCurrentPos(url);
+                        self.$contentInput.trigger('change');
+                        $('.status').html('<span class="small-caps">Uploaded to</span><br/>'+ url);
+                        $(".image-preview").html('<img src="'+url+'" style="max-width:300px;" />');
+                    },
+                    onError: function(status) {
+                        $('.status').html('Error: ' + status);
+                    }
+                });   
+            }
+            
         },
 
     });

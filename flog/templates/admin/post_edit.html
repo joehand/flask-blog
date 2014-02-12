@@ -36,10 +36,17 @@
                 <textarea class="content editor" placeholder="Start writing..." autofocus>
                     {%- if post.content -%}{{post.content}}{%- endif -%}
                 </textarea>
-                <div class="image-upload">
-                    <label for="image-upload" class="useicons">&#xe604;</label>
+
+                <div class="image-upload modal fade">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-body">         
+                                <span class="status"></span>
+                                <div class="image-preview"></div>
+                          </div>
+                        </div><!-- /.modal-content -->
+                      </div><!-- /.modal-dialog -->
                     <input type="file" id="image-upload">
-                    <span class="status"></span>
                 </div>
                 <div class="content-preview"></div>
             </article>

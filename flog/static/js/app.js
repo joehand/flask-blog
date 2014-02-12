@@ -8,6 +8,7 @@ requirejs.config({
         's3upload'           : 'libs/s3upload',
         'caret'              : 'libs/jquery.caret',
         'atwho'              : 'libs/jquery.atwho',
+        'modals'             : 'libs/modal',
     },
     shim: {
         backbone: {
@@ -32,6 +33,9 @@ requirejs.config({
         },
         atwho: {
             deps: ['jquery', 'caret']
+        },
+        modals: {
+            deps: ['jquery']
         },
     }
 });

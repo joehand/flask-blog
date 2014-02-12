@@ -321,21 +321,16 @@ textarea.content {
 }
 
 .image-upload {
-    position:absolute;
-    display:none;
-    right:100%;
-    margin-right:1rem;
+    text-align: center;
+    font-size:@8-size;
+
+    img {
+        margin:1rem auto;
+        display:block;
+    }
 
     input {
         display:none;
-    }
-
-    .status {
-        position: absolute;
-        left:-200px;
-        width:200px;
-        font-size:@10-size;
-        text-align: right;
     }
 }
 
@@ -566,4 +561,6 @@ textarea.content {
     display:none;
 }
 
+
+@import 'libs/modals.less';  
 @import 'libs/jquery.atwho.less';  
