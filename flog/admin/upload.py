@@ -101,4 +101,3 @@ def process_upload(files):
                 file.close()
 
         return posts
-

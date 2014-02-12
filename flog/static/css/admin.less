@@ -8,6 +8,33 @@
     margin-top:2rem;
 }
 
+
+.document {
+    border:none;
+
+    &::before, &::after {
+        content:"";
+        height:5px;
+        display:block;
+        position: fixed;
+        width:100%;
+        left:0;
+        background-color:@heading-font-color;
+        z-index:100;
+        transition: background-color 1000ms ease-in;
+    }
+
+    &:before {
+        top:0;
+    }
+
+    &:after {
+        bottom:0;
+    }
+}
+
+
+
 /* ================================================================== *\
    Main Post Dashboard!
 \* ================================================================== */
@@ -211,6 +238,10 @@
         margin-bottom: 2rem;
     }
 
+    article {
+        position: relative;
+    }
+
     .title {
         line-height: 1;
     }
@@ -287,6 +318,20 @@ textarea.content {
 .content-preview {
     min-height: 300px;
     display:none;
+}
+
+.image-upload {
+    text-align: center;
+    font-size:@8-size;
+
+    img {
+        margin:1rem auto;
+        display:block;
+    }
+
+    input {
+        display:none;
+    }
 }
 
 /* ================================================================== *\
@@ -402,7 +447,7 @@ textarea.content {
         display:inline-block;
     }
     line-height:35px;
-    background:@gray-darkest;
+    background-color:@heading-font-color;
     color:@white;
     border-radius: 0 0 0 3px;
     font-size:1rem;
@@ -493,10 +538,13 @@ textarea.content {
 }
 .saving {
 //added to document when done saving
+    &.document {
 
-    border-top-color:@green;
-    border-buttom-color:@green;
-    transition: border-color 1000ms ease-in;
+        &::before, &::after {
+            background-color:@green;
+            background-color:@green;
+        }
+    }
 
     .save-message {
         color:@green;
@@ -512,3 +560,7 @@ textarea.content {
 .hidden {
     display:none;
 }
+
+
+@import 'libs/modals.less';  
+@import 'libs/jquery.atwho.less';  

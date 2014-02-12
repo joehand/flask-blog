@@ -9,7 +9,6 @@
         'underscore'         : 'libs/underscore',
         'backbone'           : 'libs/backbone',
         'backboneStick'      : 'libs/backbone.stickit',
-        'backboneDual'       : 'libs/backbone.dualstorage.amd',
         'marked'             : 'libs/marked'
     },
     shim: {
@@ -18,9 +17,6 @@
             exports: 'Backbone'
         },
         backboneStick: {
-            deps: ['backbone'],
-        },
-        backboneDual: {
             deps: ['backbone'],
         },
         underscore: {

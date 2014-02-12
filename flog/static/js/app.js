@@ -5,6 +5,10 @@ requirejs.config({
         'backbone'           : 'libs/backbone',
         'backboneStick'      : 'libs/backbone.stickit',
         'marked'             : 'libs/marked',
+        's3upload'           : 'libs/s3upload',
+        'caret'              : 'libs/jquery.caret',
+        'atwho'              : 'libs/jquery.atwho',
+        'modals'             : 'libs/modal',
     },
     shim: {
         backbone: {
@@ -19,6 +23,19 @@ requirejs.config({
         },
         marked: {
             exports: 'marked'
+        },
+        s3upload: {
+            deps: ['jquery', 'underscore'],
+            exports: 'S3Upload'
+        },
+        caret: {
+            deps: ['jquery']
+        },
+        atwho: {
+            deps: ['jquery', 'caret']
+        },
+        modals: {
+            deps: ['jquery']
         },
     }
 });

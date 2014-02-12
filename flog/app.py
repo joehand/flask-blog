@@ -38,10 +38,7 @@ def create_app(config=None, app_name=None, blueprints=None):
     configure_template_filters(app)
     configure_error_handlers(app)
 
-    print app.url_map
-
     return app
-
 
 def configure_app(app, config=None):
     """Different ways of configurations."""
@@ -55,7 +52,6 @@ def configure_app(app, config=None):
             app.config.from_object(LocalConfig)
         except:
             app.config.from_object(DevelopmentConfig)
-
 
 def configure_extensions(app):
     # flask-mongoengine
@@ -81,20 +77,17 @@ def configure_extensions(app):
         from flask.ext.debugtoolbar import DebugToolbarExtension
         toolbar = DebugToolbarExtension(app)
 
-
 def configure_blueprints(app, blueprints):
     """Configure blueprints in views."""
 
     for blueprint in blueprints:
         app.register_blueprint(blueprint)
 
-
 def configure_template_filters(app):
 
     @app.template_filter()
     def format_date(value, format='%d %b %Y'):
         return value.strftime(format)
-
 
     @app.template_filter()
     def get_domain(url):
@@ -113,13 +106,11 @@ def configure_logging(app):
         #skip loggin
         return
 
-
 def configure_hook(app):
 
     @app.before_request
     def before_request():
         pass
-
 
 def configure_error_handlers(app):
 

@@ -9,8 +9,9 @@ define([
     'underscore',
     'jquery',
     'views/PostView',
-    'models/PostModel'
-], function (Backbone, _, $, PostView, PostModel) {
+    'models/PostModel',
+    's3upload'
+], function (Backbone, _, $, PostView, PostModel, S3Upload) {
 
     DEFAULT_FILTER = flog.DEFAULT_FILTER || { 'kind' : ['article', 'note'], 'published' : [false] };
 

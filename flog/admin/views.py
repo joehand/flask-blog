@@ -1,5 +1,5 @@
 from flask import (Blueprint, render_template, jsonify, request,
-                   g, flash, redirect, url_for)
+                   g, flash, redirect, url_for, current_app)
 
 from flask.ext.security import current_user, login_required, roles_required
 from flask.ext.classy import FlaskView, route
@@ -7,10 +7,12 @@ from flask.ext.classy import FlaskView, route
 from ..blog import Post, Article, Note, PostForm
 from ..blog import POST_TYPES
 from upload import process_upload
+from images import process_image_upload
 
 from urlparse import urlparse
-import json
-import sys
+from hashlib import sha1
+import sys, json, time, os, base64, hmac, urllib
+
 
 admin = Blueprint('admin', __name__, url_prefix='/admin')
 
@@ -99,6 +101,31 @@ class PostAdmin(FlaskView):
             # TODO Make these more helpful
             return jsonify(), 400
         return jsonify( { 'result': True } )
+
+    @route('/sign_s3/')
+    def sign_s3(self):
+        AWS_ACCESS_KEY = current_app.config['AWS_ACCESS_KEY_ID']
+        AWS_SECRET_KEY =  current_app.config['AWS_SECRET_ACCESS_KEY']
+        S3_BUCKET =  current_app.config['S3_BUCKET_NAME']
+
+        object_name = request.args.get('s3_object_name')
+        mime_type = request.args.get('s3_object_type')
+
+        expires = int(time.time()+20)
+        amz_headers = "x-amz-acl:public-read"
+
+        put_request = "PUT\n\n%s\n%d\n%s\n/%s/%s" % (mime_type, expires, amz_headers, S3_BUCKET, object_name)
+
+        signature = base64.encodestring(hmac.new(AWS_SECRET_KEY, put_request, sha1).digest())
+        signature = urllib.quote_plus(signature.strip())
+
+        url = 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, object_name)
+
+        return json.dumps({
+            'signed_request': '%s?AWSAccessKeyId=%s&Expires=%d&Signature=%s' % (url, AWS_ACCESS_KEY, expires, signature),
+             'url': url
+          })
+
 
 
 #Register our View Class

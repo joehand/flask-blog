@@ -135,6 +135,7 @@ define([
 
         render: function() {
             this.stickit();
+            console.log(this);
             return this;
         },
 

@@ -104,7 +104,7 @@ define([
             if (this.collection.dirtyModels().length > 0) {
                 console.log('has dirty');
                 // we are offline, start checking when server is back
-                Utils.checkOnlineStatus(this);
+                //Utils.checkOnlineStatus(this);
             }
         },
 
