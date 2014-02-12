@@ -101,7 +101,7 @@ class PostAdmin(FlaskView):
             return jsonify(), 400
         return jsonify( { 'result': True } )
 
-    @route('/sign_s3/')
+    @route('/sign_s3/', methods=['GET'], endpoint='signS3')
     def sign_s3(self):
         AWS_ACCESS_KEY = current_app.config['AWS_ACCESS_KEY_ID']
         AWS_SECRET_KEY =  current_app.config['AWS_SECRET_ACCESS_KEY']

@@ -17,10 +17,7 @@ define([
 
     NAMESPACE = flog //for now...
 
-    appModel = new AppModel({ 
-        'user'       : NAMESPACE.currentUser,
-        'namespace'  : NAMESPACE
-    });
+    appModel = new AppModel(NAMESPACE);
 
     collection = _.union(NAMESPACE.postsBootstrap, NAMESPACE.pagesBootstrap);
 

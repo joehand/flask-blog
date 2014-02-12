@@ -143,7 +143,7 @@ define([
             if (!_.isUndefined(fileName)) {
                 var s3upload = new S3Upload({
                     file_dom_selector: 'image-upload',
-                    s3_sign_put_url: '/admin/sign_s3/',
+                    s3_sign_put_url: self.model.get('signS3URL'),
                     s3_object_name: fileName,
 
                     onProgress: function(percent, message) {
