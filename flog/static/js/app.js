@@ -7,6 +7,7 @@ requirejs.config({
         'marked'             : 'libs/marked',
         's3upload'           : 'libs/s3upload',
         'caret'              : 'libs/jquery.caret',
+        'atwho'              : 'libs/jquery.atwho',
     },
     shim: {
         backbone: {
@@ -28,6 +29,9 @@ requirejs.config({
         },
         caret: {
             deps: ['jquery']
+        },
+        atwho: {
+            deps: ['jquery', 'caret']
         },
     }
 });

@@ -35,6 +35,7 @@ define([
         },
 
         checkSave: function(self, v, opts, forceSave) {
+            // TODO: rewrite this using underscore's debounce function http://underscorejs.org/#debounce
             self = _.isUndefined(self) ? this : self;
             forceSave = !_.isUndefined(forceSave);
 

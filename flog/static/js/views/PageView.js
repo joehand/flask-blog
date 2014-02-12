@@ -11,7 +11,7 @@ define([
     'utils',
     'views/PostView',
     'models/PostModel',
-    'caret',
+    'atwho',
 ], function (Backbone, _, $, Utils, PostView, PostModel) {
 
     var keys = []
@@ -23,7 +23,7 @@ define([
             'click .preview-button'         : '_toggleContentPreview',
             'click .settings-button'        : '_togglePostSettings',
             'click .settings-close'         : '_togglePostSettings',
-            'keypress .content.editor'      : '_checkYoself',
+            //'keypress .content.editor'      : '_checkYoself',
             'change .image-upload input'    : 's3_upload'
         },
 
@@ -75,7 +75,15 @@ define([
         initialize: function(opts) {
             this.model.set('contentPreviewActive', false);
             this.initPosts();
+            this.initAutoComplete();
             this.render();
+        },
+
+        render: function() {
+            console.log('Page View rendered');
+            console.log(this);
+
+            return this;
         },
 
         initPosts: function() {
@@ -89,10 +97,34 @@ define([
             }
         },
 
-        render: function() {
-            console.log('Page View rendered');
-            console.log(this);
-            return this;
+        initAutoComplete: function() {
+            var self = this,
+                autoComplete = [
+                    {'name' : 'image', 'content' : '![img]()'},
+                    {'name':"link", 'content':'[link]()'},
+                ];
+
+            $('textarea.content').on("inserted.atwho", function(event, $li, context) {
+                $('textarea.content').caret('pos', context.query.head_pos + 6);
+            });
+
+            $('textarea.content').atwho({ 
+                at: "[", 
+                data: autoComplete,
+                tpl: "<li data-value='${content}'>${name}</li>",
+                callbacks: {
+                    before_insert: function(value, $li) {
+                        if (value.indexOf("img") != -1) {
+                            // pop up image upload modal ?
+                            var top = $('.content.editor').caret('position').top;
+                            $('.image-upload').css({'top':top, 'display':'block'});
+                        }
+
+                        return value;
+                     }
+                }
+            });
+
         },
 
         s3_upload: function(e) {
