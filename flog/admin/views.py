@@ -7,7 +7,6 @@ from flask.ext.classy import FlaskView, route
 from ..blog import Post, Article, Note, PostForm
 from ..blog import POST_TYPES
 from upload import process_upload
-from images import process_image_upload
 
 from urlparse import urlparse
 from hashlib import sha1
