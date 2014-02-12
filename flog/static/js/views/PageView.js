@@ -11,6 +11,7 @@ define([
     'utils',
     'views/PostView',
     'models/PostModel',
+    'caret',
     'atwho',
     'modals',
 ], function (Backbone, _, $, Utils, PostView, PostModel) {
