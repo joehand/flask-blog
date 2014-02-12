@@ -28,12 +28,9 @@ define([
         },
 
         _beginImageUpload: function(e) {
-            console.log(e.currentTarget.value);
-
             // make sure image was chosen
             // TODO: check file types(?), could also do on server-side?
             if (e.currentTarget.value !== '') {
-                console.log('begin upload');
                 this.initS3Upload(e);
             }
         },
