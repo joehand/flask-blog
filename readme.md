@@ -3,3 +3,5 @@
 Flask Blogging Engine for awesomeness. 
 
 Boom.
+
+Simple.
