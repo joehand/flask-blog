@@ -46,8 +46,7 @@ def build_js():
     os.system('cd flog/static/js && cp libs/require.js ../build/')
     jsfile = 'flog/static/build/' + jsfile
 
-@manager.command
-def build_css():
+def clear_css_cache():
     import logging
     from webassets.script import CommandLineEnvironment
 
@@ -59,10 +58,17 @@ def build_css():
     cmdenv = CommandLineEnvironment(assets, log)
     cmdenv.clean()
 
-
 @manager.command
 def upload():
+    print 'starting file upload to Amazon S3'
     create_all(app)
+    print 'done with file upload'
+
+@manager.command
+def make_production():
+    clear_css_cache()
+    build_js()
+    upload()
 
 def shell_context():
     return dict(app=app)
