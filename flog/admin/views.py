@@ -4,7 +4,7 @@ from flask import (Blueprint, render_template, jsonify, request,
 from flask.ext.security import current_user, login_required, roles_required
 from flask.ext.classy import FlaskView, route
 
-from ..blog import Post, Article, Note, PostForm
+from ..blog import Post, PostForm
 from ..blog import POST_TYPES
 from upload import process_upload
 
@@ -64,12 +64,12 @@ class PostAdmin(FlaskView):
             if kind == 'page':
                 post = Post(title=title, user_ref=current_user.id, kind=kind)
             elif kind == 'note':
-                post = Note(title=title, user_ref=current_user.id, kind=kind)
+                post = Post(title=title, user_ref=current_user.id, kind=kind)
                 link_url = form.category.data
                 if link_url:
                     post.link_url = urlparse(link_url).geturl()
             else:
-                post = Article(title=title, user_ref=current_user.id, kind='article')
+                post = Post(title=title, user_ref=current_user.id, kind='article')
                 category = form.category.data.strip().lower()
                 if category:
                     post.category = category

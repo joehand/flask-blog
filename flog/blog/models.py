@@ -16,6 +16,8 @@ class Post(db.Document):
     last_update = db.DateTimeField(default=datetime.now(), required=True)
     published = db.BooleanField(default=False, required=True)
     pub_date = db.DateTimeField()
+    category = db.StringField()
+    link_url = db.StringField()
 
     meta = {
             'allow_inheritance': True, 
@@ -79,10 +81,3 @@ class Post(db.Document):
 
         self.save()
         return self
-
-class Article(Post):
-    category = db.StringField()
-
-class Note(Post):
-    link_url = db.StringField()
-    category = db.StringField(default='Note')

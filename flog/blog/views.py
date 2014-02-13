@@ -4,7 +4,7 @@ from flask import (Blueprint, render_template, flash, g, abort,
 from flask.ext.classy import FlaskView, route
 from flask.ext.security import current_user
 
-from models import Post, Article
+from models import Post
 
 from datetime import datetime
 
@@ -29,6 +29,14 @@ class PostView(FlaskView):
 
         return render_template('blog/archive.html')
 
+    @route('/blog/', endpoint='blog')
+    @route('/blog/<int:page_num>', endpoint='blog')
+    def blog(self, page_num=1):
+        """ Blog View """
+        g.posts = Post.objects(kind__in=['article', 'note'], published=True, 
+            pub_date__lte=datetime.now()).paginate(page=page_num, per_page=10)
+        return render_template('blog/blog.html')
+
     @route('/category/<category>/', endpoint='category')
     @route('/category/<category>/<int:page_num>/', endpoint='category')
     def category(self, category, page_num=1):
@@ -37,7 +45,7 @@ class PostView(FlaskView):
             g.posts = Post.objects(kind__in=['note'], published=True, 
                 pub_date__lte=datetime.now()).paginate(page=page_num, per_page=10)
             return render_template('blog/category.html', category = category)
-        g.posts = Article.objects(kind__in=['article'], published=True, category = category,
+        g.posts = Post.objects(kind__in=['article'], published=True, category = category,
                 pub_date__lte=datetime.now()).paginate(page=page_num, per_page=10)
         if len(g.posts.items) == 0:
             flash('Sorry, there are no posts in the <b>%s</b> category.' % category)

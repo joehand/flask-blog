@@ -1,7 +1,7 @@
 from werkzeug import secure_filename
 from flask.ext.security import current_user
 
-from ..blog import Post, Article, Note
+from ..blog import Post
 from ..utils import MarkdownReader
 
 import StringIO
@@ -40,7 +40,7 @@ def processMDFile(filename, contents):
         post = Post(title=title, user_ref=current_user.id, kind=kind, slug=slug)
 
     elif kind == 'note':
-        post = Note(title=title, user_ref=current_user.id, kind=kind, slug=slug)
+        post = Post(title=title, user_ref=current_user.id, kind=kind, slug=slug)
 
         if 'link_url' in contents['metadata']:
             post.link_url = urlparse(contents['metadata']['link_url']).geturl()
@@ -48,7 +48,7 @@ def processMDFile(filename, contents):
             # TODO: check if there are quotes around the string
             post.link_url = urlparse(contents['metadata']['external_link']).geturl()
     else:
-        post = Article(title=title, user_ref=current_user.id, kind='article', slug=slug)
+        post = Post(title=title, user_ref=current_user.id, kind='article', slug=slug)
         if category:
             post.category = category
 
