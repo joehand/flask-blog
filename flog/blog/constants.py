@@ -1,4 +1,3 @@
-
 ILLEGAL_SLUGS = ['admin', 'archives', 'category']
 
 POST_TYPES = (('article','Article'),

@@ -1,13 +1,13 @@
 from datetime import datetime
-from urlparse import urlparse
 import json
+from urlparse import urlparse
 
 from mongoengine import signals
 
+from .constants import *
 from ..extensions import db
 from ..utils import mongo_to_dict, slugify, s3_upload
 from ..user import User
-from .constants import *
 
 class Post(db.Document):
     user_ref = db.ReferenceField(User)
@@ -28,8 +28,8 @@ class Post(db.Document):
 
     def to_dict(self):
         data = json.loads(self.to_json())
-        data.pop("_id", None)
-        data.pop("_cls", None)
+        data.pop('_id', None)
+        data.pop('_cls', None)
         data['id'] = str(self.id)
         data['user_ref'] = str(self.user_ref.id)
         data['last_update'] = str(self.last_update)
@@ -37,7 +37,7 @@ class Post(db.Document):
         return json.dumps(data)
 
     def clean(self):
-        """Clean Data!"""
+        '''Clean Data!'''
         if not self.slug:
             self.slug = slugify(self.title)
 
@@ -89,7 +89,7 @@ class Post(db.Document):
         for key in EXPORT_KEYS:
             export += key + ': ' + str(self[key]) + '\n'
 
-        export += "\n\n" + self.content
+        export += '\n\n' + self.content
         filename = datetime.strftime(self.pub_date, '%Y-%m-%d') + '-' + self.slug + '.md'
 
         return {'filename': filename, 'content': export}
@@ -100,8 +100,8 @@ class Post(db.Document):
 
     @classmethod
     def post_save(cls, sender, document, **kwargs):
-        print("Post Save: %s" % document.title)
+        print('Post Save: %s' % document.title)
         url = document.backup_to_s3()
-        print("Backed up to s3: %s" % url)
+        print('Backed up to s3: %s' % url)
 
 signals.post_save.connect(Post.post_save, sender=Post)

@@ -1,7 +1,6 @@
-from flask import (Blueprint, render_template, url_for, flash, 
-                    redirect, session, request, jsonify, abort)
+from flask import (Blueprint, abort)
 
-from flask.ext.security import current_user, login_required
+from flask.ext.security import login_required
 
 from .models import User
 

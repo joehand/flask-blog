@@ -1,7 +1,7 @@
+from flask.ext.security import login_required, RoleMixin, UserMixin
+
 from ..extensions import db
 from ..utils import mongo_to_dict
-
-from flask.ext.security import UserMixin, RoleMixin, login_required
 
 
 class Role(db.Document, RoleMixin):

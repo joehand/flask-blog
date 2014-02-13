@@ -1,11 +1,11 @@
+from datetime import datetime
+import os
 import StringIO
 from urlparse import urlparse
-import os
 import zipfile
-from datetime import datetime
 
-from werkzeug import secure_filename
 from flask.ext.security import current_user
+from werkzeug import secure_filename
 
 from ..blog import Post
 from ..utils import MarkdownReader
@@ -14,10 +14,6 @@ from ..utils import MarkdownReader
 def processMDFile(filename, contents):
     mdReader = MarkdownReader()
     contents = mdReader.read(filename, contents)
-
-    print contents['metadata']
-    print contents['content']
-
     slug = contents['metadata']['slug']
     kind = None
     category = None
@@ -32,14 +28,12 @@ def processMDFile(filename, contents):
 
     if 'category' in contents['metadata']:
         category = contents['metadata']['category'].strip().lower()
-
         if category in ['note', 'link']:
             kind = 'note'
             category = 'note'
 
     if kind and kind == 'page':
         post = Post(title=title, user_ref=current_user.id, kind=kind, slug=slug)
-
     elif kind == 'note':
         post = Post(title=title, user_ref=current_user.id, kind=kind, slug=slug)
 
@@ -62,7 +56,6 @@ def processMDFile(filename, contents):
         else:
             published = False
         post.published = published
-
 
     pub_date = contents['metadata']['date']
     pub_date = datetime.strptime(pub_date.split(' ')[0], '%Y-%m-%d')
@@ -87,18 +80,14 @@ def process_upload(files):
                 for name in zfile.namelist():
                     (dirname, filename) = os.path.split(name)
                     data = StringIO.StringIO(zfile.read(filename)) # convert to string IO so we can read
-
                     filename = os.path.splitext(filename)[0]
-                    contents = data.getvalue()
-                
+                    contents = data.getvalue() 
                     post = processMDFile(filename,contents)
                     posts.append(post)
             else:
                 filename = os.path.splitext(filename)[0]
-                contents = file.read()
-                
+                contents = file.read()        
                 post = processMDFile(filename,contents)
                 posts.append(post)
                 file.close()
-
         return posts

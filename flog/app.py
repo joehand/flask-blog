@@ -4,12 +4,11 @@ from urlparse import urlparse
 from flask import Flask, render_template
 from flask.ext.security import MongoEngineUserDatastore
 
-from .config import Config, DevelopmentConfig, ProductionConfig
-
-from .user import user, User, Role
 from .admin import admin
 from .blog import blog
+from .user import user, User, Role
 
+from .config import Config, DevelopmentConfig, ProductionConfig
 from .extensions import db, mail, security, assets, md, s3
 
 # For import *
@@ -22,7 +21,7 @@ DEFAULT_BLUEPRINTS = (
 )
 
 def create_app(config=None, app_name=None, blueprints=None):
-    """Create a Flask app."""
+    '''Create a Flask app.'''
 
     if app_name is None:
         app_name = Config.PROJECT
@@ -41,7 +40,7 @@ def create_app(config=None, app_name=None, blueprints=None):
     return app
 
 def configure_app(app, config=None):
-    """Different ways of configurations."""
+    '''Different ways of configurations.'''
 
     # http://flask.pocoo.org/docs/api/#configuration
     if config:
@@ -78,7 +77,7 @@ def configure_extensions(app):
         toolbar = DebugToolbarExtension(app)
 
 def configure_blueprints(app, blueprints):
-    """Configure blueprints in views."""
+    '''Configure blueprints in views.'''
 
     for blueprint in blueprints:
         app.register_blueprint(blueprint)
@@ -91,8 +90,8 @@ def configure_template_filters(app):
 
     @app.template_filter()
     def get_domain(url):
-        """ Return just the domain (and subdomain!) for a url
-        """
+        ''' Return just the domain (and subdomain!) for a url
+        '''
         parsed_uri = urlparse(url)
         domain = '{uri.netloc}'.format(uri=parsed_uri)
         domain = domain.replace('www.', '')
@@ -100,7 +99,7 @@ def configure_template_filters(app):
         return domain
 
 def configure_logging(app):
-    """Configure file(info) and email(error) logging."""
+    '''Configure file(info) and email(error) logging.'''
 
     if app.debug or app.testing:
         #skip loggin
@@ -116,12 +115,12 @@ def configure_error_handlers(app):
 
     @app.errorhandler(403)
     def forbidden_page(error):
-        return render_template("errors/403.html"), 403
+        return render_template('errors/403.html'), 403
 
     @app.errorhandler(404)
     def page_not_found(error):
-        return render_template("errors/404.html"), 404
+        return render_template('errors/404.html'), 404
 
     @app.errorhandler(500)
     def server_error_page(error):
-        return render_template("errors/500.html"), 500
+        return render_template('errors/500.html'), 500

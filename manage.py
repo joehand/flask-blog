@@ -1,16 +1,16 @@
 # manage.py
 import os
 
+from flask.ext.assets import ManageAssets
+from flask.ext.s3 import create_all
 from flask.ext.script import Manager, Shell, Server
 from flask.ext.security import MongoEngineUserDatastore
 from flask.ext.security.utils import encrypt_password
-from flask.ext.s3 import create_all
-from flask.ext.assets import ManageAssets
 
 from flog import create_app
+from flog.config import ProductionConfig, DevelopmentConfig
 from flog.extensions import db, assets
 from flog.user import User, Role
-from flog.config import ProductionConfig, DevelopmentConfig
 
 if os.environ.get('PRODUCTION'):
     app = create_app(config = ProductionConfig)
@@ -21,7 +21,7 @@ manager = Manager(app)
 
 @manager.command
 def initdb():
-    """Init/reset database."""
+    '''Init/reset database.'''
     if not os.environ.get('PRODUCTION'):
         db.connection.drop_database(app.config['MONGODB_DB'])
 
@@ -38,9 +38,9 @@ def initdb():
 
 @manager.command
 def build_js():
-    """ Builds the js for production
+    ''' Builds the js for production
         TODO: Build css here too. 
-    """
+    '''
     jsfile = 'app.min.js'
     os.system('cd flog/static/js && node libs/r.js -o app.build.js out=../build/%s'%jsfile)
     os.system('cd flog/static/js && cp libs/require.js ../build/')
