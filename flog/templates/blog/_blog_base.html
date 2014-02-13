@@ -17,8 +17,7 @@
                 <nav role="navigation" class="site-nav medium-float-right ">
                     <ul class="small-caps">
                         <li class="nav-item"><a href="{{url_for('blog.page', slug='about')}}">About</a></li>
-                        <li class="nav-item"><a href="{{url_for('blog.archive')}}">Archive</a></li>
-                        <li class="nav-item"><a href="{{url_for('blog.blog')}}">Blog</a></li>
+                        <li class="nav-item"><a href="{{url_for('blog.blog')}}">Posts</a></li>
                     </ul>
                 </nav>
         </div>
@@ -31,7 +30,7 @@
             {% include "partials/_social.html" %}
             <div class="wrapper">
             <span class="copyright medium-float-left"><a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Copyright © 2014</a> &nbsp;·&nbsp; Joe Hand</span>
-            <span class="made medium-float-right"><a href="{{url_for('blog.page', slug='about')}}">Made by <span class="useicons">&#xe635;</span></a></span>
+            <span class="made medium-float-right"><a href="{{url_for('blog.archive')}}">Archive</a>&nbsp;·&nbsp;<a href="{{url_for('blog.page', slug='about')}}">Made by <span class="useicons">&#xe635;</span></a></span>
             </div>
         </div>
     </footer>
