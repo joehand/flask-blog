@@ -1,16 +1,17 @@
-from flask import (Blueprint, render_template, jsonify, request,
-                   g, flash, redirect, url_for, current_app)
+from urlparse import urlparse
+from hashlib import sha1
+import sys, json, time, os, base64, hmac, urllib
+
+from flask import (Blueprint, render_template, jsonify, request, Response,
+                   g, flash, redirect, url_for, current_app, make_response)
 
 from flask.ext.security import current_user, login_required, roles_required
 from flask.ext.classy import FlaskView, route
 
 from ..blog import Post, PostForm
 from ..blog import POST_TYPES
-from upload import process_upload
-
-from urlparse import urlparse
-from hashlib import sha1
-import sys, json, time, os, base64, hmac, urllib
+from .upload import process_upload
+from ..utils import s3_upload
 
 
 admin = Blueprint('admin', __name__, url_prefix='/admin')
@@ -43,7 +44,7 @@ class PostAdmin(FlaskView):
         post.form = PostForm()
         return render_template('admin/post_edit.html', post=post)
 
-    @route("/upload", methods=['GET', 'POST'], endpoint='upload')
+    @route("/upload/", methods=['GET', 'POST'], endpoint='upload')
     def upload(self):
         posts = []
         if request.method == 'POST':
@@ -54,6 +55,25 @@ class PostAdmin(FlaskView):
             for post in posts:
                 post.form = PostForm(prefix=str(post.id), kind=post.kind, slug=post.slug)
         return render_template('admin/upload.html', posts=posts)
+
+    @route("/export/", endpoint='export')
+    @route("/export/<slug>", endpoint='export')
+    def export(self, slug=None):
+        if slug:
+            post_export = Post.objects(slug=slug).first_or_404().generate_export()
+            response = make_response(post_export['content'])
+            response.headers["Content-Disposition"] = "attachment; filename=%s.md" % post_export['filename']
+            return respose
+        else:
+            posts = Post.objects()
+
+            urls = []
+
+            for post in posts:
+                post_export = post.generate_export()
+                url = s3_upload(post_export['filename'], post_export['content'])
+                urls.append(url)
+        return render_template('admin/export.html', urls=urls)
 
     def post(self):
         form = PostForm(request.form)
@@ -101,7 +121,7 @@ class PostAdmin(FlaskView):
             return jsonify(), 400
         return jsonify( { 'result': True } )
 
-    @route('/sign_s3/', methods=['GET'], endpoint='signS3')
+    @route('/sign_s3/', endpoint='signS3')
     def sign_s3(self):
         AWS_ACCESS_KEY = current_app.config['AWS_ACCESS_KEY_ID']
         AWS_SECRET_KEY =  current_app.config['AWS_SECRET_ACCESS_KEY']
@@ -121,9 +141,10 @@ class PostAdmin(FlaskView):
         url = 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, object_name)
 
         return json.dumps({
-            'signed_request': '%s?AWSAccessKeyId=%s&Expires=%d&Signature=%s' % (url, AWS_ACCESS_KEY, expires, signature),
-             'url': url
-          })
+            'signed_request': '%s?AWSAccessKeyId=%s&Expires=%d&Signature=%s' \
+                % (url, AWS_ACCESS_KEY, expires, signature),
+            'url': url
+            })
 
 
 

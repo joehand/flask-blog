@@ -27,6 +27,8 @@ class Config(object):
 
     SECURITY_PASSWORD_HASH = 'bcrypt'
 
+    S3_UPLOAD_DIRECTORY = 'backup'
+
 class ProductionConfig(Config):
 
     PRODUCTION = True

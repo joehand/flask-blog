@@ -1,12 +1,12 @@
+from datetime import datetime
+
 from flask import (Blueprint, render_template, flash, g, abort,
                     request, redirect, url_for)
 
 from flask.ext.classy import FlaskView, route
 from flask.ext.security import current_user
 
-from models import Post
-
-from datetime import datetime
+from .models import Post
 
 blog = Blueprint('blog', __name__, url_prefix='')
 

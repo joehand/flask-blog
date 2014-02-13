@@ -1,11 +1,13 @@
-from ..extensions import db
-from ..utils import mongo_to_dict, slugify
-from ..user import User
-from .constants import *
-
 from datetime import datetime
 from urlparse import urlparse
 import json
+
+from mongoengine import signals
+
+from ..extensions import db
+from ..utils import mongo_to_dict, slugify, s3_upload
+from ..user import User
+from .constants import *
 
 class Post(db.Document):
     user_ref = db.ReferenceField(User)
@@ -81,3 +83,25 @@ class Post(db.Document):
 
         self.save()
         return self
+
+    def generate_export(self):
+        export = ''
+        for key in EXPORT_KEYS:
+            export += key + ': ' + str(self[key]) + '\n'
+
+        export += "\n\n" + self.content
+        filename = datetime.strftime(self.pub_date, '%Y-%m-%d') + '-' + self.slug + '.md'
+
+        return {'filename': filename, 'content': export}
+
+    def backup_to_s3(self):
+        post_export = self.generate_export()
+        return s3_upload(post_export['filename'], post_export['content'])
+
+    @classmethod
+    def post_save(cls, sender, document, **kwargs):
+        print("Post Save: %s" % document.title)
+        url = document.backup_to_s3()
+        print("Backed up to s3: %s" % url)
+
+signals.post_save.connect(Post.post_save, sender=Post)

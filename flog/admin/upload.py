@@ -1,14 +1,15 @@
+import StringIO
+from urlparse import urlparse
+import os
+import zipfile
+from datetime import datetime
+
 from werkzeug import secure_filename
 from flask.ext.security import current_user
 
 from ..blog import Post
 from ..utils import MarkdownReader
 
-import StringIO
-from urlparse import urlparse
-import os
-import zipfile
-from datetime import datetime
 
 def processMDFile(filename, contents):
     mdReader = MarkdownReader()

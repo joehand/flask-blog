@@ -71,6 +71,7 @@ define([
             }
 
             this.listenTo(this.collection, 'change', this.setDirtyContent, this);
+            this.listenTo(this.collection, 'request', this.showSaving, this);
             this.listenTo(this.collection, 'sync', this.serverSync, this);
             this.listenTo(this.collection, 'error', this.serverError, this);
         },
@@ -82,9 +83,6 @@ define([
 
         setDirtyContent: function() {
             this.model.set('contentDirty', true);
-            this.$el
-                .find('.save-message')
-                .text(SAVING_MESSAGE);
         },
 
         serverError: function() {
@@ -106,6 +104,12 @@ define([
                 // we are offline, start checking when server is back
                 //Utils.checkOnlineStatus(this);
             }
+        },
+
+        showSaving: function() {
+            this.$el
+                .find('.save-message')
+                .text(SAVING_MESSAGE);
         },
 
         showSaved: function() {

@@ -9,3 +9,7 @@ POST_TYPES = (('article','Article'),
 ACCEPTED_KEYS = ['title', 'slug', 'content', 'published', 
                     'kind', 'link_url', 'pub_date', 'category']
 
+# Keys to export to MD file
+EXPORT_KEYS = ['title', 'kind', 'category', 'link_url', 'published', 
+                'slug', 'pub_date', 'last_update']
+

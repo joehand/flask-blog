@@ -1,4 +1,6 @@
 # manage.py
+import os
+
 from flask.ext.script import Manager, Shell, Server
 from flask.ext.security import MongoEngineUserDatastore
 from flask.ext.security.utils import encrypt_password
@@ -9,8 +11,6 @@ from flog import create_app
 from flog.extensions import db, assets
 from flog.user import User, Role
 from flog.config import ProductionConfig, DevelopmentConfig
-
-import os
 
 if os.environ.get('PRODUCTION'):
     app = create_app(config = ProductionConfig)

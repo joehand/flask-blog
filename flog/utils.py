@@ -1,13 +1,44 @@
 from __future__ import unicode_literals, print_function
 import six
+import re
+import os.path
+from datetime import datetime
+from uuid import uuid4
+
+from flask import current_app as app
+from flask import Markup
+from werkzeug import secure_filename
+from markdown import Markdown
+import boto
 
 from .extensions import db
 
-from flask import Markup
 
-from datetime import datetime
-from markdown import Markdown
-import re
+def s3_upload(filename, contents ,acl='public-read'):
+    ''' From: https://github.com/doobeh/Flask-S3-Uploader/blob/master/tools.py
+
+        Uploads WTForm File Object to Amazon S3
+
+        Expects following app.config attributes to be set:
+            AWS_ACCESS_KEY_ID       :   S3 API Key
+            AWS_SECRET_ACCESS_KEY   :   S3 Secret Key
+            S3_BUCKET_NAME          :   What bucket to upload to
+            S3_UPLOAD_DIRECTORY     :   Which S3 Directory.
+
+        The default sets the access rights on the uploaded file to
+        public-read.  It also generates a unique filename via
+        the uuid4 function combined with the file extension from
+        the source file.
+    '''
+    # Connect to S3 and upload file.
+    conn = boto.connect_s3(app.config["AWS_ACCESS_KEY_ID"], app.config["AWS_SECRET_ACCESS_KEY"])
+    b = conn.get_bucket(app.config["S3_BUCKET_NAME"])
+
+    sml = b.new_key("/".join([app.config["S3_UPLOAD_DIRECTORY"],filename]))
+    sml.set_contents_from_string(contents)
+    sml.set_acl(acl)
+
+    return sml.generate_url(expires_in=300, query_auth=False)
 
 # Global Vars
 META_RE = re.compile(r'^[ ]{0,3}(?P<key>[A-Za-z0-9_-]+):\s*(?P<value>.*)')

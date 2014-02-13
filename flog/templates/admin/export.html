@@ -1,0 +1,14 @@
+{% extends "admin/_admin_base.html" %}
+
+{%- block content -%}
+    <h1>Exported Posts</h1>
+
+    {% if urls %}
+    <ul class="link-list">
+        {%- for url in urls %}
+        <li><a href="{{url}}">{{url}}</a></li>
+        {% endfor -%}
+    </ul>
+
+    {%- endif %}
+{% endblock content %}

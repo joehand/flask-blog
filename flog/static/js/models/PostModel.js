@@ -9,7 +9,7 @@ define([
     'underscore'
 ], function (Backbone, _) {
 
-    var SAVE_DELAY = 1000;  //delay after typing is over until we try to save
+    var SAVE_DELAY = 2000;  //delay after typing is over until we try to save
 
     var saveTimeout;
 
