@@ -2,7 +2,7 @@ from urlparse import urlparse
 from hashlib import sha1
 import sys, json, time, os, base64, hmac, urllib
 
-from flask import (Blueprint, render_template, jsonify, request, Response,
+from flask import (Blueprint, render_template, jsonify, request,
                    g, flash, redirect, url_for, current_app, make_response)
 
 from flask.ext.security import current_user, login_required, roles_required
@@ -63,16 +63,16 @@ class PostAdmin(FlaskView):
             post_export = Post.objects(slug=slug).first_or_404().generate_export()
             response = make_response(post_export['content'])
             response.headers["Content-Disposition"] = "attachment; filename=%s.md" % post_export['filename']
-            return respose
-        else:
-            posts = Post.objects()
+            return response
+        
+        posts = Post.objects()
 
-            urls = []
+        urls = []
 
-            for post in posts:
-                post_export = post.generate_export()
-                url = s3_upload(post_export['filename'], post_export['content'])
-                urls.append(url)
+        for post in posts:
+            post_export = post.generate_export()
+            url = s3_upload(post_export['filename'], post_export['content'])
+            urls.append(url)
         return render_template('admin/export.html', urls=urls)
 
     def post(self):
