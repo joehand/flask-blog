@@ -7,6 +7,7 @@ from flask.ext.security import MongoEngineUserDatastore
 from .admin import admin
 from .blog import blog
 from .user import user, User, Role
+from .utils import prettydate
 
 from .config import Config, DevelopmentConfig, ProductionConfig
 from .extensions import db, mail, security, assets, md, s3
@@ -87,6 +88,10 @@ def configure_template_filters(app):
     @app.template_filter()
     def format_date(value, format='%d %b %Y'):
         return value.strftime(format)
+
+    @app.template_filter()
+    def time_ago(value):
+        return prettydate(value)
 
     @app.template_filter()
     def get_domain(url):

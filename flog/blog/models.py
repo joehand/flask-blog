@@ -1,7 +1,10 @@
 from datetime import datetime
+from hashlib import md5
 import json
 from urlparse import urlparse
 
+from bson import ObjectId
+from flask import current_app as app
 from mongoengine import signals
 
 from .constants import *
@@ -15,11 +18,12 @@ class Post(db.Document):
     title = db.StringField()
     content = db.StringField()
     kind = db.StringField(choices=POST_TYPES, required=True)
-    last_update = db.DateTimeField(default=datetime.now(), required=True)
+    last_update = db.DateTimeField(default=datetime.utcnow(), required=True)
     published = db.BooleanField(default=False, required=True)
     pub_date = db.DateTimeField()
     category = db.StringField()
     link_url = db.StringField()
+    comments = db.SortedListField(db.EmbeddedDocumentField('Comment'))
 
     meta = {
             'allow_inheritance': True, 
@@ -100,8 +104,31 @@ class Post(db.Document):
 
     @classmethod
     def post_save(cls, sender, document, **kwargs):
-        print('Post Save: %s' % document.title)
-        url = document.backup_to_s3()
-        print('Backed up to s3: %s' % url)
+        if app.config['PRODUCTION']:
+            # TODO: Don't save this when a comment happens. 
+            print('Post Save: %s' % document.title)
+            url = document.backup_to_s3()
+            print('Backed up to s3: %s' % url)
 
 signals.post_save.connect(Post.post_save, sender=Post)
+
+
+class Comment(db.EmbeddedDocument):
+    id = db.ObjectIdField(required=True, primary_key=True)
+    created_at = db.DateTimeField(default=datetime.utcnow(), required=True)
+    name = db.StringField(max_length=255, required=True)
+    email = db.StringField()
+    content = db.StringField(required=True)
+
+    def avatar(self, size):
+        if self.email is None:
+            self.email = ''
+        return 'http://www.gravatar.com/avatar/' + md5(self.email).hexdigest() + '?d=mm&s=' + str(size)
+
+    @classmethod
+    def post_init(cls, sender, document, **kwargs):
+        if not document.id:
+            document.id = ObjectId()
+
+signals.post_init.connect(Comment.post_init, sender=Comment)
+

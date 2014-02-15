@@ -5,16 +5,26 @@ from flask import (abort, Blueprint, flash, g, redirect,
 
 from flask.ext.classy import FlaskView, route
 from flask.ext.security import current_user
+from bleach import clean, linkify
+from markdown import Markdown
 
-from .models import Post
+from .constants import ALLOWED_COMMENT_TAGS
+from .forms import CommentForm
+from .models import Comment, Post
 
 blog = Blueprint('blog', __name__, url_prefix='')
 
+md = Markdown()
 
 class PostView(FlaskView):
     ''' Our base ViewClass for any Post related endpoints 
     '''
     route_base = '/'
+
+    def _clean_text(self, text):
+        """ Cleans up submitted text from users
+        """
+        return linkify(clean(md.convert(text), tags=ALLOWED_COMMENT_TAGS, strip=True))
 
     def index(self):
         ''' Our main index view '''
@@ -51,16 +61,32 @@ class PostView(FlaskView):
         if len(g.posts.items) == 0:
             flash('Sorry, there are no posts in the <b>%s</b> category.' % category)
             return abort(404)
-        return render_template('blog/category.html', category = category)
+        return render_template('blog/category.html', category=category)
 
     @route('/<slug>/', endpoint='page')
     @route('/archive/<slug>/', endpoint='post')
     def get(self, slug):
         ''' View for a single post'''
+        form = CommentForm()
         post = Post.objects(slug=slug, published=True).first_or_404()
         if not 'archive' in request.url and post.kind != 'page':
             return redirect(url_for('.post', slug=slug))
-        return render_template('blog/post.html', post=post)
+        return render_template('blog/post.html', post=post, form=form)
+
+    @route('/archive/<slug>/', methods=['POST'])
+    def post(self, slug):
+        ''' Post action for comment'''
+        form = CommentForm(request.form)
+        post = Post.objects(slug=slug, published=True).first_or_404()
+        if form.validate_on_submit():
+            name = clean(form.name.data.strip(), tags=[], strip=True)
+            content = self._clean_text(form.content.data)
+            email = form.email.data
+            comment = Comment(name=name, content=content, email=email)
+            post.update(push__comments=comment)
+            return redirect(url_for('.post', slug=slug))
+        flash('Errors on comment form')
+        return render_template('blog/post.html', post=post, form=form)
 
 #Register our View Classes
 PostView.register(blog)
