@@ -5,6 +5,7 @@
 {%- block content %}   
         {% include "blog/partials/_post_full.html" %}
 
+        {%- if post.kind != 'page' %}
         <form class="form comment-form" method="post" action="{{request.url}}">
             <fieldset> 
             {{ form.hidden_tag() }}
@@ -28,5 +29,5 @@
             </div>
         {%- endfor %}
         </div>
-
+        {%- endif %}
 {% endblock -%}
