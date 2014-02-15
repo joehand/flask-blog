@@ -1,3 +1,5 @@
+import json
+import sys
 from urlparse import urlparse
 
 from flask import (Blueprint, current_app, flash, g, make_response,
@@ -29,12 +31,6 @@ class PostAdmin(FlaskView):
             post.form = PostForm(prefix=str(post.id), kind=post.kind, slug=post.slug)
 
     @route('/')
-    def dashboard(self):
-        ''' Main admin dashboard view '''
-        form = PostForm()
-        return render_template('admin/index.html', newForm=form)
-
-    @route('/posts/')
     def index(self):
         ''' Main admin post view '''
         form = PostForm()
