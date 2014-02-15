@@ -1,9 +1,14 @@
 from __future__ import unicode_literals
+import base64
 from datetime import datetime
 from hashlib import sha1
+import hmac
 import json
 import re
 import six
+import time
+import urllib
+
 
 import boto
 from flask import current_app as app
@@ -19,9 +24,9 @@ META_MORE_RE = re.compile(r'^[ ]{4,}(?P<value>.*)')
 
 def s3_signer(request):
 
-        AWS_ACCESS_KEY = current_app.config['AWS_ACCESS_KEY_ID']
-        AWS_SECRET_KEY =  current_app.config['AWS_SECRET_ACCESS_KEY']
-        S3_BUCKET =  current_app.config['S3_BUCKET_NAME']
+        AWS_ACCESS_KEY = app.config['AWS_ACCESS_KEY_ID']
+        AWS_SECRET_KEY =  app.config['AWS_SECRET_ACCESS_KEY']
+        S3_BUCKET =  app.config['S3_BUCKET_NAME']
 
         object_name = request.args.get('s3_object_name')
         mime_type = request.args.get('s3_object_type')
