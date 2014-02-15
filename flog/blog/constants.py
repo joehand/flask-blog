@@ -12,3 +12,4 @@ ACCEPTED_KEYS = ['title', 'slug', 'content', 'published',
 EXPORT_KEYS = ['title', 'kind', 'category', 'link_url', 'published', 
                 'slug', 'pub_date', 'last_update']
 
+ALLOWED_COMMENT_TAGS = ['a', 'p','em','strong','code','pre','blockquote']

@@ -1,0 +1,32 @@
+{% extends "admin/_admin_base.html" %}
+
+{% block title %}Admin Area Place{% endblock title %}
+
+{%- block content -%}
+            <div class="">
+                {% for post in posts %}
+                    {% if post.comments %}
+                        <h3>{{post.title}} <small>({{post.comments|length}} comments)</small></h3>
+                        {% for comment in post.comments %}
+                        <div class="comment">
+                            <div class="cf">
+                                <div class="float-left">
+                                    <img src="{{comment.avatar(48)}}" class="image"> {{comment.name}}
+                                </div>
+                                <a class="button button-mini float-right" href="{{url_for('.delete_comment', slug=post.slug, comment_id=comment.id)}}">Delete Comment</a>
+                            </div>
+                            <div>
+                                <span class="small-caps">Time:</span> {{comment.created_at|time_ago}}
+                            </div>
+                            <div>
+                                <div class="small-caps">Comment:</div>
+                                {{comment.content|safe}}
+                            </div>
+                        </div>
+                        {%- endfor -%}
+                    {% endif %}
+                {%- endfor -%}
+            </div>
+{%- endblock -%}
+
+{%- block js_view %}'AdminView'{%- endblock js_view -%}

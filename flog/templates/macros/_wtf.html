@@ -1,12 +1,12 @@
 {%- macro errors(field, description=None) -%}
     {%- if field.errors %}
       {%- for error in field.errors %}
-        <p class="crossbars help-block">{{error|safe}}</p>
+        <p class="help-block">{{error|safe}}</p>
       {%- endfor %}
     {%- elif field.description -%}
-      <p class="crossbars help-block">{{field.description|safe}}</p>
+      <p class="help-block">{{field.description|safe}}</p>
     {%- elif description -%}
-      <p class="crossbars help-block">{{description|safe}}</p>
+      <p class="help-block">{{description|safe}}</p>
     {%- endif %}
 {%- endmacro %}
 

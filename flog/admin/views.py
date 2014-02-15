@@ -6,13 +6,12 @@ from flask import (Blueprint, current_app, flash, g, make_response,
 from flask.ext.classy import FlaskView, route
 from flask.ext.security import current_user, login_required, roles_required
 
-from ..blog import Post, PostForm
+from ..blog import Comment, Post, PostForm
 from ..blog import POST_TYPES
 from .upload import process_upload
 from ..utils import s3_upload, s3_signer
 
 admin = Blueprint('admin', __name__, url_prefix='/admin')
-
 
 class PostAdmin(FlaskView):
     ''' Post Admin View '''
@@ -30,10 +29,16 @@ class PostAdmin(FlaskView):
             post.form = PostForm(prefix=str(post.id), kind=post.kind, slug=post.slug)
 
     @route('/')
-    def index(self):
+    def dashboard(self):
         ''' Main admin dashboard view '''
         form = PostForm()
         return render_template('admin/index.html', newForm=form)
+
+    @route('/posts/')
+    def index(self):
+        ''' Main admin post view '''
+        form = PostForm()
+        return render_template('admin/post_list.html', newForm=form)
 
     @route('/<slug>', endpoint='post')
     def get(self, slug):
@@ -119,10 +124,24 @@ class PostAdmin(FlaskView):
             return jsonify(), 400
         return jsonify( { 'result': True } )
 
-    @route('/sign_s3/', endpoint='signS3')
-    def sign_s3(self):
-        return s3_signer(request)
+    @route('/comments/', endpoint='comments')
+    def comments(self, slug=None):
+        if slug:
+            posts = [Post.objects(slug=slug).first_or_404()]
+        else:
+            posts = g.posts
+        return render_template('admin/comments.html', posts=posts)
 
+    @route('/comments/<slug>/<comment_id>', methods=['GET', 'DELETE'], endpoint='delete_comment')
+    def delete_comment(self, slug, comment_id):
+        Post.objects(slug=slug).update_one(pull__comments__id=Comment(id=comment_id).id)
+        return redirect(request.referrer)
+
+
+@roles_required('admin')
+@admin.route('/sign_s3/', endpoint='signS3')
+def sign_s3():
+    return s3_signer(request)
 
 #Register our View Class
 PostAdmin.register(admin)

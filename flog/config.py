@@ -29,6 +29,8 @@ class Config(object):
 
     S3_UPLOAD_DIRECTORY = 'backup'
 
+    PRODUCTION = False
+
 class ProductionConfig(Config):
 
     PRODUCTION = True

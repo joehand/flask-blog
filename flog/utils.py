@@ -120,11 +120,33 @@ class MarkdownReader():
         metadata.update(self.process_filename(filename))
         return {'content':content, 'metadata':metadata}
 
-def validate_date(date_text):
+def validate_date(date):
     try:
-        return datetime.strptime(date_text, '%d-%b-%Y')
+        return datetime.strptime(date, '%d-%b-%Y')
     except ValueError:
         raise ValueError('Incorrect data format')
+
+def prettydate(d):
+    diff = datetime.utcnow() - d
+    s = diff.seconds
+    if diff.days > 14 or diff.days < 0:
+        return d.strftime('%d %b %y')
+    elif diff.days == 1:
+        return '1 day ago'
+    elif diff.days > 1:
+        return '{} days ago'.format(diff.days)
+    elif s <= 1:
+        return 'just now'
+    elif s < 60:
+        return '{} seconds ago'.format(s)
+    elif s < 120:
+        return '1 minute ago'
+    elif s < 3600:
+        return '{} minutes ago'.format(s/60)
+    elif s < 7200:
+        return '1 hour ago'
+    else:
+        return '{} hours ago'.format(s/3600)
 
 def slugify(value, substitutions=()):
     '''
