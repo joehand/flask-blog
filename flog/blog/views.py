@@ -84,6 +84,7 @@ class PostView(FlaskView):
             email = form.email.data
             comment = Comment(name=name, content=content, email=email)
             post.update(push__comments=comment)
+            flash('Thanks for the comment!')
             return redirect(url_for('.post', slug=slug))
         flash('Errors on comment form')
         return render_template('blog/post.html', post=post, form=form)
