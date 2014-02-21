@@ -15,7 +15,7 @@
             <button type="submit" class="float-right button button-small">Submit</button>    
             </fieldset>
         </form>
-
+        {%- if post.comments|length > 0 %}
         <div class="comment-list">
             <h5 class="h3">{% if post.comments|length == 1 %}{{ post.comments|length }} Comment {% else %}{{ post.comments|length }} Comments{% endif %}</h5>
         {%- for comment in post.comments %}
@@ -30,4 +30,5 @@
         {%- endfor %}
         </div>
         {%- endif %}
-{% endblock -%}
+        {%- endif %}
+{% endblock %}
