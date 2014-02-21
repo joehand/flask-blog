@@ -21,10 +21,9 @@
 {%- macro regular_field(field, description=None) -%}
               <div class="form-group{% if field.errors %} has-error{% endif %}">
                   {{field.label(class="form-label small-caps")}}
-                  {{field(class="", **kwargs)|safe}}
-                  {{errors(field, description)}}
+                  {{field(class="", **kwargs)|safe}}{{errors(field, description)}}
               </div>
-{%- endmacro -%}
+{%- endmacro %}
 
 {%- macro no_label_field(field, description=None) -%}
               <div class="{% if field.errors %}has-error{% endif %}">
