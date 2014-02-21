@@ -13,7 +13,7 @@ define([
     's3upload'
 ], function (Backbone, _, $, PostView, PostModel, S3Upload) {
 
-    DEFAULT_FILTER = flog.DEFAULT_FILTER || { 'kind' : ['article', 'note'], 'published' : [false] };
+    var DEFAULT_FILTER = flog.DEFAULT_FILTER || { 'kind' : ['article', 'note'], 'published' : [false] };
 
     var formactive;
 

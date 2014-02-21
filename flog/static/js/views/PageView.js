@@ -16,8 +16,6 @@ define([
     'modals',
 ], function (Backbone, _, $, Utils, PostView, PostModel) {
 
-    var keys = []
-
     var PageView = Backbone.View.extend({
 
         events: {
@@ -48,14 +46,12 @@ define([
         },
 
         _togglePostSettings: function(e) {
-            console.log('clicked')
             this.$el.toggleClass('settings-active')
             this.postView._togglePostSettings(e, true);
         },
 
         _toggleContentPreview: function(e) {
             e.preventDefault();
-
             this.$el.toggleClass('content-preview-active');
             this.postView.toggleContentPreview();
             this.$el.find('.preview').toggleClass('hidden');
