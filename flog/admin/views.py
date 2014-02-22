@@ -23,14 +23,14 @@ class PostAdmin(FlaskView):
 
     def before_request(self, name, *args , **kwargs):
         g.all_pages = Post.objects()
-        g.pages = Post.objects(kind__in=['page'])
-        g.posts = Post.objects(kind__in=['note', 'article'])
+        g.pages = Post.objects(user_ref=current_user.id,kind__in=['page'])
+        g.posts = Post.objects(user_ref=current_user.id,kind__in=['note', 'article'])
         g.POST_TYPES = POST_TYPES
 
         for post in g.all_pages:
             post.form = PostForm(prefix=str(post.id), kind=post.kind, slug=post.slug)
 
-    @route('/')
+    @route('/', endpoint='index')
     def index(self):
         ''' Main admin post view '''
         form = PostForm()

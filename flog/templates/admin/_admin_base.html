@@ -7,7 +7,7 @@
 
     {%- block siteheader -%} 
     <nav class="admin-nav">
-        <a class="admin-link small-caps useicons" href="{{url_for('admin.PostAdmin:index')}}">&#xe600;</a>
+        <a class="admin-link small-caps useicons" href="{{url_for('admin.index')}}">&#xe600;</a>
         <div class="dashboard-links">
             <a href="{{url_for('admin.upload')}}" class="useicons">&#xe61d;</a>
             <a href="#" class="settings-button useicons">&#xe617;</a>
@@ -36,8 +36,8 @@
 
             {{ config.PROJECT }}.childView = {%- block js_view %}null{%- endblock js_view -%};
 
-            {{ config.PROJECT }}.postURL = '{{url_for('admin.PostAdmin:index')}}';
-            {{ config.PROJECT }}.signS3URL = '{{url_for('.signS3')}}';
+            {{ config.PROJECT }}.postURL = '{{url_for('.index')}}';
+            {{ config.PROJECT }}.signS3URL = '{{url_for('admin.signS3')}}';
 
             {{ config.PROJECT }}.user = {
                                 'id'     : '{{current_user.id}}',

@@ -1,0 +1,50 @@
+{% extends "admin/_admin_base.html" %}
+
+{%- block body_class -%}post-editor{%- endblock -%} 
+{%- block content -%}
+        <div class="admin-buttons">
+            {%- if is_today -%}
+            <div class="ui-buttons">
+            <a class="fullscreen-button useicons" href="#">
+                <span class="expand">&#xe637;</span>
+                <span class="contract hidden">&#xe636;</span>
+            </a>
+            </div>
+            {%- endif -%}
+        </div>   
+        <section class="post-edit" data-id="{{post.id}}">
+            <header class="cf">
+                <h2 class="date">{{post.date|format_date}}</h2>
+            </header>
+            
+            <article>
+                {%- if is_today -%}
+                <textarea class="content editor" placeholder="Start writing..." autofocus>
+                    {%- if post.content -%}{{post.content}}{%- endif -%}
+                </textarea>
+                {%- else -%}
+                <div class="content">
+                    {%- if post.content -%}
+                    {{post.content}}
+                    {%- else -%}
+                    <em>No Writing on this date</em>
+                    {%- endif -%}
+                </div>
+                {%- endif -%}
+                <div class="image-upload modal fade">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-body">         
+                                <span class="status"></span>
+                                <div class="image-preview"></div>
+                          </div>
+                        </div><!-- /.modal-content -->
+                      </div><!-- /.modal-dialog -->
+                    <input type="file" id="image-upload">
+                </div>
+            </article>
+            <div class="word-count">{{post.word_count()}}</div>
+        </section>
+{% endblock %}
+
+{%- block js_view %}{%- if is_today -%}'PageView'{%- else -%}null{%- endif -%}{%- endblock js_view -%}
