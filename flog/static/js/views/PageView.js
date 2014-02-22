@@ -65,6 +65,9 @@ define([
             this.$contentInput = $('textarea.content');
             this.initAutoComplete();
 
+            this.updateProgressBar();
+            this.listenTo(this.postView.model, 'change:content', this.updateProgressBar, this);
+
             this.render();
         },
 
@@ -113,6 +116,18 @@ define([
                      }
                 }
             });
+        },
+
+        updateProgressBar: function() {
+            var $el = $('.progress-bar'),
+                goal = $el.data('goal'),
+                count = this.postView.model.get('words');
+            if (goal > count) {
+                $el.width(count/goal * 100 + '%');
+            } else {
+                $el.addClass('met');
+                $el.width('100%');
+            }
         },
 
         showImageUpload: function() {

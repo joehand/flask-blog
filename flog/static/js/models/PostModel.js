@@ -16,7 +16,9 @@ define([
     var Post = Backbone.Model.extend({
         initialize: function(opts) {
             this.url = this.collection.url + this.id;
-            this.words = this.get('content').split(' ').length - 1;
+            if (!_.isUndefined(this.get('content'))) {
+                this.set('words', this.get('content').split(' ').length - 1);
+            }
         },
 
         isInFilter: function(filter) {

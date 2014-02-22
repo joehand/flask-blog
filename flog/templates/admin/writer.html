@@ -43,7 +43,8 @@
                     <input type="file" id="image-upload">
                 </div>
             </article>
-            <div class="word-count">{{post.word_count()}}</div>
+            <div class="progress-bar" data-goal="{{g.word_goal}}"></div>
+            <div class="word-count">{%- if post.content -%}{{post.word_count()}}{%- endif -%}</div>
         </section>
 {% endblock %}
 

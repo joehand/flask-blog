@@ -34,5 +34,11 @@ class Daily(db.Document):
         return self
 
     def word_count(self):
-        words = re.findall('\w+', self.content, flags=re.I)
-        return len(words)
+        if self.content:
+            words = re.findall('\w+', self.content, flags=re.I)
+            return len(words)
+        return 0
+
+class Settings(db.Document):
+    user_ref = db.ReferenceField(User)
+    word_goal = db.IntField(default=1000)

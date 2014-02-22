@@ -334,6 +334,23 @@ textarea.content {
     }
 }
 
+.progress-bar {
+    position: fixed;
+    bottom:5px;
+    left:0;
+    height:5px;
+    background-color:@blue;
+    opacity:0.75;
+    border-radius: 0 2px 0 0;
+    transition: all 1000ms ease-in;
+
+    &.met {
+        width:100%;
+        opacity:1;
+        background-color:@green;
+    }
+}
+
 .word-count {
     position: fixed;
     bottom:1rem;

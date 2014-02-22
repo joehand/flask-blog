@@ -8,7 +8,8 @@ from flask import (Blueprint, current_app, flash, g, jsonify,
 from flask.ext.classy import FlaskView, route
 from flask.ext.security import current_user, roles_required
 
-from .models import Daily
+from .forms import SettingsForm
+from .models import Daily, Settings
 from ..utils import validate_date
 
 writer = Blueprint('writer', __name__, url_prefix='/admin/writer')
@@ -22,6 +23,7 @@ class DailyAdmin(FlaskView):
     def before_request(self, name, *args , **kwargs):
         g.today = date.today()
         g.posts = Daily.objects(user_ref=current_user.id)
+        g.word_goal = Settings.objects(user_ref=current_user.id).first().word_goal
 
     @route('/', endpoint='index')
     def index(self):
@@ -47,7 +49,7 @@ class DailyAdmin(FlaskView):
             else:
                 flash('No post found for date: %s' % post_date.strftime('%d-%b-%Y'))
                 return redirect(url_for('.today'))
-        return render_template('admin/writer.html', post=post, is_today=is_today, writer=True)
+        return render_template('admin/writer.html', post=post, is_today=is_today)
 
     def put(self, id):
         try:
@@ -58,6 +60,21 @@ class DailyAdmin(FlaskView):
             print 'Unexpected error:', sys.exc_info()[0]
             # TODO Make these more helpful
             return jsonify(status='error', error=''), 400
+
+    @route('/settings', methods=['GET', 'POST'])
+    def settings(self):
+        ''' '''
+        form = SettingsForm(request.form)
+        settings = Settings.objects(user_ref=current_user.id).first()
+        if form.validate_on_submit():
+            if not settings:
+                settings = Settings(user_ref=current_user.id)
+            settings.word_goal = form.data['word_goal']
+            settings.save()
+        elif settings:
+            form.word_goal.data = settings.word_goal
+        return render_template('admin/writer_settings.html', form=form)
+
 
 #Register our View Class
 DailyAdmin.register(writer)

@@ -1,0 +1,11 @@
+{% extends "admin/_admin_base.html" %}
+{% import "macros/_wtf.html" as wtf -%}
+{%- block content -%}
+    <form class="settings"  method="post" action="{{request.url}}">
+    {{ form.hidden_tag() }}
+    <fieldset class="">
+            {{ wtf.regular_field(form.word_goal) }}
+            <button type="submit" class="button button-primary">Submit</button>
+    </fieldset>
+</form>
+{% endblock %}
