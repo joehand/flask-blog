@@ -19,7 +19,7 @@ define([
 
     appModel = new AppModel(NAMESPACE);
 
-    collection = _.union(NAMESPACE.postsBootstrap, NAMESPACE.pagesBootstrap);
+    collection = _.union(NAMESPACE.postsBootstrap, NAMESPACE.dailyBootstrap);
 
     postsCol = new Posts(collection, {url:NAMESPACE.postURL});
 

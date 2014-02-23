@@ -16,7 +16,7 @@ define([
     'modals',
 ], function (Backbone, _, $, Utils, PostView, PostModel) {
 
-    var PageView = Backbone.View.extend({
+    var WriteView = Backbone.View.extend({
 
         events: {
             'click .fullscreen-button'      : '_toggleFullscreen',
@@ -183,5 +183,5 @@ define([
 
     });
 
-    return PageView;
+    return WriteView;
 });

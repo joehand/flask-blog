@@ -10,6 +10,7 @@ from flask.ext.security import current_user, login_required, roles_required
 
 from ..blog import Comment, Post, PostForm
 from ..blog import POST_TYPES
+from ..daily import Daily
 from .upload import process_upload
 from ..utils import s3_upload, s3_signer
 
@@ -22,17 +23,24 @@ class PostAdmin(FlaskView):
     decorators = [roles_required('admin')]
 
     def before_request(self, name, *args , **kwargs):
-        g.all_pages = Post.objects()
-        g.pages = Post.objects(user_ref=current_user.id,kind__in=['page'])
-        g.posts = Post.objects(user_ref=current_user.id,kind__in=['note', 'article'])
+        g.all_pages = Post.objects(user_ref=current_user.id)
         g.POST_TYPES = POST_TYPES
 
         for post in g.all_pages:
             post.form = PostForm(prefix=str(post.id), kind=post.kind, slug=post.slug)
 
+    def before_index(self, *args, **kwargs):
+        g.daily = Daily.objects(user_ref=current_user.id)
+
     @route('/', endpoint='index')
     def index(self):
         ''' Main admin post view '''
+        form = PostForm()
+        return render_template('admin/dashboard.html', newForm=form)
+
+    @route('/posts/', endpoint='post_list')
+    def post_list(self):
+        ''' Post List '''
         form = PostForm()
         return render_template('admin/post_list.html', newForm=form)
 
@@ -125,7 +133,7 @@ class PostAdmin(FlaskView):
         if slug:
             posts = [Post.objects(slug=slug).first_or_404()]
         else:
-            posts = g.posts
+            posts = Post.objects(user_ref=current_user.id,kind__in=['note', 'article'])
         return render_template('admin/comments.html', posts=posts)
 
     @route('/comments/<slug>/<comment_id>', methods=['GET', 'DELETE'], endpoint='delete_comment')

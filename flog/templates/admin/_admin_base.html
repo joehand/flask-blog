@@ -23,14 +23,14 @@
             var {{ config.PROJECT }} = {}; //namespace everything under here.
             {%- block post_js %}
             {{ config.PROJECT }}.postsBootstrap = [
-                {%- for post in g.posts -%}
+                {%- for post in g.all_pages -%}
                 {{post.to_dict()|safe}},
                 {%- endfor -%}
             ];
             {%- endblock post_js -%}
-            {{ config.PROJECT }}.pagesBootstrap = [
-                {%- for post in g.pages -%}
-                    {{post.to_dict()|safe}},
+            {{ config.PROJECT }}.dailyBootstrap = [
+                {%- for entry in g.daily -%}
+                    {{entry.to_dict()|safe}},
                 {%- endfor -%}
             ];
 
