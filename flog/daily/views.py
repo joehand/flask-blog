@@ -22,8 +22,13 @@ class DailyAdmin(FlaskView):
 
     def before_request(self, name, *args , **kwargs):
         g.today = date.today()
-        g.posts = Daily.objects(user_ref=current_user.id)
-        g.word_goal = Settings.objects(user_ref=current_user.id).first().word_goal
+        g.daily = Daily.objects(user_ref=current_user.id)
+        settings = Settings.objects(user_ref=current_user.id).first()
+        if not settings:
+            settings = Settings(user_ref=current_user.id)
+            settings.save()
+        g.word_goal = settings.word_goal
+        g.daily_words = True
 
     @route('/', endpoint='index')
     def index(self):

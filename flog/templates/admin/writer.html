@@ -44,7 +44,7 @@
                 </div>
             </article>
             <div class="progress-bar" data-goal="{{g.word_goal}}"></div>
-            <div class="word-count">{%- if post.content -%}{{post.word_count()}}{%- endif -%}</div>
+            <div class="word-count">{%- if post.content -%}{{post.content|wordcount}}{%- endif -%}</div>
         </section>
 {% endblock %}
 

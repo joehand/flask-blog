@@ -1,5 +1,5 @@
 {% import "macros/_wtf.html" as wtf -%}
-        <form class="form new-post post-form" method="post" action="{{request.url}}">
+        <form class="form new-post post-form" method="post" action="{{url_for('admin.PostAdmin:post')}}">
                 {{ newForm.hidden_tag() }}
                 <div class="title-input">
                 {{ wtf.no_label_field(newForm.title, class="title", placeholder='New Post') }}

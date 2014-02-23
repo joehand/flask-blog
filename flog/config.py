@@ -56,7 +56,7 @@ class ProductionConfig(Config):
 class DevelopmentConfig(Config): 
 
     # MongoDB Config
-    MONGODB_DB = 'blog_db'
+    MONGODB_DB = 'joehand_blog_db'
     MONGODB_HOST = 'localhost'
     MONGODB_PORT = 27017
 

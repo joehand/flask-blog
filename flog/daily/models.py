@@ -8,7 +8,7 @@ from ..user import User
 class Daily(db.Document):
     user_ref = db.ReferenceField(User)
     content = db.StringField()
-    date = db.DateTimeField(default=date.today(), required=True)
+    date = db.DateTimeField(default=date.today(), required=True, unique_with='user_ref')
     start_time = db.DateTimeField(default=datetime.utcnow(), required=True)
     end_time = db.DateTimeField() # recorded when goal is met
     last_update = db.DateTimeField(default=datetime.utcnow(), required=True)
@@ -37,9 +37,11 @@ class Daily(db.Document):
     def validate_json(self, inputJSON):
         for key, val in inputJSON.items():
             if key in ['content', 'end_time']:
-                print key, val
                 if key == 'end_time':
-                    val = datetime.utcfromtimestamp(val/1000.0)
+                    try:
+                        val = datetime.utcfromtimestamp(val/1000.0)
+                    except:
+                        continue
                     # divide by 1000 because JS timestamp is in ms 
                     # http://stackoverflow.com/questions/10286224/javascript-timestamp-to-python-datetime-conversion
                 if val != None and val != 'None': 
@@ -54,6 +56,12 @@ class Daily(db.Document):
             words = re.findall('\w+', self.content, flags=re.I)
             return len(words)
         return 0
+
+    def goal_met(self):
+        goal = Settings.objects(user_ref=self.user_ref).first()
+        if self.word_count() > goal.word_goal:
+            return True
+        return False
 
 class Settings(db.Document):
     user_ref = db.ReferenceField(User)

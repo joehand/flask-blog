@@ -13,10 +13,11 @@
             <a href="#" class="settings-button useicons">&#xe617;</a>
         </div>
     </nav>
-    <div class="save-message"></div>
     {%- endblock siteheader -%} 
 
-    {%- block footer %}{%- endblock -%} 
+    {%- block sitefooter %}
+    <div class="save-message"></div>
+    {%- endblock sitefooter -%} 
 
     {%- block footer_js %}
         <script>
@@ -38,6 +39,7 @@
 
             {{ config.PROJECT }}.postURL = '{{url_for('.index')}}';
             {{ config.PROJECT }}.signS3URL = '{{url_for('admin.signS3')}}';
+            {{ config.PROJECT }}.daily_words = {% if g.daily_words %}true{%- else %}false{%- endif %};
 
             {{ config.PROJECT }}.user = {
                                 'id'     : '{{current_user.id}}',

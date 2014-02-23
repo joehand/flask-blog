@@ -1,3 +1,4 @@
+from datetime import date
 import json
 import sys
 from urlparse import urlparse
@@ -20,8 +21,9 @@ class PostAdmin(FlaskView):
     ''' Post Admin View '''
 
     route_base = '/' 
-    decorators = [roles_required('admin')]
+    decorators = [login_required, roles_required('admin')]
 
+    @login_required
     def before_request(self, name, *args , **kwargs):
         g.all_pages = Post.objects(user_ref=current_user.id)
         g.POST_TYPES = POST_TYPES
@@ -31,6 +33,10 @@ class PostAdmin(FlaskView):
 
     def before_index(self, *args, **kwargs):
         g.daily = Daily.objects(user_ref=current_user.id)
+        if len(g.daily) and g.daily[0].date.date() == date.today() \
+            and g.daily[0].goal_met():
+            g.wrote_today = True
+
 
     @route('/', endpoint='index')
     def index(self):

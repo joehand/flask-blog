@@ -65,8 +65,10 @@ define([
             this.$contentInput = $('textarea.content');
             this.initAutoComplete();
 
-            this.updateProgressBar();
-            this.listenTo(this.postView.model, 'change:content', this.updateProgressBar, this);
+            if (this.model.get('daily_words')) {
+                this.updateProgressBar();
+                this.listenTo(this.postView.model, 'change:content', this.updateProgressBar, this);
+            }
 
             this.render();
         },
