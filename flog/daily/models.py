@@ -9,10 +9,18 @@ class Daily(db.Document):
     user_ref = db.ReferenceField(User)
     content = db.StringField()
     date = db.DateTimeField(default=date.today(), required=True)
+    start_time = db.DateTimeField(default=datetime.utcnow(), required=True)
+    end_time = db.DateTimeField() # recorded when goal is met
+    last_update = db.DateTimeField(default=datetime.utcnow(), required=True)
 
     meta = {
             'ordering': ['-date']
             }
+
+    def clean(self):
+        '''Clean Data!'''
+        # Add last update timestamp
+        self.last_update = datetime.utcnow()
 
     def to_dict(self):
         data = json.loads(self.to_json())
@@ -21,11 +29,19 @@ class Daily(db.Document):
         data['id'] = str(self.id)
         data['user_ref'] = str(self.user_ref.id)
         data['date'] = str(self.date)
+        data['start_time'] = str(self.start_time)
+        data['end_time'] = str(self.end_time)
+        data['last_update'] = str(self.last_update)
         return json.dumps(data)
 
     def validate_json(self, inputJSON):
         for key, val in inputJSON.items():
-            if key in ['content']:
+            if key in ['content', 'end_time']:
+                print key, val
+                if key == 'end_time':
+                    val = datetime.utcfromtimestamp(val/1000.0)
+                    # divide by 1000 because JS timestamp is in ms 
+                    # http://stackoverflow.com/questions/10286224/javascript-timestamp-to-python-datetime-conversion
                 if val != None and val != 'None': 
                     self[key] = val
             else:

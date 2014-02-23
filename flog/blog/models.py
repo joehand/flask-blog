@@ -49,7 +49,7 @@ class Post(db.Document):
             self.slug = self.slug + '1' #todo: make this more robust
 
         # Add last update timestamp
-        self.last_update = datetime.now()
+        self.last_update = datetime.utcnow()
 
         if self.pub_date is None:
         # Ensures that everything has a `pub_date`

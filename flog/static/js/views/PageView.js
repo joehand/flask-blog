@@ -124,9 +124,15 @@ define([
                 count = this.postView.model.get('words');
             if (goal > count) {
                 $el.width(count/goal * 100 + '%');
-            } else {
+                if (!_.isUndefined(this.postView.model.get('end_time'))) {
+                    this.postView.model.set('end_time', undefined); // reset if we finished before
+                }
+            } else if (!_.isUndefined(count)) {
                 $el.addClass('met');
                 $el.width('100%');
+                if (_.isUndefined(this.postView.model.get('end_time'))) {
+                    this.postView.model.set('end_time', Date.now());
+                }
             }
         },
 
