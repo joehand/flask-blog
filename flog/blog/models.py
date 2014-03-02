@@ -18,7 +18,8 @@ class Post(db.Document):
     title = db.StringField()
     content = db.StringField()
     kind = db.StringField(choices=POST_TYPES, required=True)
-    last_update = db.DateTimeField(default=datetime.utcnow(), required=True)
+    last_update = db.DateTimeField(default=datetime.utcnow(),
+            required=True)
     published = db.BooleanField(default=False, required=True)
     pub_date = db.DateTimeField()
     category = db.StringField()
@@ -26,7 +27,7 @@ class Post(db.Document):
     comments = db.SortedListField(db.EmbeddedDocumentField('Comment'))
 
     meta = {
-            'allow_inheritance': True, 
+            'allow_inheritance': True,
             'ordering': ['-pub_date','-last_update']
             }
 
@@ -82,7 +83,7 @@ class Post(db.Document):
                         val = False
                     elif val.lower() == 'true':
                         val = True
-            if val != None and val != 'None': 
+            if val != None and val != 'None':
                 self[key] = val
 
         self.save()
@@ -94,18 +95,20 @@ class Post(db.Document):
             export += key + ': ' + str(self[key]) + '\n'
 
         export += '\n\n' + self.content
-        filename = datetime.strftime(self.pub_date, '%Y-%m-%d') + '-' + self.slug + '.md'
+        filename = (datetime.strftime(self.pub_date, '%Y-%m-%d')
+                + '-' + self.slug + '.md')
 
         return {'filename': filename, 'content': export}
 
     def backup_to_s3(self):
         post_export = self.generate_export()
-        return s3_upload(post_export['filename'], post_export['content'])
+        return s3_upload(post_export['filename'],
+                post_export['content'])
 
     @classmethod
     def post_save(cls, sender, document, **kwargs):
         if app.config['PRODUCTION']:
-            # TODO: Don't save this when a comment happens. 
+            # TODO: Don't save this when a comment happens.
             print('Post Save: %s' % document.title)
             url = document.backup_to_s3()
             print('Backed up to s3: %s' % url)
@@ -115,7 +118,8 @@ signals.post_save.connect(Post.post_save, sender=Post)
 
 class Comment(db.EmbeddedDocument):
     id = db.ObjectIdField(required=True, primary_key=True)
-    created_at = db.DateTimeField(default=datetime.utcnow(), required=True)
+    created_at = db.DateTimeField(default=datetime.utcnow(),
+            required=True)
     name = db.StringField(max_length=255, required=True)
     email = db.StringField()
     content = db.StringField(required=True)
@@ -123,7 +127,8 @@ class Comment(db.EmbeddedDocument):
     def avatar(self, size):
         if self.email is None:
             self.email = ''
-        return 'http://www.gravatar.com/avatar/' + md5(self.email).hexdigest() + '?d=mm&s=' + str(size)
+        return ('http://www.gravatar.com/avatar/'
+                + md5(self.email).hexdigest() + '?d=mm&s=' + str(size))
 
     @classmethod
     def post_init(cls, sender, document, **kwargs):
@@ -131,4 +136,3 @@ class Comment(db.EmbeddedDocument):
             document.id = ObjectId()
 
 signals.post_init.connect(Comment.post_init, sender=Comment)
-

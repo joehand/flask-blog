@@ -34,9 +34,11 @@ def s3_signer(request):
         expires = int(time.time()+20)
         amz_headers = 'x-amz-acl:public-read'
 
-        put_request = 'PUT\n\n%s\n%d\n%s\n/%s/%s' % (mime_type, expires, amz_headers, S3_BUCKET, object_name)
+        put_request = 'PUT\n\n%s\n%d\n%s\n/%s/%s' % (
+                mime_type, expires, amz_headers, S3_BUCKET, object_name)
 
-        signature = base64.encodestring(hmac.new(AWS_SECRET_KEY, put_request, sha1).digest())
+        signature = base64.encodestring(
+                hmac.new(AWS_SECRET_KEY, put_request, sha1).digest())
         signature = urllib.quote_plus(signature.strip())
 
         url = 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, object_name)
@@ -64,10 +66,13 @@ def s3_upload(filename, contents ,acl='public-read'):
         the source file.
     '''
     # Connect to S3 and upload file.
-    conn = boto.connect_s3(app.config['AWS_ACCESS_KEY_ID'], app.config['AWS_SECRET_ACCESS_KEY'])
+    conn = boto.connect_s3(
+            app.config['AWS_ACCESS_KEY_ID'],
+            app.config['AWS_SECRET_ACCESS_KEY'])
     b = conn.get_bucket(app.config['S3_BUCKET_NAME'])
 
-    sml = b.new_key('/'.join([app.config['S3_UPLOAD_DIRECTORY'],filename]))
+    sml = b.new_key(
+            '/'.join([app.config['S3_UPLOAD_DIRECTORY'],filename]))
     sml.set_contents_from_string(contents)
     sml.set_acl(acl)
 
@@ -81,11 +86,12 @@ class MarkdownReader():
     Modified from Pelican and Python Markdown
     '''
     def process_filename(self, filename):
-        m = re.search(r'(?P<date>\d{4}-\d{2}-\d{2})-(?P<slug>.*)', filename).groupdict()
-        return m
+        m = re.search(
+                r'(?P<date>\d{4}-\d{2}-\d{2})-(?P<slug>.*)', filename)
+        return m.groupdict()
 
     def getmeta(self, lines):
-        ''' Parse Meta-Data 
+        ''' Parse Meta-Data
 
             From python markdown meta extension
         '''
@@ -120,7 +126,8 @@ class MarkdownReader():
         metadata = self.getmeta(metadata.split('\n'))
 
         content = contents.split('\n\n',1)[1]
-        content = re.sub(r'(?<!\n)\n(?!\n)', ' ', content) # replace single newline characters with spaces
+        # replace single newline characters with spaces
+        content = re.sub(r'(?<!\n)\n(?!\n)', ' ', content)
 
         metadata.update(self.process_filename(filename))
         return {'content':content, 'metadata':metadata}
@@ -214,7 +221,8 @@ def mongo_to_dict(obj):
             return_data.append((field_name, int(data)))
         elif isinstance(obj._fields[field_name], db.ListField):
             return_data.append((field_name, data))
-        elif isinstance(obj._fields[field_name], db.EmbeddedDocumentField):
+        elif isinstance(obj._fields[field_name],
+                db.EmbeddedDocumentField):
             return_data.append((field_name, mongo_to_dict(data)))
         elif isinstance(obj._fields[field_name], db.DictField):
             return_data.append((field_name, data))

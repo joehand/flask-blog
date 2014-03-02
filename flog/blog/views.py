@@ -17,25 +17,26 @@ blog = Blueprint('blog', __name__, url_prefix='')
 md = Markdown()
 
 class PostView(FlaskView):
-    ''' Our base ViewClass for any Post related endpoints 
+    ''' Our base ViewClass for any Post related endpoints
     '''
     route_base = '/'
 
     def _clean_text(self, text):
         """ Cleans up submitted text from users
         """
-        return linkify(clean(md.convert(text), tags=ALLOWED_COMMENT_TAGS, strip=True))
+        return linkify(clean(md.convert(text),
+                tags=ALLOWED_COMMENT_TAGS, strip=True))
 
     def index(self):
         ''' Our main index view '''
-        post = Post.objects(kind__in=['note', 'article'], 
+        post = Post.objects(kind__in=['note', 'article'],
                 published=True, pub_date__lte=datetime.now()).first()
         return render_template('blog/index.html', post=post)
-    
+
     @route('/archive/', endpoint='archive',)
     def archive(self):
         ''' Archive View '''
-        g.posts = Post.objects(kind__in=['article'], 
+        g.posts = Post.objects(kind__in=['article'],
                 published=True, pub_date__lte=datetime.now())
         return render_template('blog/archive.html')
 
@@ -43,7 +44,8 @@ class PostView(FlaskView):
     @route('/blog/<int:page_num>', endpoint='blog')
     def blog(self, page_num=1):
         ''' Blog View '''
-        g.posts = Post.objects(kind__in=['article', 'note'], published=True, 
+        g.posts = Post.objects(kind__in=['article', 'note'],
+            published=True,
             pub_date__lte=datetime.now()).paginate(page=page_num, per_page=10)
         return render_template('blog/blog.html')
 
@@ -52,12 +54,16 @@ class PostView(FlaskView):
     def category(self, category, page_num=1):
         ''' Category Page'''
         if category == 'note':
-            g.posts = Post.objects(kind__in=['note'], published=True, 
-                pub_date__lte=datetime.now()).paginate(page=page_num, per_page=10)
-            return render_template('blog/category.html', category = category)
+            g.posts = Post.objects(kind__in=['note'], published=True,
+                pub_date__lte=datetime.now()).paginate(page=page_num,
+                per_page=10)
+            return render_template('blog/category.html',
+                    category = category)
 
-        g.posts = Post.objects(kind__in=['article'], published=True, category = category,
-                pub_date__lte=datetime.now()).paginate(page=page_num, per_page=10)
+        g.posts = Post.objects(kind__in=['article'],
+                published=True, category = category,
+                pub_date__lte=datetime.now()).paginate(page=page_num,
+                per_page=10)
         if len(g.posts.items) == 0:
             flash('Sorry, there are no posts in the <b>%s</b> category.' % category)
             return abort(404)
