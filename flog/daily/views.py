@@ -17,7 +17,7 @@ writer = Blueprint('writer', __name__, url_prefix='/admin/writer')
 class DailyAdmin(FlaskView):
     ''' Daily Writing View '''
 
-    route_base = '/' 
+    route_base = '/'
     decorators = [roles_required('admin')]
 
     def before_request(self, name, *args , **kwargs):
@@ -45,16 +45,19 @@ class DailyAdmin(FlaskView):
         else:
             post_date = datetime.strptime(post_date, '%d-%b-%Y')
         is_today = True if post_date == g.today else False
-        post = Daily.objects(user_ref=current_user.id, date=post_date).first()
+        post = Daily.objects(
+                user_ref=current_user.id, date=post_date).first()
         if post is None:
             if is_today:
                 # create a new post for today
                 post = Daily(user_ref=current_user.id, date=g.today)
                 post.save()
             else:
-                flash('No post found for date: %s' % post_date.strftime('%d-%b-%Y'))
+                flash('No post found for date: %s' %
+                        post_date.strftime('%d-%b-%Y'))
                 return redirect(url_for('.today'))
-        return render_template('admin/writer.html', post=post, is_today=is_today)
+        return render_template('admin/writer.html',
+                post=post, is_today=is_today)
 
     def put(self, id):
         try:
