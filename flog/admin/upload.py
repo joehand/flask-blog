@@ -22,7 +22,7 @@ def processMDFile(filename, contents):
         title = contents['metadata']['title'].strip().replace('"','')
     else:
         title = slug.replace('-', ' ').capitalize()
-    
+
     if 'kind' in contents['metadata']:
         kind = contents['metadata']['kind']
 
@@ -33,17 +33,28 @@ def processMDFile(filename, contents):
             category = 'note'
 
     if kind and kind == 'page':
-        post = Post(title=title, user_ref=current_user.id, kind=kind, slug=slug)
+        post = Post(title=title,
+                    user_ref=current_user.id,
+                    kind=kind,
+                    slug=slug)
     elif kind == 'note':
-        post = Post(title=title, user_ref=current_user.id, kind=kind, slug=slug)
+        post = Post(title=title,
+                    user_ref=current_user.id,
+                    kind=kind,
+                    slug=slug)
 
         if 'link_url' in contents['metadata']:
-            post.link_url = urlparse(contents['metadata']['link_url']).geturl()
+            post.link_url = urlparse(
+                    contents['metadata']['link_url']).geturl()
         if 'external_link' in contents['metadata']:
             # TODO: check if there are quotes around the string
-            post.link_url = urlparse(contents['metadata']['external_link']).geturl()
+            post.link_url = urlparse(
+                    contents['metadata']['external_link']).geturl()
     else:
-        post = Post(title=title, user_ref=current_user.id, kind='article', slug=slug)
+        post = Post(title=title,
+                    user_ref=current_user.id,
+                    kind='article',
+                    slug=slug)
         if category:
             post.category = category
 
@@ -79,14 +90,15 @@ def process_upload(files):
                 zfile = zipfile.ZipFile(file)
                 for name in zfile.namelist():
                     (dirname, filename) = os.path.split(name)
-                    data = StringIO.StringIO(zfile.read(filename)) # convert to string IO so we can read
+                    # convert to string IO so we can read
+                    data = StringIO.StringIO(zfile.read(filename))
                     filename = os.path.splitext(filename)[0]
-                    contents = data.getvalue() 
+                    contents = data.getvalue()
                     post = processMDFile(filename,contents)
                     posts.append(post)
             else:
                 filename = os.path.splitext(filename)[0]
-                contents = file.read()        
+                contents = file.read()
                 post = processMDFile(filename,contents)
                 posts.append(post)
                 file.close()
