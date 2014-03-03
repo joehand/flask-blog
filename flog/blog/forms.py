@@ -10,7 +10,8 @@ class PostForm(Form):
     '''
     title = TextField('Title', validators=[required()])
     slug = TextField('Slug', validators=[optional()])
-    kind = RadioField('Kind', choices=POST_TYPES, default=POST_TYPES[0][0])
+    kind = RadioField('Kind',
+            choices=POST_TYPES, default=POST_TYPES[0][0])
     category = TextField('Category', validators=[optional()])
     pub_date = DateField('Publish Date', validators=[optional()])
     link_url = URLField('Link URL', validators=[url(), optional()])

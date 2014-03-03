@@ -1,15 +1,19 @@
+from datetime import date
 import json
 import sys
 from urlparse import urlparse
 
 from flask import (Blueprint, current_app, flash, g, make_response,
-                    jsonify, redirect, render_template, request, url_for)
+                    jsonify, redirect, render_template,
+                    request, url_for)
 
 from flask.ext.classy import FlaskView, route
-from flask.ext.security import current_user, login_required, roles_required
+from flask.ext.security import (current_user, login_required,
+                                roles_required)
 
 from ..blog import Comment, Post, PostForm
 from ..blog import POST_TYPES
+from ..daily import Daily
 from .upload import process_upload
 from ..utils import s3_upload, s3_signer
 
@@ -18,21 +22,44 @@ admin = Blueprint('admin', __name__, url_prefix='/admin')
 class PostAdmin(FlaskView):
     ''' Post Admin View '''
 
-    route_base = '/' 
-    decorators = [roles_required('admin')]
+    route_base = '/'
+    decorators = [login_required, roles_required('admin')]
 
+    @login_required
     def before_request(self, name, *args , **kwargs):
-        g.all_pages = Post.objects()
-        g.pages = Post.objects(kind__in=['page'])
-        g.posts = Post.objects(kind__in=['note', 'article'])
+        g.all_pages = Post.objects(user_ref=current_user.id)
         g.POST_TYPES = POST_TYPES
 
         for post in g.all_pages:
-            post.form = PostForm(prefix=str(post.id), kind=post.kind, slug=post.slug)
+            post.form = PostForm(prefix=str(post.id),
+                                kind=post.kind,
+                                slug=post.slug)
 
-    @route('/')
+    def before_index(self, *args, **kwargs):
+        g.daily = Daily.objects(user_ref=current_user.id)
+        if (len(g.daily) and
+                g.daily[0].date.date() == date.today() and
+                g.daily[0].goal_met()):
+            g.wrote_today = True
+        g.comments = []
+        for post in g.all_pages:
+            if post.comments:
+                print 'getting comments for %s' % post.title
+                for comment in post.comments:
+                    print 'comment %s' % comment.name
+                    comment.post_slug = post.slug
+                    g.comments.append(comment)
+
+
+    @route('/', endpoint='index')
     def index(self):
         ''' Main admin post view '''
+        form = PostForm()
+        return render_template('admin/dashboard.html', newForm=form)
+
+    @route('/posts/', endpoint='post_list')
+    def post_list(self):
+        ''' Post List '''
         form = PostForm()
         return render_template('admin/post_list.html', newForm=form)
 
@@ -51,7 +78,8 @@ class PostAdmin(FlaskView):
             uploaded_files = request.files.getlist('file')
             posts = process_upload(uploaded_files)
             for post in posts:
-                post.form = PostForm(prefix=str(post.id), kind=post.kind, slug=post.slug)
+                post.form = PostForm(prefix=str(post.id),
+                                    kind=post.kind, slug=post.slug)
         return render_template('admin/upload.html', posts=posts)
 
     @route('/export/', endpoint='export')
@@ -59,11 +87,12 @@ class PostAdmin(FlaskView):
     def export(self, slug=None):
         '''Export View '''
         if slug:
-            post_export = Post.objects(slug=slug).first_or_404().generate_export()
+            post_export = Post.objects(
+                    slug=slug).first_or_404().generate_export()
             response = make_response(post_export['content'])
             response.headers['Content-Disposition'] = 'attachment; filename=%s.md' % post_export['filename']
             return response
-        
+
         posts = Post.objects()
         urls = []
         for post in posts:
@@ -81,14 +110,17 @@ class PostAdmin(FlaskView):
             title = form.title.data.strip()
             kind = form.kind.data
             if kind == 'page':
-                post = Post(title=title, user_ref=current_user.id, kind=kind)
+                post = Post(title=title,
+                        user_ref=current_user.id, kind=kind)
             elif kind == 'note':
-                post = Post(title=title, user_ref=current_user.id, kind=kind)
+                post = Post(title=title,
+                        user_ref=current_user.id, kind=kind)
                 link_url = form.category.data
                 if link_url:
                     post.link_url = urlparse(link_url).geturl()
             else:
-                post = Post(title=title, user_ref=current_user.id, kind='article')
+                post = Post(title=title,
+                        user_ref=current_user.id, kind='article')
                 category = form.category.data.strip().lower()
                 if category:
                     post.category = category
@@ -121,16 +153,20 @@ class PostAdmin(FlaskView):
         return jsonify( { 'result': True } )
 
     @route('/comments/', endpoint='comments')
+    @route('/comments/<slug>/', endpoint='comments')
     def comments(self, slug=None):
         if slug:
             posts = [Post.objects(slug=slug).first_or_404()]
         else:
-            posts = g.posts
+            posts = Post.objects(user_ref=current_user.id,
+                    kind__in=['note', 'article'])
         return render_template('admin/comments.html', posts=posts)
 
-    @route('/comments/<slug>/<comment_id>', methods=['GET', 'DELETE'], endpoint='delete_comment')
+    @route('/comments/<slug>/<comment_id>',
+            methods=['GET', 'DELETE'], endpoint='delete_comment')
     def delete_comment(self, slug, comment_id):
-        Post.objects(slug=slug).update_one(pull__comments__id=Comment(id=comment_id).id)
+        Post.objects(slug=slug).update_one(
+                pull__comments__id=Comment(id=comment_id).id)
         return redirect(request.referrer)
 
 

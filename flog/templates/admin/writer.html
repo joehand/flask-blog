@@ -1,42 +1,36 @@
 {% extends "admin/_admin_base.html" %}
 
 {%- block body_class -%}post-editor{%- endblock -%} 
-{%- block content -%} 
+{%- block content -%}
         <div class="admin-buttons">
+            {%- if is_today -%}
             <div class="ui-buttons">
             <a class="fullscreen-button useicons" href="#">
                 <span class="expand">&#xe637;</span>
                 <span class="contract hidden">&#xe636;</span>
             </a>
-            <a class="preview-button useicons" href="#">
-                <span class="preview">&#xe63c;</span>
-                <span class="edit hidden">&#xe602;</span>
-            </a>
             </div>
-            {% if not post.published -%}
-            <!--<a class="publish-button button button-mini small-caps" href="#">Publish!</a>-->
             {%- endif -%}
-        </div>     
+        </div>   
         <section class="post-edit" data-id="{{post.id}}">
             <header class="cf">
-                <h2 class="title editor" contenteditable="true">{{post.title}}</h2>
-                {%- if post.kind == 'article' %}
-                <h5 class="category editor small-caps" contenteditable="true">
-                    {%- if post.category -%}{{post.category}}{%- else -%}Uncategorized{%- endif -%}
-                </h5>
-                {%- elif post.kind == 'note' %}
-                <h5 class="category small-caps">Note</h5>
-                <h5 class="link_url">
-                    <span class="useicons">&#xe61e;</span><span class="link_url editor" contenteditable="true">{%- if post.link_url -%}{{post.link_url}}{%- else -%}No Link{%- endif -%}</span>
-                </h5>
-                {%- endif -%}
+                <h2 class="date">{{post.date|format_date}}</h2>
             </header>
             
             <article>
+                {%- if is_today -%}
                 <textarea class="content editor" placeholder="Start writing..." autofocus>
                     {%- if post.content -%}{{post.content}}{%- endif -%}
                 </textarea>
-
+                {%- else -%}
+                <div class="content">
+                    {%- if post.content -%}
+                    {{post.content}}
+                    {%- else -%}
+                    <em>No Writing on this date</em>
+                    {%- endif -%}
+                </div>
+                {%- endif -%}
                 <div class="image-upload modal fade">
                       <div class="modal-dialog">
                         <div class="modal-content">
@@ -48,9 +42,10 @@
                       </div><!-- /.modal-dialog -->
                     <input type="file" id="image-upload">
                 </div>
-                <div class="content-preview"></div>
             </article>
+            <div class="progress-bar" data-goal="{{g.word_goal}}"></div>
+            <div class="word-count">{%- if post.content -%}{{post.content|wordcount}}{%- endif -%}</div>
         </section>
 {% endblock %}
 
-{%- block js_view %}'WriteView'{%- endblock js_view -%}
+{%- block js_view %}{%- if is_today -%}'WriteView'{%- else -%}null{%- endif -%}{%- endblock js_view -%}

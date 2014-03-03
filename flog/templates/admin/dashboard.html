@@ -1,0 +1,80 @@
+{% extends "admin/_admin_base.html" %}
+
+{% block title %}Admin Area Dashboard{% endblock title %}
+
+{%- block body_class %}admin-dash{%- endblock body_class -%}
+
+
+{%- block siteheader -%}
+<nav class="admin-nav">
+</nav>
+{%- endblock siteheader -%}
+
+{%- block content -%}
+            <div class="grid grid-gutter-half">
+                <nav class="grid-item one_whole">
+                    <a href="{{url_for('.post_list')}}">Post List</a>
+                    <a href="{{url_for('.comments')}}">All Comments</a>
+                </nav>
+                <div class="grid-item one-half">
+                    <header>
+                        <h3>Write Daily, Be Awesome</h3>
+                        {% if g.wrote_today -%}
+                            <a href="{{url_for('writer.today')}}">Good work today! All done.</a>
+                        {%- else -%}
+                            <a href="{{url_for('writer.today')}}">Write your words for today.</a>
+                        {%- endif -%}
+                    </header>
+                    <div>
+                        <!-- graph of streak or something -->
+                    </div>
+                    <div>
+                        <!-- RECENT COMMENTS -->
+                        <h3>Recent Comments</h3>
+                        {% for group in g.comments|sort(attribute='created_at',reverse=True)|groupby('post_slug')%}
+                            <h5>{{ group.grouper }}</h5>
+                            {% for comment in group.list %}
+                            {% if loop.index > 5 %}
+                            {% else %}
+                            <div>
+                                <div><span>{{comment.name}}</span> | <span>{{comment.created_at|time_ago}}</span></div>
+                                <span><a href="{{url_for('.comments', slug=comment.post_slug)}}">{{comment.post_slug}}</a></span>
+                                <div>{{comment.content|truncate(150)|markdown|safe}}</div>
+                            </div>
+                            {%- endif -%}
+                            {% endfor %}
+                        {%- endfor -%}
+                    </div>
+                </div>
+
+                <div class="grid-item one-half">
+                    {%- include "admin/partials/_newpost.html" -%}
+                    <div>
+                        <!-- POST FREQUENCY GRAPH -->
+                    </div>
+                    <div>
+                        {% for post in g.all_pages|sort(attribute='last_update',reverse=True) %}
+                            {% if loop.index > 5 %}
+                            {% else %}
+                            <article class="post-partial {% if post.published %}published{% endif %} {{post.kind}}" data-id="{{post.id}}" data-published="{{post.published|lower}}" data-kind="{{post.kind}}">
+                                    <div class="settings-toggle">
+                                        <div class="cf">
+                                            <a class="h3 float-left title" data-field="title" href="{{url_for('admin.post', slug=post.slug)}}">{{post.title}}</a>
+                                            <span class="float-right kind small-caps {{post.kind}}">{{post.kind}}</span>
+                                        </div>
+                                        {%- if post.published %}
+                                        <div class="pub_date small-caps">
+                                            <span>{{post.pub_date|format_date}}</span>
+                                        </div>
+                                        {%- endif %}
+                                    </div>
+                                    {%- include "admin/partials/_post_settings.html" -%}
+                            </article>
+                            {% endif %}
+                        {%- endfor -%}
+                    </div>
+                </div>
+            </div>
+{%- endblock -%}
+
+{%- block js_view %}'DashView'{%- endblock js_view -%}

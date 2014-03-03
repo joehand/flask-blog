@@ -16,7 +16,7 @@ define([
     'modals',
 ], function (Backbone, _, $, Utils, PostView, PostModel) {
 
-    var PageView = Backbone.View.extend({
+    var WriteView = Backbone.View.extend({
 
         events: {
             'click .fullscreen-button'      : '_toggleFullscreen',
@@ -64,6 +64,11 @@ define([
 
             this.$contentInput = $('textarea.content');
             this.initAutoComplete();
+
+            if (this.model.get('daily_words')) {
+                this.updateProgressBar();
+                this.listenTo(this.postView.model, 'change:content', this.updateProgressBar, this);
+            }
 
             this.render();
         },
@@ -115,6 +120,24 @@ define([
             });
         },
 
+        updateProgressBar: function() {
+            var $el = $('.progress-bar'),
+                goal = $el.data('goal'),
+                count = this.postView.model.get('words');
+            if (goal > count) {
+                $el.width(count/goal * 100 + '%');
+                if (!_.isUndefined(this.postView.model.get('end_time'))) {
+                    this.postView.model.set('end_time', undefined); // reset if we finished before
+                }
+            } else if (!_.isUndefined(count)) {
+                $el.addClass('met');
+                $el.width('100%');
+                if (_.isUndefined(this.postView.model.get('end_time'))) {
+                    this.postView.model.set('end_time', Date.now());
+                }
+            }
+        },
+
         showImageUpload: function() {
             // Simulate Input Click to Show File Browser
             $('.image-upload input[type=file]').trigger('click');
@@ -162,5 +185,5 @@ define([
 
     });
 
-    return PageView;
+    return WriteView;
 });

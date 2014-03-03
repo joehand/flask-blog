@@ -6,6 +6,7 @@ from flask.ext.security import MongoEngineUserDatastore
 
 from .admin import admin
 from .blog import blog
+from .daily import writer
 from .user import user, User, Role
 from .utils import prettydate
 
@@ -19,6 +20,7 @@ DEFAULT_BLUEPRINTS = (
     admin,
     user,
     blog,
+    writer,
 )
 
 def create_app(config=None, app_name=None, blueprints=None):

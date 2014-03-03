@@ -16,6 +16,9 @@ define([
     var Post = Backbone.Model.extend({
         initialize: function(opts) {
             this.url = this.collection.url + this.id;
+            if (!_.isUndefined(this.get('content'))) {
+                this.set('words', this.get('content').split(' ').length - 1);
+            }
         },
 
         isInFilter: function(filter) {
@@ -34,12 +37,19 @@ define([
             return inFilter;
         },
 
+        updateWordCount: function() {
+            this.set('words', this.get('content').split(' ').length - 1);
+        },
+
         checkSave: function(self, v, opts, forceSave) {
             // TODO: rewrite this using underscore's debounce function http://underscorejs.org/#debounce
             self = _.isUndefined(self) ? this : self;
             forceSave = !_.isUndefined(forceSave);
 
             console.log(self.changed);
+            if (_.has(self.changed, "content")){ 
+                self.updateWordCount();
+            }
 
             if (forceSave === true) {
                 self.save(null);

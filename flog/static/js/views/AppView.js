@@ -9,8 +9,8 @@ define([
     'underscore',
     'jquery',
     'Utils',
-    'views/AdminView', //need these here to get included in build. another way to do this?
-    'views/PageView',
+    'views/PostListView', //need these here to get included in build. another way to do this?
+    'views/WriteView',
 ], function (Backbone, _, $, Utils) {
 
     var SUB_VIEW_EL = '.main',

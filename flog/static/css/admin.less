@@ -34,9 +34,24 @@
 }
 
 
+/* ================================================================== *\
+   Admin Dashboard!
+\* ================================================================== */
+
+.admin-dash {
+// this is a class ont he body since we are changing lots of formatting
+    .page-content {
+        width:100%;
+        max-width:100%;
+    }
+
+
+
+}
+
 
 /* ================================================================== *\
-   Main Post Dashboard!
+   Main Post Listing!
 \* ================================================================== */
 
 /*
@@ -334,8 +349,35 @@ textarea.content {
     }
 }
 
+.progress-bar {
+    position: fixed;
+    bottom:5px;
+    left:0;
+    height:5px;
+    background-color:@blue;
+    opacity:0.75;
+    border-radius: 0 2px 0 0;
+    transition: all 1000ms ease-in;
+
+    &.met {
+        width:100%;
+        opacity:1;
+        border-radius: 0;
+        background-color:@green;
+    }
+}
+
+.word-count {
+    position: fixed;
+    bottom:1rem;
+    right:1rem;
+    opacity:0.5;
+    color:@gray-light;
+    transition: all 1000ms ease-in;
+}
+
 /* ================================================================== *\
-   Form Elements
+   Form Elementsf
 \* ================================================================== */
 
 .radio-group {
@@ -483,7 +525,7 @@ textarea.content {
         padding:0.5rem 4rem 4rem 2rem;
 
         * {
-            opacity:0.25;
+            opacity:0.05;
             transition: all 500ms ease-in;
         }
 

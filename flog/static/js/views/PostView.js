@@ -50,6 +50,7 @@ define([
                 updateMethod: 'text',
                 updateView: false,
             },
+            '.word-count' : 'words',
         },
 
         events: {

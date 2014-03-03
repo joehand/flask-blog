@@ -17,7 +17,7 @@ define([
 
     var formactive;
 
-    var AdminView = Backbone.View.extend({
+    var PostListView = Backbone.View.extend({
 
         events: {
             'click .post-filter'            : '_filterPosts',
@@ -100,5 +100,5 @@ define([
 
     });
 
-    return AdminView;
+    return PostListView;
 });

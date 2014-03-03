@@ -7,37 +7,39 @@
 
     {%- block siteheader -%} 
     <nav class="admin-nav">
-        <a class="admin-link small-caps useicons" href="{{url_for('admin.PostAdmin:index')}}">&#xe600;</a>
+        <a class="admin-link small-caps useicons" href="{{url_for('admin.index')}}">&#xe600;</a>
         <div class="dashboard-links">
             <a href="{{url_for('admin.upload')}}" class="useicons">&#xe61d;</a>
             <a href="#" class="settings-button useicons">&#xe617;</a>
         </div>
     </nav>
-    <div class="save-message"></div>
     {%- endblock siteheader -%} 
 
-    {%- block footer %}{%- endblock -%} 
+    {%- block sitefooter %}
+    <div class="save-message"></div>
+    {%- endblock sitefooter -%} 
 
     {%- block footer_js %}
         <script>
             var {{ config.PROJECT }} = {}; //namespace everything under here.
             {%- block post_js %}
             {{ config.PROJECT }}.postsBootstrap = [
-                {%- for post in g.posts -%}
+                {%- for post in g.all_pages -%}
                 {{post.to_dict()|safe}},
                 {%- endfor -%}
             ];
             {%- endblock post_js -%}
-            {{ config.PROJECT }}.pagesBootstrap = [
-                {%- for post in g.pages -%}
-                    {{post.to_dict()|safe}},
+            {{ config.PROJECT }}.dailyBootstrap = [
+                {%- for entry in g.daily -%}
+                    {{entry.to_dict()|safe}},
                 {%- endfor -%}
             ];
 
             {{ config.PROJECT }}.childView = {%- block js_view %}null{%- endblock js_view -%};
 
-            {{ config.PROJECT }}.postURL = '{{url_for('admin.PostAdmin:index')}}';
-            {{ config.PROJECT }}.signS3URL = '{{url_for('.signS3')}}';
+            {{ config.PROJECT }}.postURL = '{{url_for('.index')}}';
+            {{ config.PROJECT }}.signS3URL = '{{url_for('admin.signS3')}}';
+            {{ config.PROJECT }}.daily_words = {% if g.daily_words %}true{%- else %}false{%- endif %};
 
             {{ config.PROJECT }}.user = {
                                 'id'     : '{{current_user.id}}',
