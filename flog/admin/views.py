@@ -41,6 +41,14 @@ class PostAdmin(FlaskView):
                 g.daily[0].date.date() == date.today() and
                 g.daily[0].goal_met()):
             g.wrote_today = True
+        g.comments = []
+        for post in g.all_pages:
+            if post.comments:
+                print 'getting comments for %s' % post.title
+                for comment in post.comments:
+                    print 'comment %s' % comment.name
+                    comment.post_slug = post.slug
+                    g.comments.append(comment)
 
 
     @route('/', endpoint='index')
@@ -145,6 +153,7 @@ class PostAdmin(FlaskView):
         return jsonify( { 'result': True } )
 
     @route('/comments/', endpoint='comments')
+    @route('/comments/<slug>/', endpoint='comments')
     def comments(self, slug=None):
         if slug:
             posts = [Post.objects(slug=slug).first_or_404()]
