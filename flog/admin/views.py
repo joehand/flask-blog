@@ -48,8 +48,11 @@ class PostAdmin(FlaskView):
             d1 = day.date.date()
             if day.is_today():
                 continue
+            elif not day.goal_met():
+                break
             elif i > 0:
-                d0 = g.daily[i-1].date.date()
+                d0 = g.daily[i-1]
+                d0 = d0.date.date()
                 delta = d0 - d1
                 if delta.days == 1: g.streak += 1
 
