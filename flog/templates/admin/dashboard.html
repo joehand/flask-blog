@@ -17,18 +17,21 @@
                     <a href="{{url_for('.comments')}}">All Comments</a>
                 </nav>
                 <div class="grid-item one-half">
-                    <header>
-                        <h3>Write Daily, Be Awesome</h3>
-                        {% if g.wrote_today -%}
-                            <a href="{{url_for('writer.today')}}">Good work today! All done.</a>
-                        {%- else -%}
-                            <a href="{{url_for('writer.today')}}">Write your words for today.</a>
-                        {%- endif -%}
-                    </header>
-                    <div>
-                        <!-- graph of streak or something -->
+                    <div class="daily">
+                        <header>
+                            <h3>Write Daily, Be Awesome</h3>
+                            {% if g.wrote_today -%}
+                                <a href="{{url_for('writer.today')}}">Good work today! All done.</a>
+                            {%- else -%}
+                                <a href="{{url_for('writer.today')}}">Write your words for today.</a>
+                            {%- endif -%}
+                        </header>
+                        <div>
+                            <span><b>Streak:</b> {{g.streak}}</span>
+                            <!-- graph of streak or something -->
+                        </div>
                     </div>
-                    <div>
+                    <div class="comments">
                         <!-- RECENT COMMENTS -->
                         <h3>Recent Comments</h3>
                         {% for group in g.comments|sort(attribute='created_at',reverse=True)|groupby('post_slug')%}

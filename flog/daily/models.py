@@ -42,9 +42,9 @@ class Daily(db.Document):
                         val = datetime.utcfromtimestamp(val/1000.0)
                     except:
                         continue
-                    # divide by 1000 because JS timestamp is in ms 
+                    # divide by 1000 because JS timestamp is in ms
                     # http://stackoverflow.com/questions/10286224/javascript-timestamp-to-python-datetime-conversion
-                if val != None and val != 'None': 
+                if val != None and val != 'None':
                     self[key] = val
             else:
                 continue
@@ -62,6 +62,9 @@ class Daily(db.Document):
         if self.word_count() > goal.word_goal:
             return True
         return False
+
+    def is_today(self):
+        return self.date.date() == date.today()
 
 class Settings(db.Document):
     user_ref = db.ReferenceField(User)
