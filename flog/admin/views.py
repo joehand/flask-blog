@@ -107,14 +107,17 @@ class PostAdmin(FlaskView):
             post_export = Post.objects(
                     slug=slug).first_or_404().generate_export()
             response = make_response(post_export['content'])
-            response.headers['Content-Disposition'] = 'attachment; filename=%s.md' % post_export['filename']
+            response.headers['Content-Disposition'] = \
+                    'attachment; filename=%s.md' \
+                    % post_export['filename']
             return response
 
         posts = Post.objects()
         urls = []
         for post in posts:
             post_export = post.generate_export()
-            url = s3_upload(post_export['filename'], post_export['content'])
+            url = s3_upload(post_export['filename'],
+                    post_export['content'])
             urls.append(url)
         return render_template('admin/export.html', urls=urls)
 
