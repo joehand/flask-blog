@@ -54,8 +54,8 @@ define([
         },
 
         events: {
-            'click .settings-toggle'    : '_togglePostSettings', 
-            'click .delete-button'      : '_deletePost', 
+            'click .settings-toggle'    : '_togglePostSettings',
+            'click .delete-button'      : '_deletePost',
             'click .confirm-button'     : '_deletePost',
             'click .publish-button'     : '_togglePostPublished',
         },
@@ -72,7 +72,7 @@ define([
         _togglePostPublished: function(e) {
             var $targ = $(e.currentTarget),
                 published = this.model.get('published');
-            
+
             if (!published) {
                 $targ.html('Unpublish');
             } else {
@@ -142,7 +142,11 @@ define([
         },
 
         adjustContentSize: function() {
-            $("textarea").height( $("textarea")[0].scrollHeight );
+            $("textarea.content").height( $("textarea.content")[0].scrollHeight );
+            if ($('textarea.content')[0].selectionStart == $('textarea.content').val().length) {
+                // keep scroll at bottom if we are there, typewriter effect
+                $(document).scrollTop($(document).height());
+            }
         },
 
         toggleContentPreview: function() {
