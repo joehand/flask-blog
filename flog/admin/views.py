@@ -51,10 +51,12 @@ class PostAdmin(FlaskView):
             elif not day.goal_met():
                 break
             elif i > 0:
-                d0 = g.daily[i-1]
-                d0 = d0.date.date()
-                delta = d0 - d1
-                if delta.days == 1: g.streak += 1
+                d0 = g.daily[i-1].date.date()
+            else:
+                d0 = date.today()
+            delta = d0 - d1
+            if delta.days == 1: g.streak += 1
+
 
         g.comments = []
         for post in g.all_pages:
