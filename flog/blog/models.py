@@ -67,19 +67,11 @@ class Post(db.Document):
             if key not in ACCEPTED_KEYS:
                 continue
             if key == 'content':
-                val = val #may need to clean or do markdown processing
+                val = val.encode('utf-8').strip()
             if key == 'category':
                 val = val.strip().lower()
             if key == 'title':
-                u = val.encode('utf-8')
-                print type(u)
-                print u
-                try:
-                    print type(val)
-                    print unicode(val, errors='replace')
-                except:
-                    pass
-                val = val.strip()
+                val = val.encode('utf-8').strip()
             if key == 'slug':
                 val = val.strip().replace(' ', '-')
             if key == 'link_url':
