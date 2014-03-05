@@ -20,6 +20,7 @@ define([
         SAVE_DELAY = 4000, //time to show saved message
         SAVING_MESSAGE = "Saving...",
         SAVED_MESSAGE = "Saved",
+        ERROR_MESSAGE = "Error Saving!",
         WINDOW_CLOSE_MESSAGE = "========================= \
                                 Content not saved! Please save before going. \
                                 =========================";
@@ -88,6 +89,10 @@ define([
 
         serverError: function() {
             console.error('Server Error');
+            this.$el
+                .addClass('error')
+                .find('.save-message')
+                .text(ERROR_MESSAGE);
         },
 
         serverSync: function() {
@@ -110,6 +115,7 @@ define([
         showSaving: function() {
             this.$el
                 .find('.save-message')
+                .removeClass('error')
                 .text(SAVING_MESSAGE);
         },
 

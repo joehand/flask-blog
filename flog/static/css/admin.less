@@ -595,10 +595,10 @@ textarea.content {
     color:@gray-light;
     transition: all 1000ms ease-in;
 }
+
 .saving {
 //added to document when done saving
     &.document {
-
         &::before, &::after {
             background-color:@green;
             background-color:@green;
@@ -608,6 +608,20 @@ textarea.content {
     .save-message {
         color:@green;
         opacity:1;
+    }
+}
+
+.error {
+    &.document {
+        &::before, &::after {
+            background-color:@red;
+            background-color:@red;
+        }
+    }
+
+    .save-message {
+        opacity:1;
+        color:@red;
     }
 }
 
