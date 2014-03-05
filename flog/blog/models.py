@@ -1,10 +1,10 @@
 from datetime import datetime
 from hashlib import md5
 import json
+import sys
 from urlparse import urlparse
 
 from bson import ObjectId
-from chardet import detect
 from flask import current_app as app
 from mongoengine import signals
 
@@ -68,25 +68,23 @@ class Post(db.Document):
                 continue
             if key == 'content':
                 try:
-                    print detect(val)
-                except:
-                    print 'could not detect'
-                try:
                     val = val.decode('ascii')
                 except:
                     print 'tried ascii and failed'
+                    _, value, _ = sys.exc_info()
+                    print 'Unexpected error: %s' % value
+                    print value.message
                 val = val #may need to clean or do markdown processing
             if key == 'category':
                 val = val.strip().lower()
             if key == 'title':
                 try:
-                    print detect(val)
-                except:
-                    print 'could not detect'
-                try:
                     val = val.decode('ascii')
                 except:
                     print 'tried ascii and failed'
+                    _, value, _ = sys.exc_info()
+                    print 'Unexpected error: %s' % value
+                    print value.message
                 val = val.strip()
             if key == 'slug':
                 val = val.strip().replace(' ', '-')
