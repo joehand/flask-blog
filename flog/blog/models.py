@@ -67,24 +67,10 @@ class Post(db.Document):
             if key not in ACCEPTED_KEYS:
                 continue
             if key == 'content':
-                try:
-                    val = val.decode('ascii')
-                except:
-                    print 'tried ascii and failed'
-                    _, value, _ = sys.exc_info()
-                    print 'Unexpected error: %s' % value
-                    print value.message
                 val = val #may need to clean or do markdown processing
             if key == 'category':
                 val = val.strip().lower()
             if key == 'title':
-                try:
-                    val = val.decode('ascii')
-                except:
-                    print 'tried ascii and failed'
-                    _, value, _ = sys.exc_info()
-                    print 'Unexpected error: %s' % value
-                    print value.message
                 val = val.strip()
             if key == 'slug':
                 val = val.strip().replace(' ', '-')

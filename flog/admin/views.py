@@ -155,7 +155,7 @@ class PostAdmin(FlaskView):
     def put(self, id):
         try:
             post = Post.objects(id=id).first()
-            post = post.validate_json(json.loads(request.data))
+            post = post.validate_json(json.loads(request.data, 'utf-8'))
             return post.to_dict()
         except:
             _, value, _ = sys.exc_info()
