@@ -67,7 +67,10 @@ class Post(db.Document):
             if key not in ACCEPTED_KEYS:
                 continue
             if key == 'content':
-                print detect(val)
+                try:
+                    print detect(val)
+                except:
+                    print 'could not detect'
                 try:
                     val = val.decode('ascii')
                 except:
@@ -76,7 +79,10 @@ class Post(db.Document):
             if key == 'category':
                 val = val.strip().lower()
             if key == 'title':
-                print detect(val)
+                try:
+                    print detect(val)
+                except:
+                    print 'could not detect'
                 try:
                     val = val.decode('ascii')
                 except:
