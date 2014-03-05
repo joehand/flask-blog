@@ -71,6 +71,10 @@ class Post(db.Document):
             if key == 'category':
                 val = val.strip().lower()
             if key == 'title':
+                print type(val)
+                utf8_version = val.encode('utf-8')
+                print type(utf8_version)
+                print utf8_version
                 val = val.strip()
             if key == 'slug':
                 val = val.strip().replace(' ', '-')
