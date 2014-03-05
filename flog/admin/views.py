@@ -159,8 +159,10 @@ class PostAdmin(FlaskView):
             return post.to_dict()
         except:
             type, value, tb = sys.exc_info()
-            error = "Unexpected error: %s" % value.message
+            error = 'Unexpected error: %s' % value.message
             print error
+            print value
+            print dir(value)
             # TODO Make these more helpful
             return jsonify({'status':'error', 'error':error}), 400
 
@@ -171,7 +173,7 @@ class PostAdmin(FlaskView):
             return jsonify( { 'result': True } )
         except:
             type, value, tb = sys.exc_info()
-            error = "Unexpected error: %s" % value.message
+            error = 'Unexpected error: %s' % value.message
             print error
             # TODO Make these more helpful
             return jsonify({'status':'error', 'error':error}), 400
