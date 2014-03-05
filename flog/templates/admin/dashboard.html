@@ -35,13 +35,12 @@
                         <!-- RECENT COMMENTS -->
                         <h3>Recent Comments</h3>
                         {% for group in g.comments|sort(attribute='created_at',reverse=True)|groupby('post_slug')%}
-                            <h5>{{ group.grouper }}</h5>
+                            <h5><a href="{{url_for('.comments', slug=group.grouper)}}">{{ group.grouper }}</a></h5>
                             {% for comment in group.list %}
                             {% if loop.index > 5 %}
                             {% else %}
                             <div>
                                 <div><span>{{comment.name}}</span> | <span>{{comment.created_at|time_ago}}</span></div>
-                                <span><a href="{{url_for('.comments', slug=comment.post_slug)}}">{{comment.post_slug}}</a></span>
                                 <div>{{comment.content|truncate(150)|markdown|safe}}</div>
                             </div>
                             {%- endif -%}
