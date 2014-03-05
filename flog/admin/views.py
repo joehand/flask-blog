@@ -158,19 +158,23 @@ class PostAdmin(FlaskView):
             post = post.validate_json(json.loads(request.data))
             return post.to_dict()
         except:
-            print 'Unexpected error:', sys.exc_info()[0]
+            type, value, tb = sys.exc_info()
+            error = "Unexpected error: %s" % value.message
+            print error
             # TODO Make these more helpful
-            return jsonify(status='error', error=''), 400
+            return jsonify({'status':'error', 'error':error}), 400
 
     def delete(self, id):
         try:
             post = Post.objects(id=id).first_or_404()
             post.delete()
+            return jsonify( { 'result': True } )
         except:
-            print 'Unexpected error:', sys.exc_info()[0]
+            type, value, tb = sys.exc_info()
+            error = "Unexpected error: %s" % value.message
+            print error
             # TODO Make these more helpful
-            return jsonify(), 400
-        return jsonify( { 'result': True } )
+            return jsonify({'status':'error', 'error':error}), 400
 
     @route('/comments/', endpoint='comments')
     @route('/comments/<slug>/', endpoint='comments')
