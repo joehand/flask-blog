@@ -150,7 +150,7 @@ class PostAdmin(FlaskView):
         else:
             print form.errors
             flash('Error with form')
-            return render_template('admin/index.html', newForm=form)
+            return redirect(request.referrer) or url_for('.post_list')
 
     def put(self, id):
         try:
