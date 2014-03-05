@@ -86,9 +86,6 @@ class Post(db.Document):
                         val = True
             if val != None and val != 'None':
                 self[key] = val
-                print key, val
-
-        print 'trying save'
         self.save()
         return self
 
