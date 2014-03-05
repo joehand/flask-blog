@@ -114,8 +114,8 @@ define([
 
         showSaving: function() {
             this.$el
-                .find('.save-message')
                 .removeClass('error')
+                .find('.save-message')
                 .text(SAVING_MESSAGE);
         },
 
