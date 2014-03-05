@@ -4,6 +4,7 @@ import json
 from urlparse import urlparse
 
 from bson import ObjectId
+from chardet import detect
 from flask import current_app as app
 from mongoengine import signals
 
@@ -66,10 +67,14 @@ class Post(db.Document):
             if key not in ACCEPTED_KEYS:
                 continue
             if key == 'content':
+                if not isinstance(val, unicode):
+                    print detect(val)
                 val = val #may need to clean or do markdown processing
             if key == 'category':
                 val = val.strip().lower()
             if key == 'title':
+                if not isinstance(val, unicode):
+                    print detect(val)
                 val = val.strip()
             if key == 'slug':
                 val = val.strip().replace(' ', '-')
