@@ -11,17 +11,18 @@ define([
     'Utils',
     'views/PostListView', //need these here to get included in build. another way to do this?
     'views/WriteView',
+    'views/DashView',
 ], function (Backbone, _, $, Utils) {
 
     var SUB_VIEW_EL = '.main',
         RADIO_CHECK = '&#xe628;',
         RADIO_EMPTY = '&#xe627;',
-        SAVE_DELAY = 4000, //time to show saved message 
+        SAVE_DELAY = 4000, //time to show saved message
         SAVING_MESSAGE = "Saving...",
         SAVED_MESSAGE = "Saved",
         WINDOW_CLOSE_MESSAGE = "========================= \
                                 Content not saved! Please save before going. \
-                                ========================="; 
+                                =========================";
 
     var AppView = Backbone.View.extend({
 
@@ -59,9 +60,9 @@ define([
             if (opt.childView != null) {
                 /* Require our child views for specific page */
                 require(['views/' + opt.childView], function (View) {
-                    self.childView = new View({ 
-                        el:$(SUB_VIEW_EL).get(0), 
-                        collection:self.collection, 
+                    self.childView = new View({
+                        el:$(SUB_VIEW_EL).get(0),
+                        collection:self.collection,
                         model:self.model
                     });
                     self.render();
