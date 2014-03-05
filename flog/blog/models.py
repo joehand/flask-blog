@@ -77,6 +77,8 @@ class Post(db.Document):
                 try:
                     print type(val)
                     print unicode(val, errors='replace')
+                except:
+                    pass
                 val = val.strip()
             if key == 'slug':
                 val = val.strip().replace(' ', '-')
