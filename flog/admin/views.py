@@ -155,11 +155,12 @@ class PostAdmin(FlaskView):
     def put(self, id):
         try:
             post = Post.objects(id=id).first()
-            post = post.validate_json(json.loads(request.data, 'utf-8'))
+            post = post.validate_json(json.loads(request.data))
             return post.to_dict()
         except:
             _, value, _ = sys.exc_info()
             error = 'Unexpected error: %s' % value
+            print error
             # TODO Make these more helpful
             return jsonify({'status':'error', 'error':error}), 400
 
