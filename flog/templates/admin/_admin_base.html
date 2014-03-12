@@ -6,11 +6,22 @@
     {%- endblock -%}
 
     {%- block siteheader -%}
-    <nav class="admin-nav">
-        <a class="admin-link small-caps useicons" href="{{url_for('admin.index')}}">&#xe600;</a>
-        <div class="dashboard-links">
-            <a href="{{url_for('admin.upload')}}" class="useicons">&#xe61d;</a>
-            <a href="#" class="settings-button useicons">&#xe617;</a>
+    <nav class="admin-nav push">
+        <a href ="#menu" class="menu-link useicons">&#xe63f;</a>
+    </nav>
+
+    <nav id="menu" class="panel" role="navigation">
+        <div class="panel-inner small-caps">
+        <ul>
+            <li><a href="{{url_for('admin.index')}}"><img src="{{current_user.avatar(32)}}" class="image"> Home</a></li>
+            <li>
+            {%- if not g.wrote_today -%}
+                <a href="{{url_for('writer.today')}}">Write Today!</a>
+            {%- endif -%}</li>
+            <li><a href="{{url_for('.post_list')}}">Posts</a></li>
+            <li><a href="{{url_for('.comments')}}">Comments</a></li>
+            <li><a href="#"><span class="useicons">&#xe617;</span> Settings</a></li>
+        </ul>
         </div>
     </nav>
     {%- endblock siteheader -%}

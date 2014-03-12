@@ -1,3 +1,5 @@
+from hashlib import md5
+
 from flask.ext.security import login_required, RoleMixin, UserMixin
 
 from ..extensions import db
@@ -18,6 +20,12 @@ class User(db.DynamicDocument, UserMixin):
     last_login_ip = db.StringField()
     current_login_ip = db.StringField()
     login_count = db.IntField()
+
+    def avatar(self, size):
+        if self.email is None:
+            self.email = ''
+        return ('http://www.gravatar.com/avatar/'
+                + md5(self.email).hexdigest() + '?d=mm&s=' + str(size))
 
     def to_dict(self):
         return mongo_to_dict(self)

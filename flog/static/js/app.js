@@ -9,6 +9,7 @@ requirejs.config({
         'caret'              : 'libs/jquery.caret',
         'atwho'              : 'libs/jquery.atwho',
         'modals'             : 'libs/modal',
+        'slide'              : 'libs/bigSlide',
     },
     shim: {
         backbone: {
@@ -35,6 +36,9 @@ requirejs.config({
             deps: ['jquery', 'caret']
         },
         modals: {
+            deps: ['jquery']
+        },
+        slide: {
             deps: ['jquery']
         },
     }

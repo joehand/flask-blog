@@ -35,7 +35,6 @@ class PostAdmin(FlaskView):
                                 kind=post.kind,
                                 slug=post.slug)
 
-    def before_index(self, *args, **kwargs):
         g.daily = Daily.objects(user_ref=current_user.id)
         if (len(g.daily) and
                 g.daily[0].is_today() and
@@ -44,6 +43,8 @@ class PostAdmin(FlaskView):
         else:
             g.wrote_today = False
         g.streak = 1 if g.wrote_today else 0
+
+    def before_index(self, *args, **kwargs):
         for i, day in enumerate(g.daily):
             d1 = day.date.date()
             if day.is_today():
@@ -56,7 +57,6 @@ class PostAdmin(FlaskView):
                 d0 = date.today()
             delta = d0 - d1
             if delta.days == 1: g.streak += 1
-
 
         g.comments = []
         for post in g.all_pages:

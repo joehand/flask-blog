@@ -12,6 +12,7 @@ define([
     'views/PostListView', //need these here to get included in build. another way to do this?
     'views/WriteView',
     'views/DashView',
+    'slide',
 ], function (Backbone, _, $, Utils) {
 
     var SUB_VIEW_EL = '.main',
@@ -79,6 +80,8 @@ define([
         },
 
         render: function() {
+            $('.main').addClass('push');
+            $('.menu-link').bigSlide();
             console.log(this);
             return this;
         },

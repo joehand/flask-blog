@@ -4,18 +4,8 @@
 
 {%- block body_class %}admin-dash{%- endblock body_class -%}
 
-
-{%- block siteheader -%}
-<nav class="admin-nav">
-</nav>
-{%- endblock siteheader -%}
-
 {%- block content -%}
             <div class="grid grid-gutter-half">
-                <nav class="grid-item one_whole">
-                    <a href="{{url_for('.post_list')}}">Post List</a>
-                    <a href="{{url_for('.comments')}}">All Comments</a>
-                </nav>
                 <div class="grid-item one-half">
                     <div class="daily">
                         <header>
@@ -33,6 +23,7 @@
                     </div>
                     <div class="comments">
                         <!-- RECENT COMMENTS -->
+                        {% if g.comments %}
                         <h3>Recent Comments</h3>
                         {% for group in g.comments|sort(attribute='created_at',reverse=True)|groupby('post_slug')%}
                             <h5><a href="{{url_for('.comments', slug=group.grouper)}}">{{ group.grouper }}</a></h5>
@@ -40,12 +31,13 @@
                             {% if loop.index > 5 %}
                             {% else %}
                             <div>
-                                <div><span>{{comment.name}}</span> | <span>{{comment.created_at|time_ago}}</span></div>
+                                <div><span>{{comment.name}}</span> commented <span>{{comment.created_at|time_ago}}</span></div>
                                 <div>{{comment.content|truncate(150)|markdown|safe}}</div>
                             </div>
                             {%- endif -%}
                             {% endfor %}
                         {%- endfor -%}
+                        {%- endif -%}
                     </div>
                 </div>
 

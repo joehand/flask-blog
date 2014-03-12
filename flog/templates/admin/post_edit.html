@@ -1,7 +1,8 @@
 {% extends "admin/_admin_base.html" %}
 
-{%- block body_class -%}post-editor{%- endblock -%} 
-{%- block content -%} 
+{%- block body_class -%}post-editor{%- endblock -%}
+{%- block content -%}
+        <!--
         <div class="admin-buttons">
             <div class="ui-buttons">
             <a class="fullscreen-button useicons" href="#">
@@ -14,9 +15,10 @@
             </a>
             </div>
             {% if not post.published -%}
-            <!--<a class="publish-button button button-mini small-caps" href="#">Publish!</a>-->
+            <a class="publish-button button button-mini small-caps" href="#">Publish!</a>
             {%- endif -%}
-        </div>     
+        </div>
+        -->
         <section class="post-edit" data-id="{{post.id}}">
             <header class="cf">
                 <h2 class="title editor" contenteditable="true">{{post.title}}</h2>
@@ -31,7 +33,7 @@
                 </h5>
                 {%- endif -%}
             </header>
-            
+
             <article>
                 <textarea class="content editor" placeholder="Start writing..." autofocus>
                     {%- if post.content -%}{{post.content}}{%- endif -%}
@@ -40,7 +42,7 @@
                 <div class="image-upload modal fade">
                       <div class="modal-dialog">
                         <div class="modal-content">
-                          <div class="modal-body">         
+                          <div class="modal-body">
                                 <span class="status"></span>
                                 <div class="image-preview"></div>
                           </div>
@@ -50,6 +52,8 @@
                 </div>
                 <div class="content-preview"></div>
             </article>
+
+            {%- include "admin/partials/_post_settings.html" -%}
         </section>
 {% endblock %}
 

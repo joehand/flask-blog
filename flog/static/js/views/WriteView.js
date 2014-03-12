@@ -3,7 +3,7 @@
  * Author: JoeHand
  * ========================================================================
  */
- 
+
 define([
     'backbone',
     'underscore',
@@ -46,7 +46,8 @@ define([
         },
 
         _togglePostSettings: function(e) {
-            this.$el.toggleClass('settings-active')
+            console.log('toggle settings');
+            this.$el.toggleClass('settings-active');
             this.postView._togglePostSettings(e, true);
         },
 
@@ -103,8 +104,8 @@ define([
                 $inputEl.caret('pos', context.query.head_pos + 6);
             });
 
-            $inputEl.atwho({ 
-                at: "[", 
+            $inputEl.atwho({
+                at: "[",
                 data: autoComplete,
                 tpl: "<li data-value='${content}'>${name}</li>",
                 callbacks: {
@@ -156,7 +157,7 @@ define([
 
         initS3Upload: function(e) {
             var self = this,
-                fileName = 'imgs/' + this.postView.model.get('slug') + '-' + 
+                fileName = 'imgs/' + this.postView.model.get('slug') + '-' +
                             e.currentTarget.value.replace(/^.*\\/, '');
 
             if (!_.isUndefined(fileName)) {
@@ -178,9 +179,9 @@ define([
                     onError: function(status) {
                         $('.status').html('Error: ' + status);
                     }
-                });   
+                });
             }
-            
+
         },
 
     });
