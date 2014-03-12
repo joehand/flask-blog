@@ -61,9 +61,7 @@ class PostAdmin(FlaskView):
         g.comments = []
         for post in g.all_pages:
             if post.comments:
-                print 'getting comments for %s' % post.title
                 for comment in post.comments:
-                    print 'comment %s' % comment.name
                     comment.post_slug = post.slug
                     g.comments.append(comment)
 
