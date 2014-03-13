@@ -19,9 +19,9 @@
 {%- endmacro -%}
 
 {%- macro regular_field(field, description=None, class=None) -%}
-              <div class="form-group{% if field.errors %} has-error{% endif %} {{class}}">
+              <div class="form-group{% if field.errors %} has-error{% endif %} {{class}}-group">
                   {{field.label(class="form-label small-caps")}}
-                  {{field(class="", **kwargs)|safe}}{{errors(field, description)}}
+                  {{field(class=class, **kwargs)|safe}}{{errors(field, description)}}
               </div>
 {%- endmacro %}
 
