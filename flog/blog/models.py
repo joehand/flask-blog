@@ -17,6 +17,7 @@ class Post(db.Document):
     user_ref = db.ReferenceField(User)
     slug = db.StringField(unique=True)
     title = db.StringField()
+    subtitle = db.StringField()
     content = db.StringField()
     kind = db.StringField(choices=POST_TYPES, required=True)
     last_update = db.DateTimeField(default=datetime.utcnow(),
@@ -70,7 +71,7 @@ class Post(db.Document):
                 val = val.encode('utf-8').strip()
             if key == 'category':
                 val = val.strip().lower()
-            if key == 'title':
+            if key == 'title' or key == 'subtitle':
                 val = val.encode('utf-8').strip()
             if key == 'slug':
                 val = val.strip().replace(' ', '-')

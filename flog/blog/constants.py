@@ -5,7 +5,7 @@ POST_TYPES = (('article','Article'),
               ('page','Page'))
 
 # keys to accept over PUT request (used for validation)
-ACCEPTED_KEYS = ['title', 'slug', 'content', 'published',
+ACCEPTED_KEYS = ['title', 'subtitle', 'slug', 'content', 'published',
                     'kind', 'link_url', 'pub_date', 'category']
 
 # Keys to export to MD file
