@@ -9,7 +9,7 @@ define([
     'underscore'
 ], function (Backbone, _) {
 
-    var SAVE_DELAY = 2000;  //delay after typing is over until we try to save
+    var SAVE_DELAY = 500;  //delay after typing is over until we try to save
 
     var saveTimeout;
 
@@ -30,7 +30,7 @@ define([
                         inFilter = true;
                     }
                 } else {
-                    inFilter = false; 
+                    inFilter = false;
                 }
             }, this);
 
@@ -47,7 +47,7 @@ define([
             forceSave = !_.isUndefined(forceSave);
 
             console.log(self.changed);
-            if (_.has(self.changed, "content")){ 
+            if (_.has(self.changed, "content")){
                 self.updateWordCount();
             }
 
@@ -72,10 +72,10 @@ define([
                                 self.render();*/
                             }
                         });
-                }, SAVE_DELAY);                   
-            }             
+                }, SAVE_DELAY);
+            }
         }
-       
+
     });
 
     var Posts = Backbone.Collection.extend({
@@ -86,7 +86,7 @@ define([
         save: function() {
             // check if any children models have changed any sync them each
             // TODO: better way to do this?
-            this.each(function(model){ 
+            this.each(function(model){
                 if (model.syncPending === true) {
                     model.checkSave(model, null, null, true); //forces server sync on model
                 }

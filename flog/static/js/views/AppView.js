@@ -129,7 +129,7 @@ define([
             $saveEl.text(SAVED_MESSAGE);
             setTimeout(function(){
                 $el.removeClass('saving');
-                $saveEl.text('')
+                //$saveEl.text('')
             }, SAVE_DELAY);
         },
 
