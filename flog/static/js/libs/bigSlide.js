@@ -14,6 +14,7 @@
       'speed': '300'
     }, options);
 
+
     var menuLink = this,
         menu = $(settings.menu),
         push = $(settings.push),
@@ -55,12 +56,21 @@
       push.css(settings.side, '0');
     };
 
+    var menuClose = function(e) {
+        if (e.target.id != menu[0].id) {
+          menu.close();
+        }
+    };
+
     menuLink.on('click.bigSlide', function(e) {
       e.preventDefault();
       if (menu._state === 'closed') {
         menu.open();
-      } else {
+        e.stopPropagation();
+        $(document).bind( 'click', menuClose );
+    } else {
         menu.close();
+        $(document).unbind( 'click', menuClose );
       }
     });
 
@@ -68,6 +78,8 @@
       menuLink.trigger('click.bigSlide');
       e.preventDefault();
     });
+
+
 
     return menu;
 
