@@ -18,8 +18,8 @@
       </label>
 {%- endmacro -%}
 
-{%- macro regular_field(field, description=None) -%}
-              <div class="form-group{% if field.errors %} has-error{% endif %}">
+{%- macro regular_field(field, description=None, class=None) -%}
+              <div class="form-group{% if field.errors %} has-error{% endif %} {{class}}">
                   {{field.label(class="form-label small-caps")}}
                   {{field(class="", **kwargs)|safe}}{{errors(field, description)}}
               </div>

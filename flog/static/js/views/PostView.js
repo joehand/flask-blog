@@ -38,6 +38,10 @@ define([
 
             /* Single Page Items */
             '.title.editor'              : 'title',
+            '.subtitle.editor'           :  {
+                observe: 'subtitle',
+                updateView: false,
+            },
             '.link_url.editor'           :  {
                 observe: 'link_url',
                 updateView: false,
@@ -86,20 +90,40 @@ define([
 
         _deletePost: function(e) {
             var $targ = $(e.target);
-            var self = this;
 
-            if ($targ.hasClass('no')) {
-                console.log('here');
-                $targ.parent()
-                    .html('Delete');
+            if (e.target != e.currentTarget) {
+                return;
             }
 
+            if ($targ.hasClass('no')) {
+                $targ.parent()
+                    .html('Delete');
+                return;
+            }
             if ($targ.hasClass('confirm')) {
-                self.model.destroy({
-                    error:  function(model, resp) {
-                        console.log(resp);
-                    }
-                });
+                this.removePost();
+            } else {
+                $targ
+                     .html(DELETE_CONFIRM_MESSAGE + ' <br/>')
+                     .append('<div class="button button-mini confirm-button confirm">Delete</div>')
+                     .append('<div class="button button-mini confirm-button no">Keep</div>');
+            }
+        },
+
+        removePost: function() {
+            var self = this,
+                url = self.model.collection.url;
+
+            self.model.destroy({
+                error:  function(model, resp) {
+                    console.log(resp);
+                }
+            });
+            if (self.$el.hasClass('post-edit')) {
+                console.log('redirecting');
+                console.log(url);
+                window.location.replace(url);
+            } else {
                 self.$el.animate({
                     opacity: 0.05,
                     left: "-=2000",
@@ -109,19 +133,14 @@ define([
                     $('html, body').animate({scrollTop:0}, 'slow');
                     self.remove();
                     self.unbind();
-                  });
-            } else {
-                $targ
-                     .html(DELETE_CONFIRM_MESSAGE + ' <br/>')
-                     .append('<div class="button button-mini confirm-button confirm">Delete</div>')
-                     .append('<div class="button button-mini confirm-button no">Keep</div>');
+                });
             }
         },
 
         initialize: function(opts) {
             this.contentPreviewActive = false;
 
-            this.listenTo(this.model, 'change:title change:category \
+            this.listenTo(this.model, 'change:title change:subtitle change:category \
                             change:link_url change:pub_date  change:slug \
                             change:published change:kind', this.model.checkSave);
 

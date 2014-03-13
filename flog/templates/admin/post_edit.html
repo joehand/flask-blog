@@ -21,7 +21,13 @@
         -->
         <section class="post-edit" data-id="{{post.id}}">
             <header class="cf">
-                <h2 class="title editor" contenteditable="true">{{post.title}}</h2>
+                <div class="cf">
+                <h2 class="float-left title editor" contenteditable="true">{{post.title}}</h2>
+                <a class="float-right settings-button useicons" href="#">&#xe617;</a>
+                </div>
+                <h4 class="subtitle editor" contenteditable="true">
+                    {%- if post.subtitle -%}{{post.subtitle}}{%- else -%}Subtitle{%- endif -%}
+                </h4>
                 {%- if post.kind == 'article' %}
                 <h5 class="category editor small-caps" contenteditable="true">
                     {%- if post.category -%}{{post.category}}{%- else -%}Uncategorized{%- endif -%}
@@ -33,6 +39,8 @@
                 </h5>
                 {%- endif -%}
             </header>
+
+            {%- include "admin/partials/_post_settings.html" -%}
 
             <article>
                 <textarea class="content editor" placeholder="Start writing..." autofocus>
@@ -52,8 +60,6 @@
                 </div>
                 <div class="content-preview"></div>
             </article>
-
-            {%- include "admin/partials/_post_settings.html" -%}
         </section>
 {% endblock %}
 

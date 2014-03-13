@@ -261,6 +261,11 @@
 
     .title {
         line-height: 1;
+        margin:0;
+    }
+
+    .subtitle {
+        color:@gray-light;
     }
 
     .category {
@@ -283,7 +288,11 @@
         }
     }
 
-    .publish-button {
+    .settings {
+        padding:0 0 1.125rem 0;
+        .category, .title, .link_url {
+            display:none;
+        }
     }
 }
 
@@ -553,11 +562,11 @@ textarea.content {
         font-size:2rem;
         color:@gray;
         position: fixed;
-        left:0;
+        margin-left:-4rem;
         padding:0.5rem 4rem 4rem 2rem;
 
         * {
-            opacity:0.05;
+            opacity:0.2;
             transition: all 500ms ease-in;
         }
 
