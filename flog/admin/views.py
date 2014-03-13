@@ -62,7 +62,8 @@ class PostAdmin(FlaskView):
         for post in g.all_pages:
             if post.comments:
                 for comment in post.comments:
-                    comment.post_slug = post.slug
+                    comment.post_id = post.id
+                    comment.post_title = post.title
                     g.comments.append(comment)
 
 
@@ -78,10 +79,10 @@ class PostAdmin(FlaskView):
         form = PostForm()
         return render_template('admin/post_list.html', newForm=form)
 
-    @route('/<slug>', endpoint='post')
-    def get(self, slug):
+    @route('/<id>', endpoint='post')
+    def get(self, id):
         ''' View for a single post '''
-        post = Post.objects(slug=slug).first_or_404()
+        post = Post.objects(id=id).first_or_404()
         post.form = PostForm()
         return render_template('admin/post_edit.html', post=post)
 
@@ -98,12 +99,12 @@ class PostAdmin(FlaskView):
         return render_template('admin/upload.html', posts=posts)
 
     @route('/export/', endpoint='export')
-    @route('/export/<slug>', endpoint='export')
-    def export(self, slug=None):
+    @route('/export/<id>', endpoint='export')
+    def export(self, id=None):
         '''Export View '''
-        if slug:
+        if id:
             post_export = Post.objects(
-                    slug=slug).first_or_404().generate_export()
+                    id=id).first_or_404().generate_export()
             response = make_response(post_export['content'])
             response.headers['Content-Disposition'] = \
                     'attachment; filename=%s.md' \
@@ -143,8 +144,8 @@ class PostAdmin(FlaskView):
                 if category:
                     post.category = category
             post.save()
-            slug = post.slug
-            return redirect(url_for('admin.post', slug=slug))
+            id = post.id
+            return redirect(url_for('admin.post', id=id))
         else:
             print form.errors
             flash('Error with form')
@@ -175,19 +176,19 @@ class PostAdmin(FlaskView):
             return jsonify({'status':'error', 'error':error}), 400
 
     @route('/comments/', endpoint='comments')
-    @route('/comments/<slug>/', endpoint='comments')
-    def comments(self, slug=None):
-        if slug:
-            posts = [Post.objects(slug=slug).first_or_404()]
+    @route('/comments/<id>/', endpoint='comments')
+    def comments(self, id=None):
+        if id:
+            posts = [Post.objects(id=id).first_or_404()]
         else:
             posts = Post.objects(user_ref=current_user.id,
                     kind__in=['note', 'article'])
         return render_template('admin/comments.html', posts=posts)
 
-    @route('/comments/<slug>/<comment_id>',
+    @route('/comments/<id>/<comment_id>',
             methods=['GET', 'DELETE'], endpoint='delete_comment')
-    def delete_comment(self, slug, comment_id):
-        Post.objects(slug=slug).update_one(
+    def delete_comment(self, id, comment_id):
+        Post.objects(id=id).update_one(
                 pull__comments__id=Comment(id=comment_id).id)
         return redirect(request.referrer)
 

@@ -25,18 +25,20 @@
                         <!-- RECENT COMMENTS -->
                         {% if g.comments %}
                         <h3>Recent Comments</h3>
-                        {% for group in g.comments|sort(attribute='created_at',reverse=True)|groupby('post_slug')%}
-                            <h5><a href="{{url_for('.comments', slug=group.grouper)}}">{{ group.grouper }}</a></h5>
-                            {% for comment in group.list %}
+                            {% for comment in g.comments|sort(attribute='created_at',reverse=True) %}
                             {% if loop.index > 5 %}
                             {% else %}
-                            <div>
-                                <div><span>{{comment.name}}</span> commented <span>{{comment.created_at|time_ago}}</span></div>
-                                <div>{{comment.content|truncate(150)|markdown|safe}}</div>
+                            <div class="admin-comment">
+                                <img src="{{comment.avatar(48)}}" class="image">
+                                <div class="cf">
+                                <span class="h6 float-left name">{{comment.name}}</span>
+                                <span class="float-right date">{{comment.created_at|time_ago}}</span>
+                                </div>
+                                <span class="post">on <a href="{{url_for('.comments', id=comment.post_id)}}">{{comment.post_title}}</a></span>
+                                <div class="comment-content">{{comment.content|truncate(150)|markdown|safe}}</div>
                             </div>
                             {%- endif -%}
                             {% endfor %}
-                        {%- endfor -%}
                         {%- endif -%}
                     </div>
                 </div>
@@ -53,7 +55,7 @@
                             <article class="post-partial {% if post.published %}published{% endif %} {{post.kind}}" data-id="{{post.id}}" data-published="{{post.published|lower}}" data-kind="{{post.kind}}">
                                     <div class="settings-toggle">
                                         <div class="cf">
-                                            <a class="h3 float-left title" data-field="title" href="{{url_for('admin.post', slug=post.slug)}}">{{post.title}}</a>
+                                            <a class="h3 float-left title" data-field="title" href="{{url_for('admin.post', id=post.id)}}">{{post.title}}</a>
                                             <span class="float-right kind small-caps {{post.kind}}">{{post.kind}}</span>
                                         </div>
                                         {%- if post.published %}
