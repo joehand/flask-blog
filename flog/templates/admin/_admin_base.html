@@ -18,8 +18,8 @@
             {%- if not g.wrote_today -%}
                 <a href="{{url_for('writer.today')}}">Write Today!</a>
             {%- endif -%}</li>
-            <li><a href="{{url_for('.post_list')}}">Posts</a></li>
-            <li><a href="{{url_for('.comments')}}">Comments</a></li>
+            <li><a href="{{url_for('admin.post_list')}}">Posts</a></li>
+            <li><a href="{{url_for('admin.comments')}}">Comments</a></li>
             <li><a href="#"><span class="useicons">&#xe617;</span> Settings</a></li>
         </ul>
         </div>
