@@ -58,19 +58,29 @@ define([
         },
 
         events: {
-            'click .settings-toggle'    : '_togglePostSettings',
+            'click .settings-toggle'    : '_togglePostContent',
+            'click .settings-button'    : '_togglePostSettings',
             'click .delete-button'      : '_deletePost',
             'click .confirm-button'     : '_deletePost',
             'click .publish-button'     : '_togglePostPublished',
         },
 
-        _togglePostSettings: function(e, postPage) {
+        _togglePostContent: function(e, postPage) {
             if(!$(e.target).closest('a').length || postPage === true){
+                e.preventDefault();
+                this.$el.find('.post-content').slideToggle( '1500', 'linear', function() {
+                    $(this).toggleClass('hidden');
+                });
+
+            }
+        },
+
+        _togglePostSettings: function(e) {
+            console.log('settings');
                 e.preventDefault();
                 this.$el.find('.settings').slideToggle( '1500', 'linear', function() {
                     $(this).toggleClass('hidden');
                 });
-            }
         },
 
         _togglePostPublished: function(e) {
@@ -144,12 +154,10 @@ define([
                             change:link_url change:pub_date  change:slug \
                             change:published change:kind', this.model.checkSave);
 
-            if (this.$el.hasClass('post-edit')) {
                 this.adjustContentSize();
 
                 this.listenTo(this.model, 'change:content', this.model.checkSave);
                 this.listenTo(this.model, 'change:content', this.adjustContentSize);
-            }
 
             this.render();
         },
@@ -161,8 +169,13 @@ define([
         },
 
         adjustContentSize: function() {
-            $("textarea.content").height( $("textarea.content")[0].scrollHeight );
-            if ($('textarea.content')[0].selectionStart == $('textarea.content').val().length) {
+            var $contentEl = this.$el.find("textarea.content");
+            console.log(this.$el);
+            if (_.isUndefined($contentEl[0])) {
+                return;
+            }
+            $contentEl.height( $contentEl[0].scrollHeight );
+            if ( $contentEl[0].selectionStart ==  $contentEl.val().length) {
                 // keep scroll at bottom if we are there, typewriter effect
                 $(document).scrollTop($(document).height());
             }

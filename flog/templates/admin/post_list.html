@@ -1,40 +1,88 @@
 {% extends "admin/_admin_base.html" %}
 
 {% block title %}Admin Area Place{% endblock title %}
+{%- block body_class %}admin-posts{%- endblock body_class -%}
 
 {%- block content -%}
-            {%- include "admin/partials/_newpost.html" -%}
-            <div class="post-filter cf">
-                <div class="published float-left">
-                    <button class="small-caps button button-mini published" data-filter="published:true">published</button><button class="small-caps button button-mini draft active" data-filter="published:false">draft</button>
-                </div>
-                <div class="post-count small-caps">
-                    <span class="post-num">0</span> posts
-                </div>
-                <div class="kind float-right">
-                {%- for option in g.POST_TYPES -%}
-                <button class="small-caps button button-mini {{option[0]}} {% if option[0] != 'page' %}active{%- endif %}" data-filter="kind:{{option[0]}}">{{option[0]}}</button>
-                {%- endfor -%}
-                </div>
-            </div>
-            <div class="post-list">
-                {%- for post in g.all_pages %}
-                <article class="post-partial {% if post.published %}published{% endif %} {{post.kind}} hidden" data-id="{{post.id}}" data-published="{{post.published|lower}}" data-kind="{{post.kind}}">
-                    <div class="settings-toggle">
-                        <div class="cf">
-                            <a class="h3 float-left title" data-field="title" href="{{url_for('admin.post', id=post.id)}}">{{post.title}}</a>
-                            <span class="float-right kind small-caps {{post.kind}}">{{post.kind}}</span>
-                        </div>
-                        {%- if post.published %}
-                        <div class="pub_date small-caps">
-                            <span>{{post.pub_date|format_date}}</span>
-                        </div>
-                        {%- endif %}
+
+        <div class="grid grid-gutter-double">
+            <div class="grid-item one-half">
+                        {%- include "admin/partials/_newpost.html" -%}
+                <div class="post-filter cf">
+                    <div class="post-count small-caps">
+                        <span class="post-num">0</span> posts
                     </div>
-                    {%- include "admin/partials/_post_settings.html" -%}
-                </article>
-                {% endfor -%}
+                    <div class="published float-left">
+                        <button class="small-caps button button-mini published" data-filter="published:true">published</button><button class="small-caps button button-mini draft active" data-filter="published:false">draft</button>
+                    </div>
+                    <div class="kind float-right">
+                    {%- for option in g.POST_TYPES -%}
+                    <button class="small-caps button button-mini {{option[0]}} {% if option[0] != 'page' %}active{%- endif %}" data-filter="kind:{{option[0]}}">{{option[0]}}</button>
+                    {%- endfor -%}
+                    </div>
+                </div>
+                <div class="post-list">
+                    {%- for post in g.all_pages %}
+                    <article class="post-partial {% if post.published %}published{% endif %} {{post.kind}} hidden" data-id="{{post.id}}" data-published="{{post.published|lower}}" data-kind="{{post.kind}}">
+                        <div class="settings-toggle" data-id="{{post.id}}">
+                            <div class="cf">
+                                <a class="h3 float-left title" data-field="title" href="{{url_for('admin.post', id=post.id)}}">{{post.title}}</a>
+                                <span class="float-right kind small-caps {{post.kind}}">{{post.kind}}</span>
+                            </div>
+                            {%- if post.published %}
+                            <div class="pub_date small-caps">
+                                <span>{{post.pub_date|format_date}}</span>
+                            </div>
+                            {%- endif %}
+                        </div>
+                                            <section class="post-content hidden">
+                                                <header class="cf">
+                                                    <div class="cf">
+                                                    <h2 class="float-left title editor" contenteditable="true">{{post.title}}</h2>
+                                                    <a class="float-right settings-button useicons" href="#">&#xe617;</a>
+                                                    </div>
+                                                    <h4 class="subtitle editor" contenteditable="true">
+                                                        {%- if post.subtitle -%}{{post.subtitle}}{%- else -%}Subtitle{%- endif -%}
+                                                    </h4>
+                                                    {%- if post.kind == 'article' %}
+                                                    <h5 class="category editor small-caps" contenteditable="true">
+                                                        {%- if post.category -%}{{post.category}}{%- else -%}Uncategorized{%- endif -%}
+                                                    </h5>
+                                                    {%- elif post.kind == 'note' %}
+                                                    <h5 class="category small-caps">Note</h5>
+                                                    <h5 class="link_url">
+                                                        <span class="useicons">&#xe61e;</span><span class="link_url editor" contenteditable="true">{%- if post.link_url -%}{{post.link_url}}{%- else -%}No Link{%- endif -%}</span>
+                                                    </h5>
+                                                    {%- endif -%}
+                                                </header>
+
+    {%- include "admin/partials/_post_settings.html" -%}
+                                                <article>
+                                                    <textarea class="content editor" placeholder="Start writing..." autofocus>
+                                                        {%- if post.content -%}{{post.content}}{%- endif -%}
+                                                    </textarea>
+
+                                                    <div class="image-upload modal fade">
+                                                          <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                              <div class="modal-body">
+                                                                    <span class="status"></span>
+                                                                    <div class="image-preview"></div>
+                                                              </div>
+                                                            </div><!-- /.modal-content -->
+                                                          </div><!-- /.modal-dialog -->
+                                                        <input type="file" id="image-upload">
+                                                    </div>
+                                                    <div class="content-preview"></div>
+                                                </article>
+                                            </section>
+                    </article>
+                    {% endfor -%}
+                </div>
             </div>
+            <div class="grid-item one-half">
+            </div>
+        </div>
 {%- endblock -%}
 
 {%- block js_view %}'PostListView'{%- endblock js_view -%}
