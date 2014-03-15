@@ -31,7 +31,9 @@ class PostView(FlaskView):
         ''' Our main index view '''
         post = Post.objects(kind__in=['note', 'article'],
                 published=True, pub_date__lte=datetime.now()).first()
-        return render_template('blog/index.html', post=post)
+        home = Post.objects(kind__in=['page'], slug='home',
+                published=True, pub_date__lte=datetime.now()).first()
+        return render_template('blog/home.html', post=post, home=home)
 
     @route('/archive/', endpoint='archive',)
     def archive(self):

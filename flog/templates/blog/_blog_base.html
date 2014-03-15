@@ -14,12 +14,7 @@
             <header role="banner" class="banner medium-float-left">
                 <h1 class="name small-caps"><a class="" href="{{url_for('blog.PostView:index')}}">Joe Hand</a></h1>
             </header>
-            <nav role="navigation" class="site-nav medium-float-right ">
-                <ul class="small-caps">
-                    <li class="nav-item"><a href="{{url_for('blog.page', slug='about')}}">About</a></li>
-                    <li class="nav-item"><a href="{{url_for('blog.blog')}}">Posts</a></li>
-                </ul>
-            </nav>
+            {%- include "blog/partials/_site-nav.html" %}
         </div>
         <div class="site-head-border strip"></div>
     {%- endblock siteheader -%}
@@ -51,11 +46,11 @@
         InstantClick.on('change', function() {
             ga('send', 'pageview', location.pathname + location.search);
         });
-     
+
         InstantClick.init(true);
     </script>
     {%- else -%}
-    <script>     
+    <script>
         InstantClick.init(true);
     </script>
     {% endif -%}

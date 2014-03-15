@@ -1,0 +1,41 @@
+{% extends "blog/_blog_base.html" %}
+
+{%- block body_class %}home{%- endblock body_class -%}
+    {%- block siteheader %}
+        {%- if current_user.has_role('admin') -%}
+        <div class="admin-nav">
+            <a class="admin-link small-caps useicons" href="{{url_for('admin.index')}}" data-no-instant>&#xe600;</a>
+        </div>
+        {%- endif %}
+        <div class="site-head wrapper cf">
+            {%- include "blog/partials/_site-nav.html" %}
+        </div>
+    {%- endblock siteheader -%}
+
+    {%- block content -%}
+        <div class="home-head wrapper">
+            <header role="banner" class="">
+                <h1 class="name small-caps"><a class="" href="{{url_for('blog.PostView:index')}}">Joe Hand</a>
+                    </h1>
+            </header>
+        </div>
+        {% if home %}
+            {{home.content|markdown|safe}}
+            <hr/>
+            {%- include "blog/partials/_post_trunc.html" %}
+        {% elif post %}
+            {%- include "blog/partials/_post_full.html" %}
+        {% endif %}
+    {%- endblock -%}
+
+    {%- block sitefooter %}
+    <footer role="contentinfo" class="footer">
+        <div class="bottom cf">
+            {% include "partials/_social.html" %}
+            <div class="wrapper">
+                <span class="copyright medium-float-left"><a href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Copyright © 2014</a> &nbsp;·&nbsp; Joe Hand</span>
+                <span class="made medium-float-right"><a href="{{url_for('blog.archive')}}">Archive</a>&nbsp;·&nbsp;<a href="{{url_for('blog.page', slug='about')}}">Made by <span class="useicons">&#xe635;</span></a></span>
+            </div>
+        </div>
+    </footer>
+    {% endblock sitefooter %}

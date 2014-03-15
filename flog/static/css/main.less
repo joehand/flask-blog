@@ -129,11 +129,41 @@ p a {
 /* Large-sized breakpoint */
 @media only screen and (min-width: @grid-breakpoint-large) {
     .page-content {
-        
 
-    }    
+
+    }
 }
+/* ================================================================== *\
+   Home Page
+\* ================================================================== */
 
+.home {
+    .main {
+        margin-top:0;
+    }
+    .home-head {
+        margin: 2rem auto 3rem;
+        .name {
+            padding: 1rem 5rem 2rem;
+            font-size:@3-size;
+            text-align:center;
+            a {
+                padding: 1rem 2rem;
+                border-bottom:@gray-light 1px solid;
+            }
+        }
+
+        .home-nav {
+            position:absolute;
+            top:0;
+            right:0;
+            a {
+                padding:10px 21px;
+            }
+        }
+
+    }
+}
 
 /* ================================================================== *\
    Posts
@@ -330,7 +360,7 @@ p a {
         margin:0 0 2rem 0;
     }
 
-    .year, .pub_date, .category {  
+    .year, .pub_date, .category {
         text-transform: uppercase;
         letter-spacing: 0.125rem;
     }
@@ -510,5 +540,5 @@ p a {
 
 
 @import 'libs/ss-social.less';                 // SS Social Icons
-@import 'libs/icomoon.less';                   // Other Icons 
+@import 'libs/icomoon.less';                   // Other Icons
 @import 'libs/cardinal/print.less';            // Inlined, barebones print stylesf

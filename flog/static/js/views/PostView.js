@@ -65,6 +65,7 @@ define([
         },
 
         _togglePostSettings: function(e, postPage) {
+            console.log('settings');
             if(!$(e.target).closest('a').length || postPage === true){
                 e.preventDefault();
                 this.$el.find('.settings').slideToggle( '1500', 'linear', function() {
