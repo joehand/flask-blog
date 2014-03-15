@@ -48,7 +48,8 @@ class PostView(FlaskView):
         ''' Blog View '''
         g.posts = Post.objects(kind__in=['article', 'note'],
             published=True,
-            pub_date__lte=datetime.now()).paginate(page=page_num, per_page=10)
+            pub_date__lte=datetime.now()).paginate(
+            page=page_num, per_page=3)
         return render_template('blog/blog.html')
 
     @route('/category/<category>/', endpoint='category')
