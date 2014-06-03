@@ -2,17 +2,18 @@
 {% import "macros/_wtf.html" as wtf -%}
 
 
-{%- block content %}   
+{%- block content %}
         {% include "blog/partials/_post_full.html" %}
 
         {%- if post.kind != 'page' %}
+        <!-- Need spam control =(
         <form class="form comment-form" method="post" action="{{request.url}}">
-            <fieldset> 
+            <fieldset>
             {{ form.hidden_tag() }}
             {{ wtf.regular_field(form.content, rows=8) }}
             {{ wtf.regular_field(form.name) }}
             {{ wtf.regular_field(form.email, description="Will not be published") }}
-            <button type="submit" class="float-right button button-small">Submit</button>    
+            <button type="submit" class="float-right button button-small">Submit</button>
             </fieldset>
         </form>
         {%- if post.comments|length > 0 %}
@@ -30,5 +31,6 @@
         {%- endfor %}
         </div>
         {%- endif %}
+        -->
         {%- endif %}
 {% endblock %}
