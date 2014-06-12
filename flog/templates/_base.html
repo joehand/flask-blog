@@ -8,13 +8,17 @@
 
         <!-- DNS prefetch -->
         <link rel="dns-prefetch" href="//ajax.googleapis.com">
+        {%- if config.PRODUCTION %}
+        <link rel="dns-prefetch" href="//s3.amazonaws.com">
+        {%- endif %}
 
         <title>{% block title %}Joe Hand{% endblock title %}</title>
         <meta name="description" content="{% block description %}{% endblock description %}">
 
         <!-- Styles -->
-        {%- block css %}{% endblock -%}
+        {% block css %}{%- endblock %}
 
+        <!-- WebFonts -->
         <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
         <script>
           WebFont.load({
@@ -30,7 +34,7 @@
         {% endblock siteheader -%}
 
         {%- block main %}
-            <main role="main" class="main wrapper"> 
+            <main role="main" class="main wrapper">
                 <div class="page-content">
                 {%- with messages = get_flashed_messages() %}
                       {% if messages %}
