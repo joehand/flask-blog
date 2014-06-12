@@ -16,7 +16,7 @@
         <meta name="description" content="{% block description %}{% endblock description %}">
 
         <!-- Styles -->
-        {% block css %}{%- endblock %}
+        {% block css -%}{%- endblock %}
 
         <!-- WebFonts -->
         <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
@@ -36,7 +36,7 @@
         {%- block main %}
             <main role="main" class="main wrapper">
                 <div class="page-content">
-                {%- with messages = get_flashed_messages() %}
+                {%- with messages = get_flashed_messages() -%}
                       {% if messages %}
                         <ul class="flashes well">
                         {% for message in messages %}
@@ -45,18 +45,15 @@
                         </ul>
                       {% endif %}
                 {%- endwith -%}
-                {%- block content %}
-                {% endblock content -%}
+                {%- block content -%}
+                {%- endblock content %}
                 </div> <!-- .page-content  -->
             </main> <!-- main  -->
-
-            {%- block sitefooter -%}
+            {%- block sitefooter %}
             {% endblock sitefooter -%}
-
-        {%- endblock main -%}
-
+        {%- endblock main %}
         </div> <!-- document -->
     {%- block footer_js -%}
-    {%- endblock footer_js -%}
+    {%- endblock footer_js %}
     </body>
 </html>
