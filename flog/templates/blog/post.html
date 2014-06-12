@@ -5,8 +5,8 @@
 {%- block content %}
         {% include "blog/partials/_post_full.html" %}
 
+        {# Need spam control =(
         {%- if post.kind != 'page' %}
-        <!-- Need spam control =(
         <form class="form comment-form" method="post" action="{{request.url}}">
             <fieldset>
             {{ form.hidden_tag() }}
@@ -31,6 +31,6 @@
         {%- endfor %}
         </div>
         {%- endif %}
-        -->
         {%- endif %}
+        #}
 {% endblock %}
