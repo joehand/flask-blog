@@ -3,7 +3,7 @@
  * Author: JoeHand
  * ========================================================================
  */
- 
+
 define([
     'backbone',
     'underscore',
@@ -13,7 +13,7 @@ define([
     's3upload'
 ], function (Backbone, _, $, PostView, PostModel, S3Upload) {
 
-    var DEFAULT_FILTER = flog.DEFAULT_FILTER || { 'kind' : ['article', 'note'], 'published' : [false] };
+    var DEFAULT_FILTER = jhand.DEFAULT_FILTER || { 'kind' : ['article', 'note'], 'published' : [false] };
 
     var formactive;
 
@@ -43,11 +43,11 @@ define([
                 if (filterKey === 'published') {
                     // convert to boolean
                     filterVal = (filterVal.toLowerCase() === 'true');
-                }  
-                
-                if (_.contains(currentFilter[filterKey], filterVal)) { 
+                }
+
+                if (_.contains(currentFilter[filterKey], filterVal)) {
                     currentFilter[filterKey] = _.without(currentFilter[filterKey], filterVal);
-                } else {  
+                } else {
                     currentFilter[filterKey] = _.union(currentFilter[filterKey], filterVal);
                 }
 

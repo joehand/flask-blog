@@ -15,7 +15,7 @@ define([
 
     var appView, appModel, postsCol, collection, NAMESPACE;
 
-    NAMESPACE = flog //for now...
+    NAMESPACE = jhand
 
     appModel = new AppModel(NAMESPACE);
 
@@ -29,5 +29,5 @@ define([
         el         : $('.document').get(0),
         childView  : NAMESPACE.childView,
     });
-    
+
 });

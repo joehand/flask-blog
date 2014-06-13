@@ -3,7 +3,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
 
-    PROJECT = 'flog'
+    PROJECT = 'jhand'
 
     # Get app root path
     PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
@@ -53,7 +53,7 @@ class ProductionConfig(Config):
     AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 
-class DevelopmentConfig(Config): 
+class DevelopmentConfig(Config):
 
     # MongoDB Config
     MONGODB_DB = 'joehand_blog_db'
@@ -75,5 +75,5 @@ class DevelopmentConfig(Config):
     )
 
 class TestingConfig(Config):
-    
+
     TESTING = True

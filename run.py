@@ -1,4 +1,4 @@
-from flog import create_app, config
+from jhand import create_app, config
 
 app = create_app(config=config.ProductionConfig)
 

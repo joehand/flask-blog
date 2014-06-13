@@ -7,10 +7,10 @@ from flask.ext.script import Manager, Shell, Server
 from flask.ext.security import MongoEngineUserDatastore
 from flask.ext.security.utils import encrypt_password
 
-from flog import create_app
-from flog.config import ProductionConfig, DevelopmentConfig
-from flog.extensions import db, assets
-from flog.user import User, Role
+from jhand import create_app
+from jhand.config import ProductionConfig, DevelopmentConfig
+from jhand.extensions import db, assets
+from jhand.user import User, Role
 
 if os.environ.get('PRODUCTION'):
     app = create_app(config = ProductionConfig)
@@ -27,10 +27,10 @@ def initdb():
 
     user_datastore = MongoEngineUserDatastore(db, User, Role)
 
-            
+
     admin = user_datastore.create_role(name='admin', description='Admin User')
     user = user_datastore.create_user(
-        email='joe.a.hand@gmail.com', 
+        email='joe.a.hand@gmail.com',
         password=encrypt_password('password')
     )
 
@@ -39,12 +39,12 @@ def initdb():
 @manager.command
 def build_js():
     ''' Builds the js for production
-        TODO: Build css here too. 
+        TODO: Build css here too.
     '''
     jsfile = 'app.min.js'
-    os.system('cd flog/static/js && node libs/r.js -o app.build.js out=../build/%s'%jsfile)
-    os.system('cd flog/static/js && cp libs/require.js ../build/')
-    jsfile = 'flog/static/build/' + jsfile
+    os.system('cd jhand/static/js && node libs/r.js -o app.build.js out=../build/%s'%jsfile)
+    os.system('cd jhand/static/js && cp libs/require.js ../build/')
+    jsfile = 'jhand/static/build/' + jsfile
 
 def clear_css_cache():
     import logging

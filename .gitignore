@@ -1,5 +1,5 @@
 ###Python###
- 
+
 venv
 
 *.py[cod]
@@ -39,7 +39,7 @@ nosetests.xml
 
 
 ###OSX###
- 
+
 .DS_Store
 
 # Thumbnails
@@ -51,7 +51,7 @@ nosetests.xml
 
 
 ###SublimeText###
- 
+
 # SublimeText project files
 /*.sublime-project
 *.sublime-workspace
@@ -61,4 +61,4 @@ sftp-config*.json
 
 local_config.py
 
-flog/local.py
+jhand/local.py
