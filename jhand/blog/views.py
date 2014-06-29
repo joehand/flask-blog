@@ -43,7 +43,7 @@ class PostView(FlaskView):
         return render_template('blog/archive.html')
 
     @route('/blog/', endpoint='blog')
-    @route('/blog/<int:page_num>', endpoint='blog')
+    @route('/blog/<int:page_num>/', endpoint='blog')
     def blog(self, page_num=1):
         ''' Blog View '''
         g.posts = Post.objects(kind__in=['article', 'note'],

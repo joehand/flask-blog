@@ -1,12 +1,23 @@
 {% macro render_pagination(pagination, endpoint, category) %}
   <div class="pagination small-caps">
   {% if pagination.has_prev %}
-        <a class="page-link" href="{{ url_for(endpoint, category=category, page_num=pagination.prev_num) }}"><span class="useicons">&#xe63d;</span> Newer</a>
+        <a class="page-link" href="
+        {%- if category -%}
+        {{ url_for(endpoint, category=category, page_num=pagination.prev_num) }}
+        {%- else -%}
+        {{ url_for(endpoint, page_num=pagination.prev_num) }}
+        {%- endif -%}"><span class="useicons">&#xe63d;</span> Newer</a>
   {% else %}
       <span class="disabled"><span class="useicons">&#xe63d;</span> Newer</span>
   {% endif %}
   {% if pagination.has_next %}
-        <a class="page-link" href="{{ url_for(endpoint, category=category, page_num=pagination.next_num) }}">Older <span class="useicons">&#xe63e;</span></a>
+        <a class="page-link" href="
+        {%- if category -%}
+        {{ url_for(endpoint, category=category, page_num=pagination.next_num) }}
+        {%- else -%}
+        {{ url_for(endpoint, page_num=pagination.next_num) }}
+        {%- endif -%}
+        ">Older <span class="useicons">&#xe63e;</span></a>
   {% else %}
       <span class="disabled">Older <span class="useicons">&#xe63e;</span></span>
   {% endif %}
