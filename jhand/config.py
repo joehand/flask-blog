@@ -31,6 +31,8 @@ class Config(object):
 
     PRODUCTION = False
 
+    ASSETS_MANIFEST = 'file:%s' % 'webcache'
+
 class ProductionConfig(Config):
 
     PRODUCTION = True
