@@ -44,6 +44,8 @@ class ProductionConfig(Config):
     DEBUG = False
 
     ASSETS_AUTO_BUILD = False
+    FLASK_ASSETS_USE_S3 = True
+
 
     #MongoDB Info
     MONGODB_DB = os.environ.get('MONGODB_DATABASE')
