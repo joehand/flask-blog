@@ -1,11 +1,6 @@
 {%- macro render_css(css_name) -%}
-    {%- if not config.PRODUCTION %}
-    {%- assets filters="less, cssutils", output="build/" + css_name + ".min.css",
+    {%- assets filters="less, cssutils", output="build/" + css_name + ".%(version)s.min.css",
       "css/" + css_name + ".less" -%}
         <link rel="stylesheet" href="{{ ASSET_URL }}">
     {%- endassets -%}
-    {%- else -%}
-    {%- set css_file = 'build/' + css_name + '.min.css' -%}
-        <link rel="stylesheet" href="{{ url_for('static', filename=css_file)}}">
-    {%- endif -%}
 {%- endmacro -%}
