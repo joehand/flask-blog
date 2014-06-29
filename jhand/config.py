@@ -22,10 +22,7 @@ class Config(object):
 
     S3_CDN_DOMAIN = 'd2myfrzehu84qm.cloudfront.net'
 
-    S3_HEADERS = {
-        'Expires': '21 Jun 2015',
-        'Cache-Control': 'max-age=31536000',
-    }
+    S3_HEADERS = {'Cache-Control': str('public, max-age=15552000')}
 
     S3_ONLY_MODIFIED = True
 
