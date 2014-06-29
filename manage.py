@@ -1,5 +1,7 @@
 # manage.py
+import hashlib
 import os
+import pickle
 
 from flask.ext.assets import ManageAssets
 from flask.ext.s3 import create_all
@@ -45,6 +47,30 @@ def build_js():
     os.system('cd jhand/static/js && node libs/r.js -o app.build.js out=../build/%s'%jsfile)
     os.system('cd jhand/static/js && cp libs/require.js ../build/')
     jsfile = 'jhand/static/build/' + jsfile
+    md5 = md5sum(jsfile)[:8]
+    jsversion = 'app.' + md5 + '.min.js'
+    print 'updating js file number to %s' %jsversion
+    os.system('cd jhand/static/build/ && cp app.min.js %s'%jsversion)
+    pickle_file = 'jhand/static/' + app.config['ASSETS_MANIFEST'].split(':')[1]
+    update_pickle(pickle_file, md5)
+    os.system('cd jhand/static/build/ && cp app.min.js %s'%jsversion)
+    print 'all done with the JS'
+
+def update_pickle(pickle_file, newmd5, blocksize=65536):
+    with open(pickle_file, "r+b") as f:
+        cache = pickle.load(f)
+        for item in cache:
+            if 'app' in item and 'js' in item:
+                cache[item] = newmd5
+    pickle.dump(cache, open(pickle_file, 'wb'))
+    return cache
+
+def md5sum(filename, blocksize=65536):
+    hash = hashlib.md5()
+    with open(filename, "r+b") as f:
+        for block in iter(lambda: f.read(blocksize), ""):
+            hash.update(block)
+    return hash.hexdigest()
 
 def clear_css_cache():
     import logging
