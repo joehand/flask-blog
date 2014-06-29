@@ -1,6 +1,6 @@
 requirejs.config({
     paths: {
-        'jquery'             : 'libs/jquery-2.0.3',
+        'jquery'             : 'libs/jquery-2.1.1',
         'underscore'         : 'libs/underscore',
         'backbone'           : 'libs/backbone',
         'backboneStick'      : 'libs/backbone.stickit',
