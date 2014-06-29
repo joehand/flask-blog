@@ -39,15 +39,10 @@
 
 {%- block footer_js %}
 {%- set js_name = 'instantclick' -%}
-{%- if not config.PRODUCTION %}
-{%- assets filters="jsmin", output="build/" + js_name + ".min.js",
+{%- assets filters="jsmin", output="build/" + js_name + ".%(version)s.min.js",
   "js/libs/" + js_name + ".js" -%}
-          <script src="{{ ASSET_URL }}"></script>
+    <script src="{{ ASSET_URL }}"></script>
 {%- endassets -%}
-{%- else -%}
-{%- set js_file = 'build/' + js_name + '.min.js' -%}
-    <script src="{{ url_for('static', filename=js_file)}}"></script>
-{%- endif -%}
         {% if not config.DEBUG and not current_user.has_role('admin') %}
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
