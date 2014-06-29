@@ -21,7 +21,6 @@ class Config(object):
     S3_BUCKET_NAME = 'joehand_blog'
 
     S3_CDN_DOMAIN = 'cdn.joeahand.com'
-    S3_USE_HTTPS = False #TODO: can i do this with D0?
 
     S3_HEADERS = {'Cache-Control': str('public, max-age=15552000')}
 
