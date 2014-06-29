@@ -62,6 +62,7 @@ def clear_css_cache():
 def upload():
     print 'starting file upload to Amazon S3'
     create_all(app)
+    #TODO : erase old css files on s3
     print 'done with file upload'
 
 @manager.command
