@@ -21,8 +21,8 @@ class Config(object):
     S3_BUCKET_NAME = 'joehand_blog'
 
     S3_HEADERS = {
-        'Expires': 'Thu, 15 Feb 2015',
-        'Cache-Control': 'max-age=86400',
+        'Expires': '21 Jun 2015',
+        'Cache-Control': 'max-age=31536000',
     }
 
     SECURITY_PASSWORD_HASH = 'bcrypt'
