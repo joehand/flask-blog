@@ -20,7 +20,7 @@ class Config(object):
 
     S3_BUCKET_NAME = 'joehand_blog'
 
-    S3_CDN_DOMAIN = 'd2myfrzehu84qm.cloudfront.net'
+    S3_CDN_DOMAIN = 'cdn.joeahand.com'
 
     S3_HEADERS = {'Cache-Control': str('public, max-age=15552000')}
 
